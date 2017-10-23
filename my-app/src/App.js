@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
+
 import './App.css';
+// importing Board component
+import Board from './Board.js'
+
 //import '../public/vendor/bootstrap/css/bootstrap.min.css'
 import { Switch, Route, Link } from 'react-router-dom'
-
-const Board = () => (
-	<div>
-		<h2>Boards</h2>
-	</div>
-)
 
 const Dashboard = () => (
 	<div class="container">
@@ -93,5 +91,3 @@ const App = () => (
 )
 
 export default App;
-
-
