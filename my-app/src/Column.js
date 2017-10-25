@@ -9,9 +9,17 @@ import Card from './Card.js'
 class Column extends Component {
   render() {
 		return(
-      <div class="btn-group-vertical">
-        <Card/>
+      <div class="col-3" >
+        <div class="card text-white bg-secondary mb-3">
+    {/* <div class="card-header">Header</div> */}
+          <div class="card-body">
+          <div class="btn-group-vertical">
+            <Card/>
+          </div>
+          </div>
+        </div>
       </div>
+
 
 		)
   }
