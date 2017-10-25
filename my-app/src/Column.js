@@ -6,11 +6,23 @@ import React, { Component } from 'react'; // abstract component base
 // importing Column component
 import Card from './Card.js'
 
-const Column = () => (
-	<div>
-		<h2>Column</h2>
-	</div>
-)
+class Column extends Component {
+  render() {
+		return(
+      <div class="btn-group-vertical">
+        <Card/>
+      </div>
+
+		)
+  }
+}
+
+// DERPIRCATED CODE MOVING TO CLASS STRUCTURE
+// const Column = () => (
+// 	<div>
+// 		<h2>Column</h2>
+// 	</div>
+// )
 
 
 
