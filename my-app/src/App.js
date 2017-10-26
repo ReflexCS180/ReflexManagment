@@ -1,39 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
-//import '../public/vendor/bootstrap/css/bootstrap.min.css'
 import { Switch, Route, Link } from 'react-router-dom'
+import { Dashboard, BoardTile } from './Dashboard.js'
+import './App.css';
+
+
 
 const Board = () => (
 	<div>
 		<h2>Boards</h2>
-	</div>
-)
-
-const Dashboard = () => (
-	<div class="container">
-		<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> Personal Boards</h3>
-		<div class="row" id="personal-boards">
-			<div class="col-3">
-				<button class="btn btn-primary btn-block btn-lg mb-5 project-btn">Hello</button>
-			</div>
-			<div class="col-3">
-				<div id="new-board-modal">
-					<button type="button" class="close" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<p><strong>Create a New Board</strong></p>
-					<form>
-						<div class="form-group">
-							<label for="new-board-name">New Board Name</label>
-							<input type="text" id="new-board-name" class="mb-3 form-control" placeholder="Board name"/>
-							<small id="new-board-name-info" class="form-text text-muted">You can change this later on.</small>
-						</div>
-						<button type="button" class="btn btn-secondary" id="create-board-btn">Create Board</button>
-					</form>
-				</div>
-				<button class="btn btn-secondary btn-block btn-lg mb-5 project-btn" id="new-board-btn">Create New Board</button>
-			</div>
-		</div>
 	</div>
 )
 
@@ -93,5 +67,3 @@ const App = () => (
 )
 
 export default App;
-
-
