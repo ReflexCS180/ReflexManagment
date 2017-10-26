@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
-
-// or Board-Preview
 class BoardTile extends Component {
 	render() {
 		return(
@@ -13,6 +10,7 @@ class BoardTile extends Component {
 	}
 }
 
+// This is the button to create a new board; only used once
 class NewBoardTile extends Component {
 	constructor(props) {
 		super(props);
@@ -21,13 +19,12 @@ class NewBoardTile extends Component {
 	}
 
 	onSubmit = (boardName) => {
-		//console.log("My new board name will be: ", boardName);
 		this.props.onSubmit(boardName);
 	};
 
 	toggleForm() {
 		this.setState({
-			isOpen: !this.state.isOpen
+			isOpen: !this.state.isOpen // When called, flips the state value (true->false)
 		});
 	}
 
@@ -47,17 +44,17 @@ class NewBoardForm extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	state = {	boardName: '' }
+	state = { boardName: '' }
 
 	componentDidMount() {
 		this.newFormInput.focus();
 	}
 
 	onSubmit = (e) => {
-		e.preventDefault();
-		this.setState({ boardName: '' })
-		this.props.onSubmit(this.state.boardName);
-		this.props.onClose();	//when submitting the form, this calls the "onClose" prop method of "NewBoardTile.toggleform()"
+		e.preventDefault(); // prevents default action of reloading the page on form submit
+		this.setState({ boardName: '' }) // clears the form input field
+		this.props.onSubmit(this.state.boardName); // calls prop onSubmit function, passing it the value in the input field
+		this.props.onClose();	// when submitting the form, this calls the "onClose" prop method of "NewBoardTile.toggleform()"
 	}
 
 	render() {
@@ -88,18 +85,15 @@ class NewBoardForm extends Component {
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
-		// this.state = {formOpen: false};
-		// this.state = {newBoard: false};
-		// this.state = {newBoardName: ''};
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardNames: {}
+			newBoardName: ''
 		}
 	}
 
 	onNewBoardSubmit = (boardName) => {
-		console.log("GOT IT: ", boardName);
+		console.log("Received BoardName:", boardName);
 		this.setState({ newBoardName: boardName, newBoard: true });
 	}
 
