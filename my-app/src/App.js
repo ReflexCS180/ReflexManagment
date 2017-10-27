@@ -2,14 +2,9 @@ import React, { } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { Dashboard, BoardTile } from './Dashboard.js'
 import { NavLanding } from './Nav.js'
+import { Board } from './Board.js'
 import './App.css';
 import './Landing.css';
-
-const Board = () => (
-  <div>
-    <h2>Boards</h2>
-  </div>
-)
 
 const Landing = () => (
   <div>
@@ -73,6 +68,7 @@ const Main = () => (
     <Switch>
       <Route exact path='/' component={Landing} />
       <Route exact path='/dashboard' component={Dashboard} />
+      <Route exact path='/board' component={Board} />
     </Switch>
   </main>
 )
