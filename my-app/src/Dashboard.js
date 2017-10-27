@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavBoard } from './App';
+import { NavBoard } from './Nav.js';
 
 class BoardTile extends Component {
 	render() {
