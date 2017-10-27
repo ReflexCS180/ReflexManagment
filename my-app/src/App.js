@@ -65,7 +65,7 @@ const Landing = () => (
 	</div>
 )
 
-const Header = () => (
+const NavBoard = () => (
 	<nav class="navbar navbar-expand-md navbar-dark" id="board-page-nav">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse">
 			<span class="navbar-toggler-icon"></span>
@@ -97,12 +97,16 @@ const Header = () => (
 	</nav>
 )
 
+const NavLanding = () => (
+	<div>
+	</div>
+)
+
 const Main = () => (
 	<main>
 		<Switch>
 			<Route exact path='/' component={Landing} />
 			<Route exact path='/dashboard' component={Dashboard} />
-			<Route exact path='/dashboard' component={Header} />
 		</Switch>
 	</main>
 )
@@ -113,4 +117,4 @@ const App = () => (
 	</div>
 )
 
-export default App;
+export { App, NavBoard };

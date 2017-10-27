@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavBoard } from './App';
 
 class BoardTile extends Component {
 	render() {
@@ -99,12 +100,15 @@ class Dashboard extends Component {
 
 	render() {
 		return(
-			<div class="container">
-				<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> Personal Boards</h3>
-				<div class="row" id="personal-boards">
-					<BoardTile name="My First Board"/>
-					{this.state.newBoard && <BoardTile name={this.state.newBoardName} />}
-					<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>
+			<div>
+				<NavBoard />
+				<div class="container">
+					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> Personal Boards</h3>
+					<div class="row" id="personal-boards">
+						<BoardTile name="My First Board"/>
+						{this.state.newBoard && <BoardTile name={this.state.newBoardName} />}
+						<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>
+					</div>
 				</div>
 			</div>
 		)
