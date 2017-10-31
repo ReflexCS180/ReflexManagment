@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
+//import data from './boards.json';
 
 class BoardTile extends Component {
 	render() {
@@ -89,24 +90,36 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardName: ''
+			newBoardNames: ["My First Board"]
+			// newBoardNames: data
 		}
 	}
 
 	onNewBoardSubmit = (boardName) => {
 		console.log("Received BoardName:", boardName);
-		this.setState({ newBoardName: boardName, newBoard: true });
+		this.setState({ newBoard: true });
+		this.state.newBoardNames.push(boardName);
 	}
 
 	render() {
+		var boards = this.state.newBoardNames.map(function(name, index) {
+			return(<BoardTile name={name} key={index}/>)
+		})
+
+		// var boards = this.state.newBoardNames.boards.map(function(name, index) {
+		// 	return(<BoardTile name={name} key={index}/>)
+		// })
+
+		//console.log(data);
+
 		return(
 			<div>
 				<NavBoard />
 				<div class="container">
 					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> Personal Boards</h3>
 					<div class="row" id="personal-boards">
-						<BoardTile name="My First Board"/>
-						{this.state.newBoard && <BoardTile name={this.state.newBoardName} />}
+						{ /* <BoardTile name="My First Board"/> */ }
+						{ boards }
 						<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>
 					</div>
 				</div>
