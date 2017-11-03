@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
+import { Link } from 'react-router-dom'
 //import data from './boards.json';
 
 class BoardTile extends Component {
 	render() {
+		var boardLink = "board/" + this.props.name;
+		console.log("This boards name is: ", this.props.name);
 		return(
 			<div class="col-12 col-sm-6 col-lg-3">
-				<button class="btn btn-primary btn-block btn-lg mb-5 project-btn">{this.props.name}</button>
+				<Link to={boardLink} className="btn btn-primary btn-lg btn-block mb-5 project-btn board-btn">{this.props.name}</Link>
 			</div>
 		)
 	}
@@ -52,11 +55,23 @@ class NewBoardForm extends Component {
 		this.newFormInput.focus();
 	}
 
+	checkValidity(nameToCheck) {
+		return(!(/[^A-Za-z0-9_-]/.test(nameToCheck)));
+	}
+
 	onSubmit = (e) => {
 		e.preventDefault(); // prevents default action of reloading the page on form submit
-		this.setState({ boardName: '' }) // clears the form input field
-		this.props.onSubmit(this.state.boardName); // calls prop onSubmit function, passing it the value in the input field
-		this.props.onClose();	// when submitting the form, this calls the "onClose" prop method of "NewBoardTile.toggleform()"
+		//this.setState({ boardName: '' }); // clears the form input field
+		if (this.checkValidity(this.state.boardName)) {
+			console.log("This name is valid!");
+			this.props.onSubmit(this.state.boardName); // calls prop onSubmit function, passing it the value in the input field
+			this.props.onClose();	// when submitting the form, this calls the "onClose" prop method of "NewBoardTile.toggleform()"
+		}
+		else {
+			console.log("This name is not valid: ", this.state.boardName, "\nPlease remove special characters.")
+			this.warningText.style.color = "red";
+		}
+
 	}
 
 	render() {
@@ -68,9 +83,10 @@ class NewBoardForm extends Component {
 			<div id="new-board-form" class="col-12">
 				<button class="close-button" onClick={this.props.onClose.bind(this)}>&times;</button>
 				<form>
-					<h5 style={{borderBottom: "1px solid black", display: "inline-block"}}>Create A New Board</h5>
+					<h5 style={{borderBottom: "1px solid black", display: "inline-block"}}>Start A New Board</h5>
 					<p>Use this simple form to create a new board. You can always change the name and other settings later.</p>
 					<div class="form-group">
+						<p ref={warning => { this.warningText = warning }} style={{fontSize: "0.75rem"}}>Please use only letters, numbers, dashes and underscores.</p>
 						<label htmlFor="new-board-name">New Board Name:</label>
 						<input type="text" class="form-control" value={this.state.boardName}
 							onChange={e => this.setState({ boardName: e.target.value}) }
@@ -93,6 +109,10 @@ class Dashboard extends Component {
 			newBoardNames: ["My First Board"]
 			// newBoardNames: data
 		}
+	}
+
+	componentDidMount() {
+		document.title = "Huddle Dashboard";
 	}
 
 	onNewBoardSubmit = (boardName) => {
