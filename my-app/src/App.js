@@ -1,6 +1,6 @@
 import React, { } from 'react';
-import { Switch, Route, Link } from 'react-router-dom'
-import { Dashboard, BoardTile } from './Dashboard.js'
+import { Switch, Route } from 'react-router-dom'
+import { Dashboard } from './Dashboard.js'
 import { NavLanding } from './Nav.js'
 import { Board } from './Board.js'
 import './App.css';
@@ -68,7 +68,7 @@ const Main = () => (
     <Switch>
       <Route exact path='/' component={Landing} />
       <Route exact path='/dashboard' component={Dashboard} />
-      <Route exact path='/board' component={Board} />
+      <Route path='/board' component={Board} />
     </Switch>
   </main>
 )

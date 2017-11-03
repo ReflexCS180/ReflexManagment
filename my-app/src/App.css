@@ -97,6 +97,11 @@ body {
   cursor: pointer;
 }
 
+/* Board Nav CSS */
+nav a.navbar-brand {
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-weight: bold;
+}
 
 /* Dashboard CSS */
 div#new-board-form {
@@ -107,6 +112,10 @@ div#new-board-form {
   width: 90%;
 }
 
+#new-board-form h5 {
+  font-size: 1rem;
+}
+
 .close-button {
   position: absolute;
   right: 3%;
@@ -115,4 +124,16 @@ div#new-board-form {
   cursor: pointer;
   border: 0;
   background: 0;
+}
+
+#new-board-btn {
+  cursor: pointer;
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-weight: bold;
+}
+
+#personal-boards .board-btn {
+  color: white;
+  text-transform: none;
+  padding-top: 34px;
 }
