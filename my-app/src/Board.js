@@ -7,9 +7,13 @@ class Board extends Component {
 		return(
 			<div>
 				<NavBoard />
-				<div class="container">
+				<div class="container" id="board">
 					<h3 class="mt-5 mb-4">Board Name</h3>
-					<Column />
+					<div class="row">
+						<Column name="Backlog"/>
+						<Column name="In Progress"/>
+						<Column name="Completed"/>
+					</div>
 				</div>
 			</div>
 		)

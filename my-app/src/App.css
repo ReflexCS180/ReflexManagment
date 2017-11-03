@@ -27,6 +27,51 @@
   to { transform: rotate(360deg); }
 }
 
+/* Board CSS */
+#board.container {
+  max-width: none;
+  width: 90%;
+}
+
+#board h3 {
+  margin-left: 15px;
+}
+
+#board .card {
+  margin-bottom:24px;
+  border: 2px solid #529fff;
+  cursor: pointer;
+  background: #1d4483;
+  color: white;
+}
+
+#board .card:hover {
+  opacity: 0.9;
+  border: 4px solid #529fff;
+  margin-bottom: 20px;
+}
+
+#board .card-header {
+  text-align: center;
+  background-color: rgba(0,0,0,0);
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 24px;
+}
+
+#board p.card-title {
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#board .board-column {
+  background: #eee;
+  border-radius: 0.25rem;
+  border: 2px solid #ddd;
+}
+
+
 /* Dashboard CSS */
 div#new-board-form {
   border-radius: .3rem;
