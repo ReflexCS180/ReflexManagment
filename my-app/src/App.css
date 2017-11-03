@@ -27,6 +27,10 @@
   to { transform: rotate(360deg); }
 }
 
+body {
+  background-color: #ffe070;
+}
+
 /* Board CSS */
 #board.container {
   max-width: none;
@@ -39,16 +43,16 @@
 
 #board .card {
   margin-bottom:24px;
-  border: 2px solid #529fff;
+  border: 1px solid #bbb;
   cursor: pointer;
-  background: #1d4483;
-  color: white;
+  background: #fafafa;
+  color: #333;
   width: 100%;
 }
 
 #board .card:hover {
   opacity: 0.9;
-  border: 4px solid #529fff;
+  border: 2px solid #529fff;
   margin-bottom: 20px;
 }
 
@@ -69,7 +73,7 @@
 #board .board-column {
   background: #eee;
   border-radius: 0.25rem;
-  border: 2px solid #ddd;
+  border: 2px solid #bbb;
 }
 
 #board .board-column .btn-group-vertical {
