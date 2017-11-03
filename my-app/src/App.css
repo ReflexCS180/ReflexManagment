@@ -43,6 +43,7 @@
   cursor: pointer;
   background: #1d4483;
   color: white;
+  width: 100%;
 }
 
 #board .card:hover {
@@ -69,6 +70,14 @@
   background: #eee;
   border-radius: 0.25rem;
   border: 2px solid #ddd;
+}
+
+#board .board-column .btn-group-vertical {
+  width: 100%;
+}
+
+#board .board-column .card-body {
+  padding: 0.5rem;
 }
 
 
