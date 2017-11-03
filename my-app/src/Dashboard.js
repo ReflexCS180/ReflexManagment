@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 
 class BoardTile extends Component {
 	render() {
-		var boardLink = "board/" + this.props.name;
-		console.log("This boards name is: ", this.props.name);
+		var boardLink = "board/" + this.props.name; // create a string to link to particular board
+
 		return(
 			<div class="col-12 col-sm-6 col-lg-3">
 				<Link to={boardLink} className="btn btn-primary btn-lg btn-block mb-5 project-btn board-btn">{this.props.name}</Link>
@@ -19,12 +19,12 @@ class BoardTile extends Component {
 class NewBoardTile extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {isOpen: false};
+		this.state = {isOpen: false}; // state isOpen refers to the NewBoardForm
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	onSubmit = (boardName) => {
-		this.props.onSubmit(boardName);
+		this.props.onSubmit(boardName); 
 	};
 
 	toggleForm() {
