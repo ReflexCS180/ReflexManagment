@@ -4,13 +4,75 @@ import { Link } from 'react-router-dom'
 //import data from './boards.json';
 
 class BoardTile extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			showTools: false
+		}
+		this.onMouseEnterHandler = this.onMouseEnterHandler.bind(this);
+		this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
+	}
+
+	onMouseEnterHandler() {
+		this.setState({ showTools: true });
+	}
+
+	onMouseLeaveHandler() {
+		this.setState({ showTools: false });
+	}
+
 	render() {
 		var boardLink = "board/" + this.props.name; // create a string to link to particular board
 
 		return(
-			<div class="col-12 col-sm-6 col-lg-3">
-				<Link to={boardLink} className="btn btn-primary btn-lg btn-block mb-5 project-btn board-btn">{this.props.name}</Link>
+			<div class="col-12 col-sm-6 col-lg-3 board-tile" onMouseLeave={this.onMouseLeaveHandler}>
+				<Link to={boardLink} className="btn btn-primary btn-lg btn-block project-btn board-btn"
+					onMouseEnter={this.onMouseEnterHandler}>
+					{this.props.name}
+				</Link>
+				{this.state.showTools && <BoardTileTools />}
 			</div>
+		)
+	}
+}
+
+class BoardTileTools extends Component {
+
+	rename() {
+		console.log("I want to rename");
+	}
+
+	share() {
+		console.log("I want to share");
+	}
+
+	unlink() {
+		console.log("I want to unlink");
+	}
+
+	delete() {
+		console.log("I want to delete");
+	}
+
+	render() {
+		return(
+			<div class="dashboard-board-tools">
+				<BoardTileToolButton onClick={this.rename} title={"Rename Board"} classes={"fa fa-pencil"}/>
+				<BoardTileToolButton onClick={this.share} title={"Share Board"} classes={"fa fa-share-alt"}/>
+				<BoardTileToolButton onClick={this.unlink} title={"Unlink Yourself From Board"} classes={"fa fa-chain-broken"}/>
+				<BoardTileToolButton onClick={this.delete} title={"Delete Board"} classes={"fa fa-trash"}/>
+			</div>
+		)
+	}
+}
+
+class BoardTileToolButton extends Component {
+	render() {
+		return(
+			<button class="tool-btn" onClick={this.props.onClick} title={this.props.title}>
+				<i className={this.props.classes} aria-hidden="true"></i>
+			</button>
 		)
 	}
 }
@@ -24,7 +86,7 @@ class NewBoardTile extends Component {
 	}
 
 	onSubmit = (boardName) => {
-		this.props.onSubmit(boardName); 
+		this.props.onSubmit(boardName);
 	};
 
 	toggleForm() {
