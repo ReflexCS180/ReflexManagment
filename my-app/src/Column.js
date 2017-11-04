@@ -6,12 +6,13 @@ class Column extends Component {
     super(props);
     this.state = {
       columnName: this.props.name,
-      cardNames: ["First Card"]
+      cardNames: []
     }
   }
 
   onSubmit(cardName) {
     console.log("New card: ", cardName);
+    this.setState(this.state);
     this.state.cardNames.push(cardName);
   }
 
