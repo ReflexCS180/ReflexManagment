@@ -68,7 +68,9 @@ const Main = () => (
     <Switch>
       <Route exact path='/' component={Landing} />
       <Route exact path='/dashboard' component={Dashboard} />
-      <Route path='/board' component={Board} />
+      <Route exact path='/board' component={Board} />
+      <Route path='/board/:name' component={Board} />
+
     </Switch>
   </main>
 )

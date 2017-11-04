@@ -6,14 +6,28 @@ class Column extends Component {
     super(props);
     this.state = {
       columnName: this.props.name,
-      cardNames: []
+      cardNames: [],
+      nameError: false
     }
   }
 
+  checkValidity(nameToCheck) {
+    if (nameToCheck.length > 0) {
+      return(!(/[^A-Za-z0-9_-]/.test(nameToCheck)));
+    }
+		else {
+      return false;
+    }
+	}
+
   onSubmit(cardName) {
-    console.log("New card: ", cardName);
-    this.setState(this.state);
-    this.state.cardNames.push(cardName);
+    if (this.checkValidity(cardName)) {
+      this.state.cardNames.push(cardName);
+      this.setState({nameError: false});
+    }
+    else {
+      this.setState({nameError: true});
+    }
   }
 
   render() {
@@ -28,6 +42,7 @@ class Column extends Component {
           <div class="btn-group-vertical">
             { cards }
             <NewCardForm onSubmit={ cardName => { this.onSubmit(cardName) }} />
+            { this.state.nameError && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>Please use alphanumeric characters, dashes, and underscores.</span> }
           </div>
         </div>
       </div>

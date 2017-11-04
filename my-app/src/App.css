@@ -27,10 +27,6 @@
   to { transform: rotate(360deg); }
 }
 
-body {
-  background-color: #ffe070;
-}
-
 /* Board CSS */
 #board.container {
   max-width: none;
