@@ -60,7 +60,7 @@ class BoardTileTools extends Component {
 			<div class="dashboard-board-tools">
 				<BoardTileToolButton onClick={this.rename} title={"Rename Board"} classes={"fa fa-pencil"}/>
 				<BoardTileToolButton onClick={this.share} title={"Share Board"} classes={"fa fa-share-alt"}/>
-				<BoardTileToolButton onClick={this.unlink} title={"Unlink Yourself From Board"} classes={"fa fa-chain-broken"}/>
+				<BoardTileToolButton onClick={this.unlink} title={"Unlink From Board"} classes={"fa fa-chain-broken"}/>
 				<BoardTileToolButton onClick={this.delete} title={"Delete Board"} classes={"fa fa-trash"}/>
 			</div>
 		)
