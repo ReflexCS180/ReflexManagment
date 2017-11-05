@@ -12,6 +12,7 @@ class BoardTile extends Component {
 		}
 		this.onMouseEnterHandler = this.onMouseEnterHandler.bind(this);
 		this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
+		//this.delete = this.delete.bind(this);
 	}
 
 	onMouseEnterHandler() {
@@ -20,6 +21,16 @@ class BoardTile extends Component {
 
 	onMouseLeaveHandler() {
 		this.setState({ showTools: false });
+	}
+
+	rename() {
+		console.log("Renaming something...");
+
+	}
+
+	delete() {
+		console.log("Deleting something...");
+		//this.props.onDelete;
 	}
 
 	render() {
@@ -31,7 +42,7 @@ class BoardTile extends Component {
 					onMouseEnter={this.onMouseEnterHandler}>
 					{this.props.name}
 				</Link>
-				{this.state.showTools && <BoardTileTools />}
+				{this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete}/>}
 			</div>
 		)
 	}
@@ -39,8 +50,14 @@ class BoardTile extends Component {
 
 class BoardTileTools extends Component {
 
+	constructor(props){
+		super(props);
+		this.rename = this.rename.bind(this);
+		this.delete = this.delete.bind(this);
+	}
+
 	rename() {
-		console.log("I want to rename");
+		this.props.onRename();
 	}
 
 	share() {
@@ -52,7 +69,7 @@ class BoardTileTools extends Component {
 	}
 
 	delete() {
-		console.log("I want to delete");
+		this.props.onDelete();
 	}
 
 	render() {
@@ -118,7 +135,7 @@ class NewBoardForm extends Component {
 	}
 
 	checkValidity(nameToCheck) {
-		return(!(/[^A-Za-z0-9_-]/.test(nameToCheck)));
+		return(!(/[^A-Za-z0-9_-\s]/.test(nameToCheck)));
 	}
 
 	onSubmit = (e) => {
@@ -126,7 +143,7 @@ class NewBoardForm extends Component {
 		//this.setState({ boardName: '' }); // clears the form input field
 		if (this.checkValidity(this.state.boardName)) {
 			console.log("This name is valid!");
-			this.props.onSubmit(this.state.boardName); // calls prop onSubmit function, passing it the value in the input field
+			this.props.onSubmit(this.state.boardName.trim()); // calls prop onSubmit function, passing it the value in the input field
 			this.props.onClose();	// when submitting the form, this calls the "onClose" prop method of "NewBoardTile.toggleform()"
 		}
 		else {
@@ -168,31 +185,44 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardNames: ["My First Board"]
-			// newBoardNames: data
+			newBoardNames: ["My First Board"],
+			boardObjects: []
 		}
 	}
 
 	componentDidMount() {
 		document.title = "Huddle Dashboard";
+		this.updateBoards();
 	}
 
 	onNewBoardSubmit = (boardName) => {
 		console.log("Received BoardName:", boardName);
 		this.setState({ newBoard: true });
 		this.state.newBoardNames.push(boardName);
+		this.updateBoards();
+	}
+
+	updateBoards() {
+		var boards = this.state.newBoardNames.map(function(name, index) {
+			return(<BoardTile name={name} key={index} onDelete={this.deleteBoard(name)}/>)
+		}, this);
+
+		var myBoards = [];
+
+		boards.forEach(function(item, key) {
+			myBoards.push(item);
+		})
+
+		this.setState({ boardObjects: myBoards }, function() {
+			console.log(this.state.boardObjects);
+		});
+	}
+
+	deleteBoard(name) {
+		console.log("Delete board tile from dashboard object called: ", name);
 	}
 
 	render() {
-		var boards = this.state.newBoardNames.map(function(name, index) {
-			return(<BoardTile name={name} key={index}/>)
-		})
-
-		// var boards = this.state.newBoardNames.boards.map(function(name, index) {
-		// 	return(<BoardTile name={name} key={index}/>)
-		// })
-
-		//console.log(data);
 
 		return(
 			<div>
@@ -200,8 +230,7 @@ class Dashboard extends Component {
 				<div class="container">
 					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> Personal Boards</h3>
 					<div class="row" id="personal-boards">
-						{ /* <BoardTile name="My First Board"/> */ }
-						{ boards }
+						{ this.state.boardObjects }
 						<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>
 					</div>
 				</div>
