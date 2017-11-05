@@ -12,7 +12,8 @@ class BoardTile extends Component {
 		}
 		this.onMouseEnterHandler = this.onMouseEnterHandler.bind(this);
 		this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
-		//this.delete = this.delete.bind(this);
+		this.delete = this.delete.bind(this);
+		this.rename = this.rename.bind(this);
 	}
 
 	onMouseEnterHandler() {
@@ -24,13 +25,11 @@ class BoardTile extends Component {
 	}
 
 	rename() {
-		console.log("Renaming something...");
-
+		this.props.onRename(this.props.name);
 	}
 
 	delete() {
-		console.log("Deleting something...");
-		//this.props.onDelete;
+		this.props.onDelete(this.props.name);
 	}
 
 	render() {
@@ -142,7 +141,6 @@ class NewBoardForm extends Component {
 		e.preventDefault(); // prevents default action of reloading the page on form submit
 		//this.setState({ boardName: '' }); // clears the form input field
 		if (this.checkValidity(this.state.boardName)) {
-			console.log("This name is valid!");
 			this.props.onSubmit(this.state.boardName.trim()); // calls prop onSubmit function, passing it the value in the input field
 			this.props.onClose();	// when submitting the form, this calls the "onClose" prop method of "NewBoardTile.toggleform()"
 		}
@@ -187,7 +185,7 @@ class Dashboard extends Component {
 			newBoard: false,
 			newBoardNames: ["My First Board"],
 			boardObjects: []
-		}
+		};
 	}
 
 	componentDidMount() {
@@ -196,7 +194,6 @@ class Dashboard extends Component {
 	}
 
 	onNewBoardSubmit = (boardName) => {
-		console.log("Received BoardName:", boardName);
 		this.setState({ newBoard: true });
 		this.state.newBoardNames.push(boardName);
 		this.updateBoards();
@@ -204,8 +201,8 @@ class Dashboard extends Component {
 
 	updateBoards() {
 		var boards = this.state.newBoardNames.map(function(name, index) {
-			return(<BoardTile name={name} key={index} onDelete={this.deleteBoard(name)}/>)
-		}, this);
+			return(<BoardTile name={name} key={index} onDelete={this.deleteBoard.bind(this, name)} onRename={this.renameBoard.bind(this, name)}/>)
+		}.bind(this));
 
 		var myBoards = [];
 
@@ -219,7 +216,19 @@ class Dashboard extends Component {
 	}
 
 	deleteBoard(name) {
-		console.log("Delete board tile from dashboard object called: ", name);
+		var boardNamesTemp = this.state.newBoardNames;
+		var deleteTileIndex = boardNamesTemp.indexOf(name);
+		boardNamesTemp.splice(deleteTileIndex, 1);
+		this.setState({ newBoardNames: boardNamesTemp }, function() {
+			console.log("Deleted Board: ", name);
+		});
+		this.updateBoards();
+
+
+	}
+
+	renameBoard(name) {
+		console.log("Rename board tile from dashboard component called: ", name);
 	}
 
 	render() {
