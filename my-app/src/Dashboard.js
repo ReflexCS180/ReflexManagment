@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import './Dashboard.css';
 
 class BoardTile extends Component {
 	constructor(props) {
