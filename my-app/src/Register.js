@@ -4,7 +4,7 @@ import { NavLanding } from './Nav.js'
 import { Link } from 'react-router-dom'
 import "./Login.css";
 
-export default class Login extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
 
@@ -31,6 +31,7 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+        <div id="particles-js"></div>
         <NavLanding />
         <br /><br />
 
@@ -52,23 +53,37 @@ export default class Login extends Component {
               type="password"
             />
           </FormGroup>
+          <FormGroup controlId="confirmPassword" bsSize="large">
+            <ControlLabel>Confirm Password</ControlLabel>
+            <FormControl
+              value={this.state.confirmPassword}
+              onChange={this.handleChange}
+              type="confirmPassword"
+            />
+          </FormGroup>
+          <FormGroup controlId="company" bsSize="large">
+            <ControlLabel>Company</ControlLabel>
+            <FormControl
+              value={this.state.company}
+              onChange={this.handleChange}
+              type="company"
+            />
+          </FormGroup>
+
+
           <Button
             block
             bsSize="large"
-            className="Submit"
             disabled={!this.validateForm()}
             type="submit"
           >
             Login
           </Button>
-
-          <Link to='/register' id="LoginFooter">Register here!</Link>
+          <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>
-
-
       </div>
     );
   }
 }
 
-export { Login }
+export { Register }

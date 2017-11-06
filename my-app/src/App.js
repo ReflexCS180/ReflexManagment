@@ -4,6 +4,7 @@ import { Dashboard } from './Dashboard.js'
 import { NavLanding } from './Nav.js'
 import { Board } from './Board.js'
 import { Login } from './Login.js'
+import { Register } from './Register.js'
 import './App.css';
 import './Landing.css';
 
@@ -71,6 +72,7 @@ const Main = () => (
       <Route exact path='/dashboard' component={ Dashboard } />
       <Route exact path='/board' component={ Board } />
       <Route exact path='/login' component={ Login } />
+      <Route exact path='/register' component={ Register } />
     </Switch>
   </main>
 )

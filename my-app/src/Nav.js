@@ -23,10 +23,10 @@ const NavBoard = () => (
     <div class="navbar-collapse collapse dual-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="">Link</a>
+          <Link to="" class="nav-link">Link</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Link</a>
+          <Link to="" class="nav-link">Link</Link>
         </li>
       </ul>
     </div>
@@ -45,16 +45,16 @@ const NavLanding = () => (
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="">Login Here</a>
+              <Link to="/" class="nav-link js-scroll-trigger">Link</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="">About</a>
+              <Link to="/" class="nav-link js-scroll-trigger">Link</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="">Team</a>
+              <Link to="/" class="nav-link js-scroll-trigger">Link</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="">Contact</a>
+              <Link to="/" class="nav-link js-scroll-trigger">Link</Link>
             </li>
           </ul>
         </div>

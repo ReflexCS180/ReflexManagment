@@ -7,6 +7,16 @@
     top:0;
     left:0;
     right:0;
+    padding-top: 100px;
+    padding-bottom: 50px;
+  }
+
+  #LoginFooter {
+    display: block;
+    position:absolute;
+    height:auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   .Login form {
