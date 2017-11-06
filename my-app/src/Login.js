@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { NavLanding } from './Nav.js'
 import "./Login.css";
 
 export default class Login extends Component {
@@ -29,6 +30,7 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+        <NavLanding />
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>

@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Dashboard } from './Dashboard.js'
-import { NavLanding } from './Nav.js'
+import { NavLanding, NavBoard } from './Nav.js'
 import { Board } from './Board.js'
 import { Login } from './Login.js'
 import './App.css';
