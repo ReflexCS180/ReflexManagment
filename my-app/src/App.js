@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { Dashboard } from './Dashboard.js'
 import { NavLanding } from './Nav.js'
 import { Board } from './Board.js'
+import { Login } from './Login.js'
 import './App.css';
 import './Landing.css';
 
@@ -18,7 +19,7 @@ const Landing = () => (
         <div class="intro-text">
           <div class="intro-lead-in">Management Tool for Software Engineers</div>
           <div class="intro-heading">Huddle</div>
-          <a class="btn btn-xl js-scroll-trigger" href="./Dashboard">Enter Demo Here!</a>
+          <a class="btn btn-xl js-scroll-trigger" href="login">Register Here!</a>
         </div>
       </div>
     </header>
@@ -66,9 +67,10 @@ const Landing = () => (
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Landing} />
-      <Route exact path='/dashboard' component={Dashboard} />
-      <Route exact path='/board' component={Board} />
+      <Route exact path='/' component={ Landing } />
+      <Route exact path='/dashboard' component={ Dashboard } />
+      <Route exact path='/board' component={ Board } />
+      <Route exact path='/login' component={ Login } />
     </Switch>
   </main>
 )
