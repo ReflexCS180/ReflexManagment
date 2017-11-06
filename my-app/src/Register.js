@@ -10,12 +10,14 @@ export default class Register extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: "",
+      company: ""
     };
   }
 
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.confirmPassword.length > 0 && this.state.company.length > 0;
   }
 
   handleChange = event => {
@@ -28,9 +30,16 @@ export default class Register extends Component {
     event.preventDefault();
   }
 
+  validatePasswords() {
+    if(this.state.password.value !== this.state.confirmPassword.value) {
+      return "error"
+    }
+  }
+
   render() {
     return (
       <div className="Login">
+        {/**/}
         <div id="particles-js"></div>
         <NavLanding />
         <br /><br />
@@ -53,14 +62,6 @@ export default class Register extends Component {
               type="password"
             />
           </FormGroup>
-          <FormGroup controlId="confirmPassword" bsSize="large">
-            <ControlLabel>Confirm Password</ControlLabel>
-            <FormControl
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
           <FormGroup controlId="company" bsSize="large">
             <ControlLabel>Company</ControlLabel>
             <FormControl
@@ -70,7 +71,6 @@ export default class Register extends Component {
             />
           </FormGroup>
 
-
           <Button
             block
             bsSize="large"
@@ -79,6 +79,7 @@ export default class Register extends Component {
           >
             Register
           </Button>
+
           <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>
       </div>
