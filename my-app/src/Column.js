@@ -15,10 +15,10 @@ class Column extends Component {
     if (nameToCheck.length > 0) {
       return(!(/[^A-Za-z0-9_-]/.test(nameToCheck)));
     }
-		else {
+    else {
       return false;
     }
-	}
+  }
 
   onSubmit(cardName) {
     if (this.checkValidity(cardName)) {
