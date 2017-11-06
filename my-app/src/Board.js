@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
 import Column from './Column.js';
+import './Board.css';
 
 class Board extends Component {
 
