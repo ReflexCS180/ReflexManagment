@@ -79,13 +79,4 @@ class NewCardForm extends Component {
 	}
 }
 
-// DERPIRCATED CODE MOVING TO CLASS STRUCTURE
-// const Column = () => (
-// 	<div>
-// 		<h2>Column</h2>
-// 	</div>
-// )
-
-
-
 export default Column; //

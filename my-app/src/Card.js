@@ -10,7 +10,7 @@ class Card extends Component {
 
   render() {
     return(
-      <div class="card">
+      <div class="card" onClick={() => alert('click')} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
         <div class="card-body">
           <p class="card-title">{this.state.cardName}</p>
           <p class="card-text">Short description text.</p>
@@ -19,14 +19,5 @@ class Card extends Component {
     )
   }//
 }
-
-// DERPIRCATED CODE MOVING TO CLASS STRUCTURE
-// const Card = () => (
-// 	<div>
-// 		<h2>Card</h2>
-// 	</div>
-// )
-
-
 
 export default Card; //
