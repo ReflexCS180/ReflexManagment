@@ -58,7 +58,7 @@ export default class Register extends Component {
             <FormControl
               value={this.state.confirmPassword}
               onChange={this.handleChange}
-              type="confirmPassword"
+              type="password"
             />
           </FormGroup>
           <FormGroup controlId="company" bsSize="large">
@@ -77,7 +77,7 @@ export default class Register extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Login
+            Register
           </Button>
           <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>
