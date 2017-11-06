@@ -30,7 +30,10 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+        <div id="particles-js"></div>
         <NavLanding />
+        <br /><br />
+
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
