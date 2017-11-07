@@ -18,7 +18,7 @@ export default class Register extends Component {
 
   // Checks if all Components are filled with something
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.confirmPassword.length > 0 && this.state.company.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.company.length > 0;
   }
 
   // Handles a State Change upon a user's input */}
@@ -28,7 +28,7 @@ export default class Register extends Component {
     });
   }
 
-  // Don't Refresh the page upon each state change 
+  // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
   }
@@ -67,10 +67,10 @@ export default class Register extends Component {
               type="company"
             />
           </FormGroup>
-
           <Button
             block
             bsSize="large"
+            className="Submit"
             disabled={!this.validateForm()}
             type="submit"
           >
