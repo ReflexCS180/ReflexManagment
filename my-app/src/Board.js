@@ -3,8 +3,39 @@ import { NavBoard } from './Nav.js';
 import Column from './Column.js';
 import './Board.css';
 
-class Board extends Component {
+const BoardMenu = () => (
+	<div id="rightMenu">
+		<div class="container">
+			<div class="mt-5 mb-4" id="topic">
+				<h5>
+					Menu
+				</h5>
+			</div>
 
+			{/* TODO Create teammate Components check Issue: 42 */}
+			<div class="mt-5 mb-4" id="topic">
+				<h5>
+					Teammates
+				</h5>
+			</div>
+
+			<div class="mt-5 mb-4" id="topic">
+				<h5>Inserting stuff here </h5>
+			</div>
+
+
+			{/* TODO Create an activity tracker --- might be demarcated, Check Issue: 43 */}
+			<div class="mt-5 mb-4" id="topic">
+				<h5>
+					Activity Tracker
+				</h5>
+			</div>
+
+		</div>
+	</div>
+)
+
+class Board extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,6 +58,8 @@ class Board extends Component {
 		return(
 			<div>
 				<NavBoard />
+				<BoardMenu />
+
 				<div class="container" id="board">
 					<h3 class="mt-5 mb-4">{this.state.boardName}</h3>
 					<div class="row">
