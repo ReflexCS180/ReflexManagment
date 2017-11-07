@@ -27,21 +27,8 @@
   to { transform: rotate(360deg); }
 }
 
-/* Dashboard CSS */
-div#new-board-form {
-  border-radius: .3rem;
-  padding: 24px;
-  position: absolute;
-  background: #fffbb8;
-  width: 90%;
-}
-
-.close-button {
-  position: absolute;
-  right: 3%;
-  top: 3%;
-  font-size: 1rem;
-  cursor: pointer;
-  border: 0;
-  background: 0;
+/* Board Nav CSS */
+nav a.navbar-brand {
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-weight: bold;
 }
