@@ -17,7 +17,7 @@ export default class Login extends Component {
 
   // Checks if all Components are filled with something
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.company.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 0;
   }
 
   // Handles a State Change upon a user's input
@@ -54,14 +54,6 @@ export default class Login extends Component {
               value={this.state.password}
               onChange={this.handleChange}
               type="password"
-            />
-          </FormGroup>
-          <FormGroup controlId="company" bsSize="large">
-            <ControlLabel>Company</ControlLabel>
-            <FormControl
-              value={this.state.company}
-              onChange={this.handleChange}
-              type="company"
             />
           </FormGroup>
           <Button
