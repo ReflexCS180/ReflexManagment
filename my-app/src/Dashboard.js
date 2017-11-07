@@ -3,6 +3,9 @@ import { NavBoard } from './Nav.js';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
 
+// use shortid.generate() to generate a unique ID for our boards
+var shortid = require('shortid');
+
 class BoardTile extends Component {
 	constructor(props) {
 		super(props);
@@ -38,7 +41,7 @@ class BoardTile extends Component {
 	delete() {
 		// when called, passes the name of the button to the dashboard component
 		// to be deleted
-		this.props.onDelete(this.props.name);
+		this.props.onDelete(this.props.uid);
 	}
 
 	render() {
@@ -210,13 +213,16 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardNames: ["My First Board"],
+			newBoards: [],
 			boardObjects: []
 		};
-		// newBoardNames is an array of just the names of the boards (for convenience)
+		// newBoards is an array of just the names of the boards (for convenience)
 		// boardObjects is an array of objects that contain the names and React DOM info of each boardObjects
-		// note: the board tiles are actually rendered from boardObjects, not from newBoardNames
-		// newBoardNames is used for easy updates. boardObjects is then updated based on the names in newBoardNames
+		// note: the board tiles are actually rendered from boardObjects, not from newBoards
+		// newBoards is used for easy updates. boardObjects is then updated based on the names in newBoards
+
+    // when connected to database, here we can send user id to database
+    // in order to retrieve json file with list of boards, then set state
 	}
 
 	componentDidMount() {
@@ -229,15 +235,15 @@ class Dashboard extends Component {
 		// when newBoardForm is submitted: updates state, adds new board name,
 		// then updates state.boardObjects
 		this.setState({ newBoard: true });
-		this.state.newBoardNames.push(boardName);
+		this.state.newBoards.push({name: boardName, uid: shortid.generate()});
 		this.updateBoards();
 	}
 
 	updateBoards() {
-		// look at this.state.newBoardNames, map the names to variable "boards"
-		// basically creates an array? of objects with one <BoardTile> for each name in newBoardNames
-		var boards = this.state.newBoardNames.map(function(name, index) {
-			return(<BoardTile name={name} key={index} onDelete={this.deleteBoard.bind(this, name)} onRename={this.renameBoard.bind(this, name)}/>)
+		// look at this.state.newBoards, map the names to variable "boards"
+		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
+		var boards = this.state.newBoards.map(function({name, uid}, index) {
+			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)} onRename={this.renameBoard.bind(this, name)}/>)
 		}.bind(this));
 
 		// new array to store each object in
@@ -255,23 +261,32 @@ class Dashboard extends Component {
 		});
 	}
 
-	deleteBoard(name) {
+	deleteBoard(uid) {
 		// creates new variable boardNamesTemp to do all the delete work in
-		var boardNamesTemp = this.state.newBoardNames;
+		var boardNamesTemp = this.state.newBoards;
 
-		// finds the first instance of "name" parameter in the array
-		var deleteTileIndex = boardNamesTemp.indexOf(name);
+		// finds the index of the "uid" parameter in the array
+		var deleteTileIndex = 999;
+    boardNamesTemp.forEach((board, index) => {
+      if (board.uid === uid) {
+        deleteTileIndex = index;
+      }
+    });
+    if (deleteTileIndex === 999) {
+      console.log("Something went wrong with the ID's in deleteBoard");
+      console.log("uid not found: ", uid);
+    }
 
 		// removes the corresponding element from the array
 		boardNamesTemp.splice(deleteTileIndex, 1);
 
-		// sets state.newBoardNames to be equal to new array with deleted item
-		this.setState({ newBoardNames: boardNamesTemp }, function() {
+		// sets state.newBoards to be equal to new array with deleted item
+		this.setState({ newBoards: boardNamesTemp }, function() {
 			// prints the name of the deleted board AFTER state is set
-			console.log("Deleted Board: ", name);
+			console.log("Deleted Board: ", uid);
 		});
 
-		// updates state.boardObjects based on the newBoardNames array
+		// updates state.boardObjects based on the newBoards array
 		this.updateBoards();
 	}
 
