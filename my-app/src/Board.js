@@ -20,7 +20,8 @@ const BoardMenu = () => (
 			</div>
 
 			<div class="mt-5 mb-4" id="topic">
-				<h5>Inserting stuff here </h5>
+				<h5>Settings</h5>
+				
 			</div>
 
 
