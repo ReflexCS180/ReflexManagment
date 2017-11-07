@@ -10,20 +10,24 @@ export default class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      company: ""
     };
   }
 
+  // Checks if all Components are filled with something
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.company.length > 0;
   }
 
+  // Handles a State Change upon a user's input
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
   }
 
+  // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
   }
@@ -52,6 +56,14 @@ export default class Login extends Component {
               type="password"
             />
           </FormGroup>
+          <FormGroup controlId="company" bsSize="large">
+            <ControlLabel>Company</ControlLabel>
+            <FormControl
+              value={this.state.company}
+              onChange={this.handleChange}
+              type="company"
+            />
+          </FormGroup>
           <Button
             block
             bsSize="large"
@@ -64,8 +76,6 @@ export default class Login extends Component {
 
           <Link to='/register' id="LoginFooter">Register here!</Link>
         </form>
-
-
       </div>
     );
   }

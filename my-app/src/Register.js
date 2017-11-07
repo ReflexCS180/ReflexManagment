@@ -16,24 +16,21 @@ export default class Register extends Component {
     };
   }
 
+  // Checks if all Components are filled with something
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0 && this.state.confirmPassword.length > 0 && this.state.company.length > 0;
   }
 
+  // Handles a State Change upon a user's input */}
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
   }
 
+  // Don't Refresh the page upon each state change 
   handleSubmit = event => {
     event.preventDefault();
-  }
-
-  validatePasswords() {
-    if(this.state.password.value !== this.state.confirmPassword.value) {
-      return "error"
-    }
   }
 
   render() {
