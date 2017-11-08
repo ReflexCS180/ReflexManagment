@@ -55,7 +55,7 @@ class BoardTile extends Component {
 	render() {
 		// create a string to link to particular board
 		// ex: board/myfirstboard if the name of the board is "myfirstboard"
-		var boardLink = "board/" + this.props.name;
+		var boardLink = "board/" + this.props.uid;
 
 		// if state.showTools is true, then render BoardTileTools component
 		// if not, only render the main button
