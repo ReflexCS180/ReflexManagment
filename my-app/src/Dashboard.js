@@ -10,7 +10,8 @@ class BoardTile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showTools: false
+			showTools: false,
+      showRenameForm: false
 		}
 
 		// binds certain functions so the "this" keyword knows what to refer to
@@ -35,8 +36,13 @@ class BoardTile extends Component {
 	rename() {
 		// when called, passes the name of the button to the dashboard component
 		// to be renamed
-		this.props.onRename(this.props.name);
+    this.setState({ showRenameForm: !this.state.showRenameForm });
+		this.props.onRename(this.props.uid, this.props.name);
 	}
+
+  renameSubmit() {
+    console.log("I'm in");
+  }
 
 	delete() {
 		// when called, passes the name of the button to the dashboard component
@@ -57,6 +63,7 @@ class BoardTile extends Component {
 					onMouseEnter={this.onMouseEnterHandler}>
 					{this.props.name}
 				</Link>
+        {this.state.showRenameForm && <RenameForm onSubmit={this.renameSubmit} />}
 				{this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete}/>}
 			</div>
 		)
@@ -71,8 +78,8 @@ class BoardTileTools extends Component {
 	}
 
 	rename() {
-		// calls onRename function of the parent BoardTile when rename button is clicked
-		this.props.onRename();
+		// opens rename form when rename button is clicked
+    this.props.onRename();
 	}
 
 	share() {
@@ -115,6 +122,40 @@ class BoardTileToolButton extends Component {
 			</button>
 		)
 	}
+}
+
+class RenameForm extends Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+		this.state = { renameInput: '' }
+	}
+
+	componentDidMount() {
+		// is called as soon as this component is rendered.
+		// adds focus to the input box so the user doesn't have to click on it to type
+		this.newFormInput.focus();
+	}
+
+  onSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  render() {
+    return(
+      <div id="rename-board-form">
+        <form>
+          <input type="text" class="form-control" value={this.state.renameInput}
+            onChange={e => this.setState({ renameInput: e.target.value}) }
+            ref={input => { this.newFormInput = input }} id="rename-board-name"
+            placeholder="Rename Your Board" />
+            <button onClick={e => this.onSubmit(e)} id="submit-rename-btn">
+              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+        </form>
+      </div>
+    )
+  };
 }
 
 // This is the button to create a new board; only used once
@@ -206,7 +247,6 @@ class NewBoardForm extends Component {
 	}
 }
 
-
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -243,7 +283,7 @@ class Dashboard extends Component {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
 		var boards = this.state.newBoards.map(function({name, uid}, index) {
-			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)} onRename={this.renameBoard.bind(this, name)}/>)
+			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)} onRename={this.renameBoard.bind(this, uid, name)}/>)
 		}.bind(this));
 
 		// new array to store each object in
@@ -266,13 +306,13 @@ class Dashboard extends Component {
 		var boardNamesTemp = this.state.newBoards;
 
 		// finds the index of the "uid" parameter in the array
-		var deleteTileIndex = 999;
+		var deleteTileIndex = -1;
     boardNamesTemp.forEach((board, index) => {
       if (board.uid === uid) {
         deleteTileIndex = index;
       }
     });
-    if (deleteTileIndex === 999) {
+    if (deleteTileIndex === -1) {
       console.log("Something went wrong with the ID's in deleteBoard");
       console.log("uid not found: ", uid);
     }
@@ -290,9 +330,23 @@ class Dashboard extends Component {
 		this.updateBoards();
 	}
 
-	renameBoard(name) {
+	renameBoard(uid, newName) {
 		// to be used for renaming the board, currently not functional
-		console.log("Rename board tile from dashboard component called: ", name);
+		console.log("Rename board tile from dashboard component called: ", newName);
+    console.log("uid: ", uid);
+    var boardNamesTemp = this.state.newBoards;
+    var renameTileSuccess = 0;
+    boardNamesTemp.forEach((board, index) => {
+      if (board.uid === uid) {
+        board.name = newName;
+        renameTileSuccess = 1;
+      }
+    });
+
+    if (!renameTileSuccess) {
+      console.log("Something went wrong, rename failed. ", uid);
+    }
+
 	}
 
 	render() {
