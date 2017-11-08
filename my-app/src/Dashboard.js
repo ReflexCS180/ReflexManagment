@@ -19,6 +19,7 @@ class BoardTile extends Component {
 		this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
 		this.delete = this.delete.bind(this);
 		this.rename = this.rename.bind(this);
+    this.renameSubmit = this.renameSubmit.bind(this);
 	}
 
 	onMouseEnterHandler() {
@@ -37,11 +38,12 @@ class BoardTile extends Component {
 		// when called, passes the name of the button to the dashboard component
 		// to be renamed
     this.setState({ showRenameForm: !this.state.showRenameForm });
-		this.props.onRename(this.props.uid, this.props.name);
+		//this.props.onRename(this.props.uid, this.props.name);
 	}
 
-  renameSubmit() {
-    console.log("I'm in");
+  renameSubmit = (newName) => {
+    this.props.onRename(this.props.uid, newName);
+    this.setState({ showRenameForm: false });
   }
 
 	delete() {
@@ -63,8 +65,8 @@ class BoardTile extends Component {
 					onMouseEnter={this.onMouseEnterHandler}>
 					{this.props.name}
 				</Link>
-        {this.state.showRenameForm && <RenameForm onSubmit={this.renameSubmit} />}
-				{this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete}/>}
+        {this.state.showRenameForm && <RenameForm onSubmit={newName => {this.renameSubmit(newName)}} />}
+				{this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
 			</div>
 		)
 	}
@@ -75,11 +77,30 @@ class BoardTileTools extends Component {
 		super(props);
 		this.rename = this.rename.bind(this);
 		this.delete = this.delete.bind(this);
+    this.state = {
+      renameFormOpen: false,
+      renameButtonTitle: "Rename Board",
+      renameFormClasses: "fa fa-pencil"
+    }
 	}
+
+  componentDidMount() {
+    // ternary operator: if renameShow is true, execute 1st line, else execute 2nd line
+    (this.props.renameShow)
+      ? this.setState({ renameButtonTitle: "Close Rename Form", renameFormClasses: "fa fa-times"})
+      : this.setState({ renameButtonTitle: "Rename Board", renameFormClasses: "fa fa-pencil"});
+  }
 
 	rename() {
 		// opens rename form when rename button is clicked
     this.props.onRename();
+    this.setState({ renameFormOpen: !this.state.renameFormOpen }, function() {
+      // ternary operator: if renameShow is true, execute 1st line, else execute 2nd line
+      (this.props.renameShow)
+        ? this.setState({ renameButtonTitle: "Close Rename Form", renameFormClasses: "fa fa-times"})
+        : this.setState({ renameButtonTitle: "Rename Board", renameFormClasses: "fa fa-pencil"});
+    });
+
 	}
 
 	share() {
@@ -105,7 +126,7 @@ class BoardTileTools extends Component {
 	render() {
 		return(
 			<div class="dashboard-board-tools">
-				<BoardTileToolButton onClick={this.rename} title={"Rename Board"} classes={"fa fa-pencil"}/>
+				<BoardTileToolButton onClick={this.rename} title={this.state.renameButtonTitle} classes={this.state.renameFormClasses}/>
 				<BoardTileToolButton onClick={this.share} title={"Share Board"} classes={"fa fa-share-alt"}/>
 				<BoardTileToolButton onClick={this.unlink} title={"Unlink From Board"} classes={"fa fa-chain-broken"}/>
 				<BoardTileToolButton onClick={this.delete} title={"Delete Board"} classes={"fa fa-trash"}/>
@@ -128,7 +149,10 @@ class RenameForm extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-		this.state = { renameInput: '' }
+		this.state = {
+      renameInput: '',
+      invalidInput: false
+    }
 	}
 
 	componentDidMount() {
@@ -139,12 +163,32 @@ class RenameForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (this.checkValidity(this.state.renameInput)) {
+      this.setState({ invalidInput: false });
+      this.props.onSubmit(this.state.renameInput);
+    }
+    else {
+      this.setState({ invalidInput: true });
+      console.log("Invalid rename: ", this.state.renameInput);
+    }
+    // this.props.onSubmit(this.state.renameInput);
   }
+
+  checkValidity(nameToCheck) {
+		// returns true if name contains only letters, numbers, spaces, dashes, underscores
+		// returns false if name contains any other special characters
+		return(!(/[^A-Za-z0-9_-\s]/.test(nameToCheck)));
+	}
 
   render() {
     return(
       <div id="rename-board-form">
         <form>
+          { this.state.invalidInput &&
+            <label htmlFor="rename-board-name" id="invalidInputLabel">
+              No special characters except <strong>-</strong> and <strong>_</strong>.
+            </label>
+          }
           <input type="text" class="form-control" value={this.state.renameInput}
             onChange={e => this.setState({ renameInput: e.target.value}) }
             ref={input => { this.newFormInput = input }} id="rename-board-name"
@@ -283,7 +327,8 @@ class Dashboard extends Component {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
 		var boards = this.state.newBoards.map(function({name, uid}, index) {
-			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)} onRename={this.renameBoard.bind(this, uid, name)}/>)
+			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)}
+        onRename={(uid, newName) => {this.renameBoard(uid, newName)}}/>)
 		}.bind(this));
 
 		// new array to store each object in
@@ -332,8 +377,6 @@ class Dashboard extends Component {
 
 	renameBoard(uid, newName) {
 		// to be used for renaming the board, currently not functional
-		console.log("Rename board tile from dashboard component called: ", newName);
-    console.log("uid: ", uid);
     var boardNamesTemp = this.state.newBoards;
     var renameTileSuccess = 0;
     boardNamesTemp.forEach((board, index) => {
@@ -346,6 +389,7 @@ class Dashboard extends Component {
     if (!renameTileSuccess) {
       console.log("Something went wrong, rename failed. ", uid);
     }
+    this.updateBoards();
 
 	}
 

@@ -87,6 +87,18 @@
   opacity: 0.7;
 }
 
+#rename-board-form #invalidInputLabel {
+    background: white;
+    border-radius: 0.2rem;
+    color: red;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    text-align: center;
+    top: -20px;
+    width: 100%;
+}
+
 /* Styling for close button of new board form
 ** It can be used for any close button */
 .close-button {
