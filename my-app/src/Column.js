@@ -18,7 +18,7 @@ class Column extends Component {
   // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
   checkValidity(nameToCheck) {
     if (nameToCheck.length > 0) {
-      return(!(/[^A-Za-z0-9_-\s]/.test(nameToCheck)));
+      return(!(/[^A-Za-z0-9.!$+*_-\s]/.test(nameToCheck)));
     }
     else {
       return false;
@@ -55,7 +55,7 @@ class Column extends Component {
             <NewCardForm onSubmit={ cardName => { this.onSubmit(cardName) }} />
 
             {/* Throw catch to user for bad card name */}
-            { this.state.nameError && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>Please use alphanumeric characters, dashes, and underscores.</span> }
+            { this.state.nameError && <span style={{fontSize: "0.9rem", marginBottom: "12px"}}>Valid characters: <span style={{color: "red"}}>A-z 0-9 _-+*$!.</span></span> }
           </div>
         </div>
       </div>
