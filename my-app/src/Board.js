@@ -31,9 +31,9 @@ class Board extends Component {
 
 					{/*TODO Resize column width for small screens*/}
 					<div class="row">
-						<Column name="Backlog"/>
-						<Column name="In Progress"/>
-						<Column name="Completed"/>
+						<Column columnName="Backlog"/>
+						<Column columnName="In Progress"/>
+						<Column columnName="Completed"/>
 					</div>
 				</div>
 			</div>
