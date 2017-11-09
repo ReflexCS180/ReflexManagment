@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { NavLanding } from './Nav.js'
 import { Link } from 'react-router-dom'
+import request from "../node_modules/superagent/superagent";
 import "./Login.css";
 
 export default class Login extends Component {
@@ -13,6 +14,8 @@ export default class Login extends Component {
       password: "",
       company: ""
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // Checks if all Components are filled with something
@@ -30,6 +33,13 @@ export default class Login extends Component {
   // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
+    request
+    .post('http://localhost/userLogin')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .send({ username: this.state.email.value, password: this.state.password.value })
+    .end(function(err, res){
+    alert(err)
+    });
   }
 
   render() {
@@ -38,7 +48,7 @@ export default class Login extends Component {
         <NavLanding />
         <br /><br />
 
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
@@ -60,8 +70,9 @@ export default class Login extends Component {
             block
             bsSize="large"
             className="Submit"
-            disabled={!this.validateForm()}
+            disabled={!this.validateForm}
             type="submit"
+            onClick={e => this.handleSubmit(e)}
           >
             Login
           </Button>
