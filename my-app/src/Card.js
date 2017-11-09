@@ -17,16 +17,7 @@ class Card extends Component {
         </div>
       </div>
     )
-  }//
+  }
 }
 
-// DERPIRCATED CODE MOVING TO CLASS STRUCTURE
-// const Card = () => (
-// 	<div>
-// 		<h2>Card</h2>
-// 	</div>
-// )
-
-
-
-export default Card; //
+export default Card;
