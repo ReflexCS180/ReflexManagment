@@ -35,8 +35,8 @@ class Column extends Component {
   // Renders list of cards onto a column.
   render() {
     var cards = this.state.cardNames.map(function(cardName, index) {
-			return(<Card cardName={cardName} key={index}/>)
-		})
+			return(<Card columnName={this.state.columnName} cardName={cardName} key={index}/>)
+		}.bind(this)) // this means this this.
 
 		return(
       <div class="col-2" >
