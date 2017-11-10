@@ -3,16 +3,19 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { NavLanding } from './Nav.js'
 import { Link } from 'react-router-dom'
 import "./Login.css";
+import firebase, { auth, provider } from './firebase.js';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      user: null,
       email: "",
       password: "",
       company: ""
     };
+	this.login = this.login.bind(this);
   }
 
   // Checks if all Components are filled with something
@@ -27,9 +30,26 @@ export default class Login extends Component {
     });
   }
 
+  login() {
+       auth.signInWithPopup(provider)
+       .then((result) => {
+         const user = result.user;
+	 this.setState({user});
+       });
+  }
   // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
+  const itemsRef = firebase.database().ref('items');
+  const item = {
+    title: this.state.currentItem,
+    user: this.state.username
+  }
+  itemsRef.push(item);
+  this.setState({
+    currentItem: '',
+    username: ''
+  });
   }
 
   render() {
@@ -68,7 +88,12 @@ export default class Login extends Component {
 
           <Link to='/register' id="LoginFooter">Register here!</Link>
         </form>
-      </div>
+
+	<div className="testLogin">
+		<button onClick={this.login}>Google Log In </button>
+	</div>
+
+</div>
     );
   }
 }
