@@ -15,7 +15,9 @@ export default class Login extends Component {
       password: "",
       company: ""
     };
-	this.login = this.login.bind(this);
+
+    this.googleLogin = this.googleLogin.bind(this);
+    this.normalLogin = this.normalLogin.bind(this);
   }
 
   // Checks if all Components are filled with something
@@ -30,26 +32,23 @@ export default class Login extends Component {
     });
   }
 
-  login() {
-       auth.signInWithPopup(provider)
-       .then((result) => {
-         const user = result.user;
-	 this.setState({user});
-       });
+  // Functions for logging in through Google account
+  googleLogin() {
+    auth.signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      this.setState({user});
+      console.log(user);
+    });
+  }
+
+  // Functions for logging in normally
+  normalLogin() {
+
   }
   // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
-  const itemsRef = firebase.database().ref('items');
-  const item = {
-    title: this.state.currentItem,
-    user: this.state.username
-  }
-  itemsRef.push(item);
-  this.setState({
-    currentItem: '',
-    username: ''
-  });
   }
 
   render() {
@@ -81,6 +80,7 @@ export default class Login extends Component {
             bsSize="large"
             className="Submit"
             disabled={!this.validateForm()}
+            onClick={this.normalLogin}
             type="submit"
           >
             Login
@@ -88,10 +88,9 @@ export default class Login extends Component {
           <Button
             block
             bsSize="large"
-            className="Submit"
-	    onClick={this.login}
-	    type="submit"
-	  >Google Log-In</Button>
+            className="GoogleLogin"
+            onClick={this.googleLogin}
+	         >Login with Google account</Button>
           <Link to='/register' id="LoginFooter">Register here!</Link>
         </form>
 
