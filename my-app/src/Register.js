@@ -3,6 +3,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { NavLanding } from './Nav.js'
 import { Link } from 'react-router-dom'
 import "./Login.css";
+import firebase, { auth, provider } from './firebase.js';
 
 export default class Register extends Component {
   constructor(props) {
@@ -14,6 +15,8 @@ export default class Register extends Component {
       confirmPassword: "",
       company: ""
     };
+
+    this.googleLogin = this.googleLogin.bind(this);
   }
 
   // Checks if all Components are filled with something
@@ -31,6 +34,20 @@ export default class Register extends Component {
   // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
+    auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then()
+    .catch(e => this.setState(e.message));
+
+  }
+
+  // Functions for logging in through Google account
+  googleLogin() {
+    auth.signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      this.setState({user});
+      console.log(user);
+    });
   }
 
   render() {
@@ -76,6 +93,12 @@ export default class Register extends Component {
           >
             Register
           </Button>
+          <Button
+            block
+            bsSize="large"
+            className="GoogleLogin"
+            onClick={this.googleLogin}
+           >Register/Login with Google account</Button>
 
           <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>
