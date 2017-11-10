@@ -85,13 +85,16 @@ export default class Login extends Component {
           >
             Login
           </Button>
-
+          <Button
+            block
+            bsSize="large"
+            className="Submit"
+	    onClick={this.login}
+	    type="submit"
+	  >Google Log-In</Button>
           <Link to='/register' id="LoginFooter">Register here!</Link>
         </form>
 
-	<div className="testLogin">
-		<button onClick={this.login}>Google Log In </button>
-	</div>
 
 </div>
     );
