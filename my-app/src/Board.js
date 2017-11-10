@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavBoard } from './Nav.js';
+import { NavBoard } from './Nav.js'; // Why do we need this import in Board.js?
 import Column from './Column.js';
 
 class Board extends Component {
