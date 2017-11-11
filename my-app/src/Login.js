@@ -49,6 +49,9 @@ export default class Login extends Component {
   // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
+    auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then()
+    .catch(e => this.setState(e.message));
   }
 
   render() {
@@ -80,7 +83,6 @@ export default class Login extends Component {
             bsSize="large"
             className="Submit"
             disabled={!this.validateForm()}
-            onClick={this.normalLogin}
             type="submit"
           >
             Login
