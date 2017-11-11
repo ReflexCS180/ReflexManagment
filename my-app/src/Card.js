@@ -12,6 +12,7 @@ class Card extends Component {
 
     }
     console.log(" columnName in card ", this.props.columnName); // debugging
+    console.log(" uid of card: ", this.props.uid);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -43,7 +44,7 @@ class Card extends Component {
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
         <div class="card-body">
           <p class="card-title">{this.state.cardName}</p>
-          <p class="card-text">Short description text.</p>
+          <p class="card-text">Short description.</p>
         </div>
         <Modal
         isOpen={this.state.modalIsOpen}
