@@ -7,6 +7,7 @@ import { Login } from './Login.js'
 import { Register } from './Register.js'
 import './App.css';
 import './Landing.css';
+import './firebase.js';
 
 const Landing = () => (
   <div>

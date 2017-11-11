@@ -3,6 +3,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { NavLanding } from './Nav.js'
 import { Link } from 'react-router-dom'
 import "./Login.css";
+import firebase, { auth, provider } from './firebase.js';
 
 export default class Register extends Component {
   constructor(props) {
