@@ -13,10 +13,10 @@ export default class Register extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      company: ""
+      company: "",
+      error: false, //extra 2 variables for handling & passing error's state and message
+      errorMsg: "",
     };
-
-    this.googleLogin = this.googleLogin.bind(this);
   }
 
   // Checks if all Components are filled with something
@@ -30,23 +30,43 @@ export default class Register extends Component {
       [event.target.id]: event.target.value
     });
   }
+  //If there is error during login/register, pull out the error inside render
+  validateErrorForm() {
+    return this.state.error;
+  }
 
   // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
     auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .then()
-    .catch(e => this.setState(e.message));
+    .then((result) => {
+      //console.log(result); //for debugging
+      this.setState({error: false});
+      this.props.history.push('/dashboard');//redirecting the user to the dashboard
 
+    })
+    .catch(e => {
+      this.setState({error: true});
+      //if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
+      //else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
+      //else
+      this.setState({errorMsg: "Error code: "+e.code})
+    });
   }
 
   // Functions for logging in through Google account
   googleLogin() {
     auth.signInWithPopup(provider)
     .then((result) => {
-      const user = result.user;
-      this.setState({user});
-      console.log(user);
+      //console.log(result); //for debugging
+      this.props.history.push('/dashboard');//redirecting the user to the dashboard
+      //!!!!!! need to save the user's token HERE !!!!!!
+    })
+    .catch(e => {
+      this.setState({error: true});
+      if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
+      else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
+      else this.setState({errorMsg: "Error code: "+e.code})
     });
   }
 
@@ -84,6 +104,10 @@ export default class Register extends Component {
               type="company"
             />
           </FormGroup>
+
+          {/*-- If there is any error message during the log in process, this will pop up */}
+          { this.validateErrorForm() && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>{this.state.errorMsg}</span> }
+
           <Button
             block
             bsSize="large"
@@ -93,12 +117,13 @@ export default class Register extends Component {
           >
             Register
           </Button>
+
           <Button
-            block
-            bsSize="large"
-            className="GoogleLogin"
-            onClick={this.googleLogin}
-           >Register/Login with Google account</Button>
+          block
+          bsSize="large"
+          className="GoogleLogin"
+          onClick={this.googleLogin}
+         >Register/Login with Google account</Button>
 
           <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>
