@@ -98,7 +98,7 @@ export default class Login extends Component {
           </FormGroup>
 
           {/*-- If there is any error message during the log in process, this will pop up */}
-          { this.validateErrorForm && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>{this.state.errorMsg}</span> }
+          { this.validateErrorForm() && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>{this.state.errorMsg}</span> }
 
           <Button
             block
