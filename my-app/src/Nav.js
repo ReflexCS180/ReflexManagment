@@ -10,6 +10,7 @@ class NavBoard extends Component {
   }
 
   loginOrLogout() {
+    // returns links to login or logout based on user status
     if (this.state.user === null) {
       return (
         <ul class="navbar-nav ml-auto">
@@ -59,7 +60,9 @@ class NavBoard extends Component {
         </div>
         <a class="navbar-brand d-flex mx-auto" href="">Huddle</a>
         <div class="navbar-collapse collapse dual-collapse">
-              { this.loginOrLogout() }
+          {/* returns a list of links based on whether the user is logged in or out
+              refer to loginOrLogout function */}
+          { this.loginOrLogout() }
         </div>
       </nav>
     )
