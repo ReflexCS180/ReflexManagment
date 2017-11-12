@@ -43,6 +43,7 @@ class CardModalContent extends Component {
     return(
       <div id="CardModalContent-content">
         {/* Close Modal Top Right */}
+        <button class="close-button" >&times;</button>
 
         {/* Card Heading */}
         <div class="row">
