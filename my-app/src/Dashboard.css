@@ -59,6 +59,46 @@
   font-weight: bold;
 }
 
+/* Styling for rename form */
+#rename-board-form {
+  margin: 0 auto -38px;
+  position: relative;
+  top: -68px;
+  width: 90%;
+}
+
+#rename-board-form input {
+  padding-right: 30px;
+}
+
+#rename-board-form button {
+  background: 0;
+  border: 0;
+  color: #333;
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+}
+
+#rename-board-form button:hover {
+  opacity: 0.7;
+}
+
+#rename-board-form #invalidInputLabel {
+    background: white;
+    border-radius: 0.2rem;
+    color: red;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    text-align: center;
+    top: -20px;
+    width: 100%;
+}
+
 /* Styling for close button of new board form
 ** It can be used for any close button */
 .close-button {
@@ -69,4 +109,8 @@
   position: absolute;
   right: 3%;
   top: 3%;
+}
+
+.close-button:hover {
+  color: red;
 }
