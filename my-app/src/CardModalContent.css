@@ -40,19 +40,19 @@
 
 /* Styling for close button of new card form
 ** It can be used for any close button */
-.close-button {
+.cardModalContent-close-button {
   background: 0;
   border: 0;
   cursor: pointer;
   font-size: 2rem;
-  height: 2rem;
+  height: 1rem;
   line-height: 0;
   position: absolute;
   right: 3%;
   top: 3%;
 }
 
-.close-button:hover {
+.cardModalContent-close-button:hover {
   color: red;
 }
 
