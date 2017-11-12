@@ -211,10 +211,8 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardNames: ["My First Board"],
+			newBoardNames: [],
 			boardObjects: [],
-			userID: null,
-			userName: null,
 			user: []
 		};
 		// newBoardNames is an array of just the names of the boards (for convenience)
@@ -239,7 +237,20 @@ class Dashboard extends Component {
 		// when newBoardForm is submitted: updates state, adds new board name,
 		// then updates state.boardObjects
 		this.setState({ newBoard: true });
+
+		// Add the new board to the list of boards
 		this.state.newBoardNames.push(boardName);
+
+		// Create a database reference object
+		const boardNamesRef = firebase.database().ref('listOfBoards');
+
+		// Create a new boardList state object and copy the current state into it.
+		const boardList = {
+			newBoardNames: this.state.newBoardNames
+		}
+
+		// Use the reference object's push function to push the state to FBDB
+		boardNamesRef.push(boardList);
 		this.updateBoards();
 	}
 
