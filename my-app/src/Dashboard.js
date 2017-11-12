@@ -331,7 +331,7 @@ class Dashboard extends Component {
 		this.setState({ newBoard: true });
 
 		// Add the new board to the list of boards
-		this.state.newBoardNames.push(boardName);
+		this.state.newBoardNames.push({name: boardName, uid: shortid.generate()});
 
 		// Create a database reference object
 		const boardNamesRef = firebase.database().ref('listOfBoards');
@@ -343,13 +343,14 @@ class Dashboard extends Component {
 
 		// Use the reference object's push function to push the state to FBDB
 		boardNamesRef.push(boardList);
+
 		this.updateBoards();
 	}
 
 	updateBoards() {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
-		var boards = this.state.newBoards.map(function({name, uid}, index) {
+		var boards = this.state.newBoardNames.map(function({name, uid}, index) {
 			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)}
         onRename={(uid, newName) => {this.renameBoard(uid, newName)}}/>)
 		}.bind(this));
@@ -371,7 +372,7 @@ class Dashboard extends Component {
 
 	deleteBoard(uid) {
 		// creates new variable boardNamesTemp to do all the delete work in
-		var boardNamesTemp = this.state.newBoards;
+		var boardNamesTemp = this.state.newBoardNames;
 
 		// finds the index of the "uid" parameter in the array
 		var deleteTileIndex = -1;
@@ -389,7 +390,7 @@ class Dashboard extends Component {
 		boardNamesTemp.splice(deleteTileIndex, 1);
 
 		// sets state.newBoards to be equal to new array with deleted item
-		this.setState({ newBoards: boardNamesTemp }, function() {
+		this.setState({ newBoardNames: boardNamesTemp }, function() {
 			// prints the name of the deleted board AFTER state is set
 			console.log("Deleted Board: ", uid);
 		});
@@ -400,7 +401,7 @@ class Dashboard extends Component {
 
 	renameBoard(uid, newName) {
 		// to be used for renaming the board, currently not functional
-    var boardNamesTemp = this.state.newBoards;
+    var boardNamesTemp = this.state.newBoardNames;
     var renameTileSuccess = 0;
     boardNamesTemp.forEach((board, index) => {
       if (board.uid === uid) {
@@ -421,7 +422,7 @@ class Dashboard extends Component {
 		// that are stored in boardObjects and renders them
 		return(
 			<div>
-				{this.componentDidMount}
+				{/* this.componentDidMount */}
 				<NavBoard />
 				<div class="container">
 					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName} Personal Boards</h3>
