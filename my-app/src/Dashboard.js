@@ -211,8 +211,8 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardNames: [],
-			boardObjects: [],
+			newBoardNames: [], // Contains a board name and a unique ID
+			boardObjects: [], // For displaying boards after each time newBoardNames is updated
 			user: []
 		};
 		// newBoardNames is an array of just the names of the boards (for convenience)

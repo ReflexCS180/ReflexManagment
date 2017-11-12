@@ -1,6 +1,9 @@
 import React, { Component } from 'react'; // abstract component base
 import Card from './Card.js'
 
+// imports shortid package to create unique IDs.
+var shortid = require('shortid');
+
 class Column extends Component {
   constructor(props) {
     super(props);
@@ -9,12 +12,13 @@ class Column extends Component {
       cardNames: [],
       nameError: false
     }
+    // cardNames is an array of objects: {name, uid}
   }
 
   // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
   checkValidity(nameToCheck) {
     if (nameToCheck.length > 0) {
-      return(!(/[^A-Za-z0-9_-]/.test(nameToCheck)));
+      return(!(/[^A-Za-z0-9.!$+*_-\s]/.test(nameToCheck)));
     }
     else {
       return false;
@@ -24,7 +28,7 @@ class Column extends Component {
   // onSubmit is used specifically to add cards to the cardlist.
   onSubmit(cardName) {
     if (this.checkValidity(cardName)) {
-      this.state.cardNames.push(cardName);
+      this.state.cardNames.push({cardName: cardName, uid: shortid.generate()});
       this.setState({nameError: false});
       // Attempt to inject onChange and value carriers here
       //
@@ -36,8 +40,8 @@ class Column extends Component {
 
   // Renders list of cards onto a column.
   render() {
-    var cards = this.state.cardNames.map(function(cardName, index) {
-			return(<Card columnName={this.state.columnName} cardName={cardName} key={index}/>)
+    var cards = this.state.cardNames.map(function({cardName, uid}, index) {
+			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}/>)
 		}.bind(this)) // this means this this.
 
 		return(
@@ -53,7 +57,7 @@ class Column extends Component {
             <NewCardForm onSubmit={ cardName => { this.onSubmit(cardName) }} />
 
             {/* Throw catch to user for bad card name */}
-            { this.state.nameError && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>Please use alphanumeric characters, dashes, and underscores.</span> }
+            { this.state.nameError && <span style={{fontSize: "0.9rem", marginBottom: "12px"}}>Valid characters: <span style={{color: "red"}}>A-z 0-9 _-+*$!.</span></span> }
           </div>
         </div>
       </div>
