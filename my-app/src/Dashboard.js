@@ -342,7 +342,10 @@ class Dashboard extends Component {
 		}
 
 		// Use the reference object's push function to push the state to FBDB
-		boardNamesRef.push(boardList);
+		var a = boardNamesRef.push(boardList);
+
+    // this is the unique key from firebase
+    //console.log(a.path.pieces_[1]);
 
 		this.updateBoards();
 	}
