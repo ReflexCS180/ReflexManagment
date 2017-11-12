@@ -1,13 +1,36 @@
 import React, { Component } from 'react'; // abstract component base
 import Modal from 'react-modal';
 import { NavBoard } from './Nav.js'; // Why do we need this import in Board.js?
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 class CardModalContent extends Component {
   constructor(props) {
     super(props);
+
+    this.state={
+      isRenameCardFormOpen: false,  // 'renameCardFormOpen' refers to the rename button in card modal.
+      cardName: this.props.cardName,
+      renameInput: this.props.cardName
+    }
+
+    this.openRenameCardForm=this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
+
     console.log(this.props.cardName);
     console.log(this.props.columnName);
   }
+
+  // Function to change state of renameCardFormOpen
+  openRenameCardForm(){
+    this.setState({
+      isRenameCardFormOpen: true,
+    });
+
+  };
+  // Function call to rename card
+  renameCard(event){ // event is a passed in parameter
+
+
+  };
 
   render() {
     return(
@@ -19,7 +42,18 @@ class CardModalContent extends Component {
           <div class="col">
             <div id="CardModalContent-heading">
               {/* Name of Card -- Should Be Placed Top Left*/}
-              <h1> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h1>
+              {this.state.isRenameCardFormOpen ?
+                  <form>
+                    <input type="text" class="form-control" value={this.state.renameInput}
+                      onChange={ event => this.setState({renameInput: event.target.value})} placeholder='Rename Card'>
+
+
+                    </input>
+                  </form>
+                  :
+                  <h1> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h1>
+              }
+
                 {/*Location of Card Relative to Column*/}
                 <p>in list {this.props.columnName} </p>
             </div>
@@ -69,22 +103,22 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Members' Button */}
-                  <button>Members</button>
+                  <Button>Members</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Labels' Button */}
-                  <button>Labels</button>
+                  <Button>Labels</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Checklist' Button */}
-                  <button>Checklist</button>
+                  <Button>Checklist</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Due Date' Button */}
-                  <button>Due Date</button>
+                  <Button>Due Date</Button>
                 </div>
 
                   {/* 'Attachement' Button -- Implementation in version 2  */}
@@ -97,20 +131,25 @@ class CardModalContent extends Component {
                 </div>
 
                 <div class="row">
+                  {/* 'Rename' Button */}
+                  <Button onClick={this.openRenameCardForm}>Rename</Button>
+                </div>
+
+                <div class="row">
                   {/* 'Move' Button */}
-                  <button>Move</button>
+                  <Button>Move</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Copy' Button */}
-                  <button>Copy</button>
+                  <Button>Copy</Button>
                 </div>
 
                 {/* 'Subscribe' Button -- Implementation in version 2 */}
 
                 <div class="row">
                   {/* 'Delete' Button */}
-                  <button>Delete</button>
+                  <Button>Delete</Button>
                 </div>
                 {/* 'Archive' Button -- Implementation in version 2*/}
               </div>
