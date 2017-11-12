@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
+import firebase, { auth, provider } from './firebase.js';
 
 class BoardTile extends Component {
 	constructor(props) {
@@ -211,7 +212,10 @@ class Dashboard extends Component {
 			formOpen: false,
 			newBoard: false,
 			newBoardNames: ["My First Board"],
-			boardObjects: []
+			boardObjects: [],
+			userID: null,
+			userName: null,
+			user: []
 		};
 		// newBoardNames is an array of just the names of the boards (for convenience)
 		// boardObjects is an array of objects that contain the names and React DOM info of each boardObjects
@@ -222,6 +226,12 @@ class Dashboard extends Component {
 	componentDidMount() {
 		// on component load: changes tab name and updates state.boardObjects
 		document.title = "Huddle Dashboard";
+		auth.onAuthStateChanged((userAuth) => {
+				if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
+				this.setState({user: userAuth});
+				console.log(this.state.user);
+			}
+		});
 		this.updateBoards();
 	}
 
@@ -285,9 +295,10 @@ class Dashboard extends Component {
 		// that are stored in boardObjects and renders them
 		return(
 			<div>
+				{this.componentDidMount}
 				<NavBoard />
 				<div class="container">
-					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> Personal Boards</h3>
+					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName} Personal Boards</h3>
 					<div class="row" id="personal-boards">
 						{ this.state.boardObjects }
 						<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>

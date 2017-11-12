@@ -10,6 +10,7 @@ export default class Register extends Component {
     super(props);
 
     this.state = {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -39,9 +40,12 @@ export default class Register extends Component {
   handleSubmit = event => {
     event.preventDefault();
     auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .then((result) => {
-      //console.log(result); //for debugging
-      this.setState({error: false});
+    .then((user) => {
+      console.log("Register console log:");
+      console.log(user); //for debugging
+      this.setState({user:user, error: false}); //set the "user" state after successfully log in. No errors.
+      user.updateProfile({'displayName': document.getElementById("name").value});
+      console.log(user);
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
 
     })
@@ -58,7 +62,7 @@ export default class Register extends Component {
   googleLogin() {
     auth.signInWithPopup(provider)
     .then((result) => {
-      //console.log(result); //for debugging
+      this.setState({user:result.user, error: false}); //set the "user" state after successfully log in. No errors.
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
       //!!!!!! need to save the user's token HERE !!!!!!
     })
@@ -67,6 +71,15 @@ export default class Register extends Component {
       if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
       else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
       else this.setState({errorMsg: "Error code: "+e.code})
+    });
+  }
+
+  //----------Checks if the user is previously logged in
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({user});
+      }
     });
   }
 
@@ -79,6 +92,15 @@ export default class Register extends Component {
         <br /><br />
 
         <form onSubmit={this.handleSubmit}>
+          <FormGroup controlId="name" bsSize="large">
+            <ControlLabel>Display Name</ControlLabel>
+            <FormControl
+              autoFocus
+              type="name"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl

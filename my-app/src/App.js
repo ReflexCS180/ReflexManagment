@@ -21,7 +21,8 @@ const Landing = () => (
         <div class="intro-text">
           <div class="intro-lead-in">Management Tool for Software Engineers</div>
           <div class="intro-heading">Huddle</div>
-          <a class="btn btn-xl js-scroll-trigger" href="login">Register Here!</a>
+          <a class="btn btn-xl js-scroll-trigger mr-2" href="login">Login</a>          
+          <a class="btn btn-xl js-scroll-trigger" href="register">Register</a>
         </div>
       </div>
     </header>
