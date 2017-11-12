@@ -1,10 +1,6 @@
 import React, { Component } from 'react'; // abstract component base
-<<<<<<< HEAD
-import firebase, { auth, provider } from './firebase.js';
-=======
 import Modal from 'react-modal';
 import CardModalContent from './CardModalContent.js'
->>>>>>> origin/card-modals
 
 class Card extends Component {
   constructor(props) {
@@ -12,24 +8,10 @@ class Card extends Component {
     this.state = {
       cardName: this.props.cardName,
       columnName: this.props.columnName,
+      cardBody: this.props.cardBody,
       modalIsOpen: false
 
     }
-<<<<<<< HEAD
-
-    this.handleChange = this.handleChange.bind(this); // Updates FBDB on change
-    this.handleSubmit = this.handleSubmit.bind(this); // Updates FBDB on submit
-  }
-
-  handleSubmit(e){
-    e.preventDefault();
-    const cardRef = firebase.database().ref('Card');
-    const card = {
-      cardName: this.state.cardName,
-      email: this.state.email
-    }
-    cardRef.push(card);
-=======
     console.log(" columnName in card ", this.props.columnName); // debugging
 
     this.openModal = this.openModal.bind(this);
@@ -39,7 +21,6 @@ class Card extends Component {
 
   openModal() {
     this.setState({modalIsOpen: true});
->>>>>>> origin/card-modals
   }
 
   afterOpenModal() {
@@ -63,7 +44,7 @@ class Card extends Component {
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
         <div class="card-body">
           <p class="card-title">{this.state.cardName}</p>
-          <p class="card-text">Short description text.</p>
+          {/* <p class="card-text">Short description text.</p> */}
         </div>
         <Modal
         isOpen={this.state.modalIsOpen}

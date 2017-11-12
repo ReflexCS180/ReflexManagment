@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Dashboard } from './Dashboard.js'
 import { NavLanding } from './Nav.js'
@@ -7,7 +7,44 @@ import { Login } from './Login.js'
 import { Register } from './Register.js'
 import './App.css';
 import './Landing.css';
-import './firebase.js';
+import { auth, provider, fbconfig } from './firebase.js';
+import firebase from 'firebase';
+
+class App extends Component {
+  constructor(props){
+    super(props);
+    //this.app = firebase.initializeApp(fbconfig);
+
+
+
+    this.db = firebase.database().ref().child('userFrame');
+  }
+
+/* From Youtube tutorial - complex method??
+  componentWillMount(){
+    const previousFrame = this.state.userFrame;
+
+    // Data Snapshot
+    this.database.on('board_added', snap => {
+        previousFrame.push({
+          id:snap.key,
+          boardContent: snap.val().boardContent,
+        })
+
+        this.setState({
+          userFrame: previousFrame
+        })
+    })
+  }*/
+
+  render(){
+    return(
+      <div>
+        <Main />
+      </div>
+    )
+  }
+}
 
 const Landing = () => (
   <div>
@@ -77,12 +114,6 @@ const Main = () => (
       <Route exact path='/register' component={ Register } />
     </Switch>
   </main>
-)
-
-const App = () => (
-  <div>
-    <Main />
-  </div>
 )
 
 export { App };

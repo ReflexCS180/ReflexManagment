@@ -26,6 +26,8 @@ class Column extends Component {
     if (this.checkValidity(cardName)) {
       this.state.cardNames.push(cardName);
       this.setState({nameError: false});
+      // Attempt to inject onChange and value carriers here
+      //
     }
     else {
       this.setState({nameError: true});
