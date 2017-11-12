@@ -35,10 +35,10 @@ class BoardTile extends Component {
 	}
 
 	rename() {
-		// when called, passes the name of the button to the dashboard component
-		// to be renamed
+    // when called, passes the name of the button to the dashboard component
+    // to be renamed
     this.setState({ showRenameForm: !this.state.showRenameForm });
-		//this.props.onRename(this.props.uid, this.props.name);
+    //this.props.onRename(this.props.uid, this.props.name);
 	}
 
   renameSubmit = (newName) => {
@@ -66,7 +66,7 @@ class BoardTile extends Component {
 					{this.props.name}
 				</Link>
         {this.state.showRenameForm && <RenameForm onSubmit={newName => {this.renameSubmit(newName)}} />}
-				{this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
+        {this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
 			</div>
 		)
 	}
@@ -161,6 +161,8 @@ class RenameForm extends Component {
 		this.newFormInput.focus();
 	}
 
+  // fat arrow function, pass "e" variable into the function
+  // "e" variable is the "event", in this case a click event
   onSubmit = (e) => {
     e.preventDefault();
     if (this.checkValidity(this.state.renameInput)) {
