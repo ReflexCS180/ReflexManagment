@@ -1,7 +1,5 @@
 import React, { Component } from 'react'; // abstract component base
-import Modal from 'react-modal';
-import { NavBoard } from './Nav.js'; // Why do we need this import in Board.js?
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import './CardModalContent.css';
 
 class CardModalContent extends Component {
@@ -21,12 +19,19 @@ class CardModalContent extends Component {
   }
 
   // Function to change state of renameCardFormOpen
+  // callback function "function()" of setState focuses on the input box
   openRenameCardForm(){
     this.setState({
       isRenameCardFormOpen: true,
+    }, function() {
+      this.renameCardFormInput.focus();
     });
-
   };
+
+  // used by "openRenameCardForm()" function above; highlights text of card rename input box
+  handleFocus(e) {
+    e.target.select();
+  }
 
   // Pass new name of card to parent from this cardmodal.
   onSubmitCardRename(event) {
@@ -38,6 +43,9 @@ class CardModalContent extends Component {
     });
     this.props.renameCardFromModalContent(this.state.renameInput)
   };
+
+
+
 
   render() {
     return(
@@ -54,7 +62,9 @@ class CardModalContent extends Component {
                 <div id="rename-card-form">
                   <form>
                     <input type="text" class="form-control" value={this.state.renameInput}
-                      onChange={ event => this.setState({renameInput: event.target.value})} placeholder='Rename Card'/>
+                      onChange={ event => this.setState({renameInput: event.target.value})} placeholder='Rename Card'
+                      ref={input => { this.renameCardFormInput = input }}
+                      onFocus={this.handleFocus} />
 
                     {/* The button below puts an arrow image in the input box*/}
                     <button onClick={e => this.onSubmitCardRename(e)} id="submit-rename-btn">
