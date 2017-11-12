@@ -2,6 +2,7 @@ import React, { Component } from 'react'; // abstract component base
 import Modal from 'react-modal';
 import { NavBoard } from './Nav.js'; // Why do we need this import in Board.js?
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import './CardModalContent.css';
 
 class CardModalContent extends Component {
   constructor(props) {
@@ -26,10 +27,16 @@ class CardModalContent extends Component {
     });
 
   };
-  // Function call to rename card
-  renameCard(event){ // event is a passed in parameter
 
+  // Pass new name of card to parent from this cardmodal.
+  onSubmitCardRename(event) {
+    event.preventDefault();
 
+    // Change the local state of isRenameCardFormOpen back to false
+    this.setState({
+      isRenameCardFormOpen: false,
+    });
+    this.props.renameCardFromModalContent(this.state.renameInput)
   };
 
   render() {
@@ -43,13 +50,17 @@ class CardModalContent extends Component {
             <div id="CardModalContent-heading">
               {/* Name of Card -- Should Be Placed Top Left*/}
               {this.state.isRenameCardFormOpen ?
+                <div id="rename-card-form">
                   <form>
                     <input type="text" class="form-control" value={this.state.renameInput}
-                      onChange={ event => this.setState({renameInput: event.target.value})} placeholder='Rename Card'>
+                      onChange={ event => this.setState({renameInput: event.target.value})} placeholder='Rename Card'/>
 
-
-                    </input>
+                    {/* The button below puts an arrow image in the input box*/}
+                    <button onClick={e => this.onSubmitCardRename(e)} id="submit-rename-btn">
+                      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </button>
                   </form>
+                </div>
                   :
                   <h1> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h1>
               }

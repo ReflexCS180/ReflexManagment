@@ -29,6 +29,9 @@ class Card extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  /**
+   * All functions related to Modal
+   */
   openModal() {
     this.setState({modalIsOpen: true});
   }
@@ -47,7 +50,14 @@ class Card extends Component {
       console.log(this.state.cardName);
     });
   }
+ //////////////////// End of Modal Functions
 
+ renameCard(newName) {
+   this.setState({
+     cardName: newName,
+   });
+
+ };
 
   render() {
     return(
@@ -56,16 +66,21 @@ class Card extends Component {
           <p class="card-title">{this.state.cardName}</p>
           <p class="card-text">Short description.</p>
         </div>
+
+        {/*Open Modal*/}
         <Modal
-        style={modalStyles}
-        isOpen={this.state.modalIsOpen}
-        onAfterOpen={this.afterOpenModal}
-        onRequestClose={this.closeModal}
-        contentLabel="Example Modal"
+          style={modalStyles}
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
         >
+          {/*Display Modal Content*/}
           <CardModalContent
           cardName={this.state.cardName}
           columnName={this.state.columnName}
+          renameCardFromModalContent={newName => this.renameCard(newName)}
+
           />
           <button onClick={this.closeModal}>Close
           </button>
