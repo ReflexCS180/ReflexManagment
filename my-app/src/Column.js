@@ -13,6 +13,7 @@ class Column extends Component {
       nameError: false
     }
     // cardNames is an array of objects: {name, uid}
+
   }
 
   // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
@@ -36,10 +37,25 @@ class Column extends Component {
     }
   }
 
+  // rename the card, passed up from CardModalContent and Card components
+  renameCard(uid, newName) {
+    var cardNamesTemp = this.state.cardNames;
+    cardNamesTemp.forEach((card, index) => {
+      if (card.uid === uid) {
+        card.cardName = newName;
+      }
+    })
+
+    this.setState({
+      cardNames: cardNamesTemp
+    })
+    this.setState(this.state);
+  }
+
   // Renders list of cards onto a column.
   render() {
     var cards = this.state.cardNames.map(function({cardName, uid}, index) {
-			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}/>)
+			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index} renameCard={(uid, newName) => this.renameCard(uid, newName)} />)
 		}.bind(this)) // this means this this.
 
 		return(

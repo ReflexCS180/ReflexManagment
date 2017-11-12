@@ -57,6 +57,8 @@ class Card extends Component {
      cardName: newName,
    });
 
+   this.props.renameCard(this.props.uid, newName);
+
  };
 
   render() {
