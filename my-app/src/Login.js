@@ -38,38 +38,50 @@ export default class Login extends Component {
     return this.state.error;
   }
 
+  //If the user has logged in successfully. Will be called by either Google login or regular login
+  successfulLogin(result) {
+      this.setState({user:result.user, error: false}); //set the "user" state after successfully log in. No errors.
+      this.props.history.push('/dashboard');//redirecting the user to the dashboard
+  }
+
+  //If an error is caught during the login process. Will be called by either Google login or regular login
+  errorLogin(e) {
+    this.setState({error: true}); //There's an error, this will make the "error etc" text visible on render
+    if(e.code=="auth/wrong-password") this.setState({errorMsg: "Invalid password"})
+    else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found. Click \"Register here\" to register."})
+    else this.setState({errorMsg: "Error code: "+e.code})
+  }
+
   // Functions for logging in through Google account
   googleLogin() {
-    auth.signInWithPopup(provider)
+    auth.signInWithPopup(provider) //Calls google login's API
     .then((result) => {
-      //console.log(result); //for debugging
-      this.props.history.push('/dashboard');//redirecting the user to the dashboard
-      //!!!!!! need to save the user's token HERE !!!!!!
+      this.successfulLogin(result);
     })
     .catch(e => {
-      this.setState({error: true});
-      if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
-      else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
-      else this.setState({errorMsg: "Error code: "+e.code})
+      this.errorLogin(e);
     });
   }
 
   // Don't Refresh the page upon each state change <--- basically the normalLogin, but will be executed from whoever specify type=submit
   handleSubmit = event => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+    auth.signInWithEmailAndPassword(this.state.email, this.state.password) //Passes the email & password to be verified by Firebase
     .then((result) => {
-      //console.log(result); //for debugging
-      this.setState({error: true});
-      this.props.history.push('/dashboard');//redirecting the user to the dashboard
-
+      this.successfulLogin(result);
     })
     .catch(e => {
-      this.setState({error: true});
-      if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
-      else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
-      else this.setState({errorMsg: "Error code: "+e.code})
-    }); //should be changed: display message somewhere between password bar & submit button
+      this.errorLogin(e);
+    });
+  }
+
+  //----------Checks if the user is previously logged in
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({user});
+      }
+    });
   }
 
   render() {
