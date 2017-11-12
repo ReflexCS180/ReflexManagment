@@ -2,7 +2,7 @@ import React, { Component } from 'react'; // abstract component base
 import Modal from 'react-modal';
 import CardModalContent from './CardModalContent.js'
 
-// set styles object to define styles of <Modal> in Card component
+// set styles object to use for <Modal> in Card component
 const modalStyles = {
   content : {
     top: '10%',
