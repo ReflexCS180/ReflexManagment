@@ -1,37 +1,70 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-const NavBoard = () => (
-  <nav class="navbar navbar-expand-md navbar-dark" id="board-page-nav">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse dual-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <Link to='/' class="nav-link">Home</Link>
-        </li>
-        <li class="nav-item">
-          <Link to='/dashboard' class="nav-link">Dashboard</Link>
-        </li>
-        <li class="nav-item">
-          <Link to='/board' class="nav-link">Boards</Link>
-        </li>
-      </ul>
-    </div>
-    <a class="navbar-brand d-flex mx-auto" href="">Huddle</a>
-    <div class="navbar-collapse collapse dual-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <Link to="/" class="nav-link">Link</Link>
-        </li>
-        <li class="nav-item">
-          <Link to="/" class="nav-link">Link</Link>
-        </li>
-      </ul>
-    </div>
-  </nav>
-)
+class NavBoard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.user
+    };
+  }
+
+  loginOrLogout() {
+    if (this.state.user === null) {
+      return (
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <Link to="/login" class="nav-link">Login</Link>
+          </li>
+        </ul>
+      )
+    }
+    else {
+
+      return (
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <Link to="/" onClick={this.logoutUser} class="nav-link">Logout</Link>
+          </li>
+          <li class="nav-item">
+            <Link to="/profile" class="nav-link">Profile</Link>
+          </li>
+        </ul>
+      )
+    }
+  }
+
+  logoutUser() {
+    // tell firebase to log the user out
+  }
+
+  render() {
+    return(
+      <nav class="navbar navbar-expand-md navbar-dark" id="board-page-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse dual-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <Link to='/' class="nav-link">Home</Link>
+            </li>
+            <li class="nav-item">
+              <Link to='/dashboard' class="nav-link">Dashboard</Link>
+            </li>
+            <li class="nav-item">
+              <Link to='/board' class="nav-link">Boards</Link>
+            </li>
+          </ul>
+        </div>
+        <a class="navbar-brand d-flex mx-auto" href="">Huddle</a>
+        <div class="navbar-collapse collapse dual-collapse">
+              { this.loginOrLogout() }
+        </div>
+      </nav>
+    )
+  }
+}
 
 const NavLanding = () => (
   <nav class="navbar navbar-expand-md navbar-dark" id="board-page-nav">
