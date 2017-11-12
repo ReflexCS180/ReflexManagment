@@ -2,6 +2,16 @@ import React, { Component } from 'react'; // abstract component base
 import Modal from 'react-modal';
 import CardModalContent from './CardModalContent.js'
 
+// set styles object to use for <Modal> in Card component
+const modalStyles = {
+  content : {
+    top: '10%',
+    left: '20%',
+    right: '20%',
+    bottom: '20%'
+  }
+};
+
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -47,11 +57,12 @@ class Card extends Component {
           <p class="card-text">Short description.</p>
         </div>
         <Modal
+        style={modalStyles}
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
         contentLabel="Example Modal"
-      >
+        >
           <CardModalContent
           cardName={this.state.cardName}
           columnName={this.state.columnName}
