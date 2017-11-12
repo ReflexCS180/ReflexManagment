@@ -23,10 +23,10 @@ const NavBoard = () => (
     <div class="navbar-collapse collapse dual-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <Link to="/" class="nav-link">Link</Link>
+          <Link to="/profile" class="nav-link">Profile</Link>
         </li>
         <li class="nav-item">
-          <Link to="/" class="nav-link">Link</Link>
+          <Link to="/" class="nav-link">Logout</Link>
         </li>
       </ul>
     </div>

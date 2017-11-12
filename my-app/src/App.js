@@ -5,6 +5,7 @@ import { NavLanding } from './Nav.js'
 import { Board } from './Board.js'
 import { Login } from './Login.js'
 import { Register } from './Register.js'
+import { Profile } from './Profile.js'
 import './App.css';
 import './Landing.css';
 
@@ -71,9 +72,10 @@ const Main = () => (
       <Route exact path='/' component={ Landing } />
       <Route exact path='/dashboard' component={ Dashboard } />
       <Route exact path='/board' component={ Board } />
-      <Route path='/board/:name' component={Board} />
+      <Route path='/board/:name' component={ Board} />
       <Route exact path='/login' component={ Login } />
       <Route exact path='/register' component={ Register } />
+      <Route path='/profile' component={ Profile } />
     </Switch>
   </main>
 )
