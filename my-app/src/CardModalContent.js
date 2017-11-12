@@ -86,16 +86,8 @@ class CardModalContent extends Component {
         </div>
 
         <div class="row">
-
-          <div class="col-9">
+          <div class="col-10">
             <div id="CardModalContent-leftbody">
-
-            {/*
-              //Members List
-              <div id="CardModalContent-memberlist">
-                <h3>Members</h3>
-              </div>
-            */}
               {/* Description */}
               <div id="CardModalContent-description">
                 <h3>Description</h3>
@@ -113,7 +105,7 @@ class CardModalContent extends Component {
             </div>
           </div>
 
-          <div class="col">
+          <div class="col-2">
             <div id="CardModalContent-rightbody">
               {/* 'Add' Buttons */}
               <div id="CardModalContent-addbuttons">
@@ -124,22 +116,22 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Members' Button */}
-                  <Button>Members</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Members</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Labels' Button */}
-                  <Button>Labels</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Labels</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Checklist' Button */}
-                  <Button>Checklist</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Checklist</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Due Date' Button */}
-                  <Button>Due Date</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Due Date</Button>
                 </div>
 
                   {/* 'Attachement' Button -- Implementation in version 2  */}
@@ -153,24 +145,24 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Rename' Button */}
-                  <Button onClick={this.openRenameCardForm}>Rename</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block onClick={this.openRenameCardForm}>Rename</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Move' Button */}
-                  <Button>Move</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Move</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Copy' Button */}
-                  <Button>Copy</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Copy</Button>
                 </div>
 
                 {/* 'Subscribe' Button -- Implementation in version 2 */}
 
                 <div class="row">
                   {/* 'Delete' Button */}
-                  <Button>Delete</Button>
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Delete</Button>
                 </div>
                 {/* 'Archive' Button -- Implementation in version 2*/}
               </div>
