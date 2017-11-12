@@ -104,7 +104,6 @@ export default class Register extends Component {
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
-              autoFocus
               type="email"
               value={this.state.email}
               onChange={this.handleChange}

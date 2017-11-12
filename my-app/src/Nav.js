@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import firebase, { auth, provider } from './firebase.js';
 
 class NavBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user
+      user: []
     };
   }
 
   loginOrLogout() {
     // returns links to login or logout based on user status
-    if (this.state.user === null) {
+    if (this.state.user.length===0) { //if the user has NOT logged in before, this length should be 0 (empty). Will show: Login button
       return (
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -20,8 +21,7 @@ class NavBoard extends Component {
         </ul>
       )
     }
-    else {
-
+    else { //if length is not empty, the user should have already logged in. Will show: Logout and Profile buttons
       return (
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -35,8 +35,19 @@ class NavBoard extends Component {
     }
   }
 
+  // tell firebase to log the user out
   logoutUser() {
-    // tell firebase to log the user out
+    auth.signOut();
+  }
+
+  //Fetch "user" from firebase. Only needed so we may know whether the user has logged in or not
+  componentWillMount() {
+    auth.onAuthStateChanged((userAuth) => {
+        if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
+          this.setState({user: userAuth});
+          console.log(this.state.user);
+        }
+    });
   }
 
   render() {

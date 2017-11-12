@@ -298,7 +298,7 @@ class Dashboard extends Component {
 				{this.componentDidMount}
 				<NavBoard user={this.state.user}/>
 				<div class="container">
-					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName} Personal Boards</h3>
+					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName}'s Boards</h3>
 					<div class="row" id="personal-boards">
 						{ this.state.boardObjects }
 						<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>
