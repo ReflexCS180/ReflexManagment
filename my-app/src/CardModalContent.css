@@ -53,3 +53,7 @@
 .close-button:hover {
   color: red;
 }
+
+#CardModalContent-content button:hover {
+  cursor: pointer;
+}
