@@ -21,8 +21,9 @@ class Card extends Component {
       modalIsOpen: false,
       cardDescription: '',
       cardComments: []
-
     }
+    // cardComments is an array of objects like this: {username, comment, date?}
+
     console.log(" columnName in card ", this.props.columnName); // debugging
     console.log(" uid of card: ", this.props.uid);
 
@@ -85,6 +86,7 @@ class Card extends Component {
           columnName={this.state.columnName}
           renameCardFromModalContent={newName => this.renameCard(newName)}
           closeModal={this.closeModal}
+          cardDescription={this.state.cardDescription}
           />
           <button onClick={this.closeModal}>Close
           </button>

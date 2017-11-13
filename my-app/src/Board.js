@@ -13,7 +13,9 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
+    // changes title of browser tab
     document.title = "Huddle Board Page";
+    
 		document.body.style.backgroundColor = "#ffe070";
 		if (this.props.match.params.name !== undefined) {
 			this.setState({boardName: this.props.match.params.name});

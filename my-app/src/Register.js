@@ -16,6 +16,11 @@ export default class Register extends Component {
     };
   }
 
+  componendDidMount() {
+    // changes title of browser tab
+    document.title = "Huddle Register";
+  }
+
   // Checks if all Components are filled with something
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0 && this.state.confirmPassword.length > 0 && this.state.company.length > 0;
@@ -28,7 +33,7 @@ export default class Register extends Component {
     });
   }
 
-  // Don't Refresh the page upon each state change 
+  // Don't Refresh the page upon each state change
   handleSubmit = event => {
     event.preventDefault();
   }

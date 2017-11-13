@@ -9,7 +9,8 @@ class CardModalContent extends Component {
     this.state={
       isRenameCardFormOpen: false,  // 'renameCardFormOpen' refers to the rename button in card modal.
       cardName: this.props.cardName,
-      renameInput: this.props.cardName
+      renameInput: this.props.cardName,
+      descriptionInput: this.props.cardDescription
     }
 
     this.openRenameCardForm=this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
@@ -43,6 +44,10 @@ class CardModalContent extends Component {
     });
     this.props.renameCardFromModalContent(this.state.renameInput)
   };
+
+  onSubmitDescription() {
+
+  }
 
   closeModal() {
     this.props.closeModal()
@@ -94,8 +99,13 @@ class CardModalContent extends Component {
             <div id="CardModalContent-leftbody">
               {/* Description */}
               <div id="CardModalContent-description" class="mb-4">
-                <h4>Description</h4>
-                  <p>A long description of what this card represents. </p>
+                <h4>
+                  Description
+                </h4>
+                <Button onClick={this.openDescriptionForm} className="ml-2 btn btn-secondary" title="Change description">
+                  <i className="fa fa-pencil" aria-hidden="true"></i> Edit
+                </Button>
+                <p>A long description of what this card represents. </p>
               </div>
 
               {/* Comment */}
