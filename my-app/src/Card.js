@@ -82,7 +82,7 @@ class Card extends Component {
           cardName={this.state.cardName}
           columnName={this.state.columnName}
           renameCardFromModalContent={newName => this.renameCard(newName)}
-
+          closeModal={this.closeModal}
           />
           <button onClick={this.closeModal}>Close
           </button>

@@ -44,19 +44,22 @@ class CardModalContent extends Component {
     this.props.renameCardFromModalContent(this.state.renameInput)
   };
 
-
+  closeModal() {
+    this.props.closeModal()
+  }
 
 
   render() {
     return(
       <div id="CardModalContent-content">
         {/* Close Modal Top Right */}
-        <button class="cardModalContent-close-button" >&times;</button>
+
 
         {/* Card Heading */}
         <div class="row">
           <div class="col">
-            <div id="CardModalContent-heading">
+            <div id="CardModalContent-heading" class="mb-4">
+            <button onClick={this.closeModal.bind(this)} class="cardModalContent-close-button" >&times;</button>
               {/* Name of Card -- Should Be Placed Top Left*/}
               {this.state.isRenameCardFormOpen ?
                 <div id="rename-card-form">
@@ -73,11 +76,11 @@ class CardModalContent extends Component {
                   </form>
                 </div>
                   :
-                  <h1> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h1>
+                  <h2> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h2>
               }
 
                 {/*Location of Card Relative to Column*/}
-                <p>in list {this.props.columnName} </p>
+                <p>in list <span id="cardsColumnName">{this.props.columnName}</span></p>
             </div>
           </div>
           {/* <div class="col">
@@ -90,14 +93,14 @@ class CardModalContent extends Component {
           <div class="col-10">
             <div id="CardModalContent-leftbody">
               {/* Description */}
-              <div id="CardModalContent-description">
-                <h3>Description</h3>
+              <div id="CardModalContent-description" class="mb-4">
+                <h4>Description</h4>
                   <p>A long description of what this card represents. </p>
               </div>
 
               {/* Comment */}
               <div id="CardModalContent-comment">
-                <h3><i class="fa fa-comment-o" aria-hidden="true"></i>Add Comment</h3>
+                <h4><i class="fa fa-comment-o" aria-hidden="true"></i>Add Comment</h4>
                 <input></input>
                   {/* Save Button for Comment*/}
                   <button>Save</button>
