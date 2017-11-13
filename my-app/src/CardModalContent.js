@@ -8,12 +8,14 @@ class CardModalContent extends Component {
 
     this.state={
       isRenameCardFormOpen: false,  // 'renameCardFormOpen' refers to the rename button in card modal.
+      isDescriptionFormOpen: false,
       cardName: this.props.cardName,
       renameInput: this.props.cardName,
       descriptionInput: this.props.cardDescription
     }
 
-    this.openRenameCardForm=this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
+    this.openRenameCardForm = this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
+    this.openDescriptionForm = this.openDescriptionForm.bind(this);
 
     console.log(this.props.cardName);
     console.log(this.props.columnName);
@@ -45,8 +47,24 @@ class CardModalContent extends Component {
     this.props.renameCardFromModalContent(this.state.renameInput)
   };
 
-  onSubmitDescription() {
+  // Function to change state of isDescriptionFormOpen
+  // callback function "function()" of setState focuses on the input box
+  openDescriptionForm() {
+    this.setState({
+      isDescriptionFormOpen: true
+    }, function() {
+      this.descriptionFormInput.focus();
+    });
+  }
 
+  onSubmitCardDescription(event) {
+    event.preventDefault();
+
+    this.setState({
+      isDescriptionFormOpen: false
+    });
+
+    this.props.changeCardDescription(this.state.descriptionInput);
   }
 
   closeModal() {
@@ -100,18 +118,34 @@ class CardModalContent extends Component {
               {/* Description */}
               <div id="CardModalContent-description" class="mb-4">
                 <h4>
-                  Description
+                  <i class="fa fa-list" aria-hidden="true"></i> Description
                 </h4>
-                <Button onClick={this.openDescriptionForm} className="ml-2 btn btn-secondary" title="Change description">
+                <Button onClick={this.openDescriptionForm} id="edit-description-btn" className="ml-2 mb-2 btn btn-secondary" title="Change description">
                   <i className="fa fa-pencil" aria-hidden="true"></i> Edit
                 </Button>
-                <p>A long description of what this card represents. </p>
+                {this.state.isDescriptionFormOpen ?
+                  <div id="card-description-form">
+                    <form>
+                      <textarea class="form-control" value={this.state.descriptionInput} className="mb-2"
+                        onChange={ event => this.setState({descriptionInput: event.target.value})} placeholder='Card Description'
+                        ref={input => { this.descriptionFormInput = input }} />
+
+                      {/* The button below puts an arrow image in the input box*/}
+                      <button onClick={e => this.onSubmitCardDescription(e)} className="btn btn-secondary" id="submit-description-btn">
+                        Save
+                      </button>
+                    </form>
+                  </div>
+                    :
+                    <p id="card-description">{this.state.descriptionInput}</p>
+                }
+
               </div>
 
               {/* Comment */}
               <div id="CardModalContent-comment">
-                <h4><i class="fa fa-comment-o" aria-hidden="true"></i>Add Comment</h4>
-                <textarea class="mb-2" placeholder="Add your comment text here"></textarea>
+                <h4><i class="fa fa-comment-o" aria-hidden="true"></i> Add Comment</h4>
+                <textarea class="form-control mb-2" placeholder="Add your comment text here"></textarea>
                   {/* Save Button for Comment*/}
                   <button class="btn btn-secondary">Save</button>
               </div>

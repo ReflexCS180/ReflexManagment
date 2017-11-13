@@ -19,7 +19,7 @@ class Card extends Component {
       cardName: this.props.cardName,
       columnName: this.props.columnName,
       modalIsOpen: false,
-      cardDescription: '',
+      cardDescription: 'A description of the card.',
       cardComments: []
     }
     // cardComments is an array of objects like this: {username, comment, date?}
@@ -64,6 +64,14 @@ class Card extends Component {
 
  };
 
+ changeCardDescription(newDescription) {
+   this.setState({
+     cardDescription: newDescription
+   });
+
+   // do we need to pass it up to column?
+ }
+
   render() {
     return(
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
@@ -87,6 +95,7 @@ class Card extends Component {
           renameCardFromModalContent={newName => this.renameCard(newName)}
           closeModal={this.closeModal}
           cardDescription={this.state.cardDescription}
+          changeCardDescription={newDescription => this.changeCardDescription(newDescription)}
           />
           <button onClick={this.closeModal}>Close
           </button>
