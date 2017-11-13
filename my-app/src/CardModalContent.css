@@ -8,7 +8,7 @@
 
 #rename-card-form input {
   padding-right: 30px;
-  height: 43px;
+  height: 38px; /* This height allows it to perfectly match the card Title h3 height */
 }
 
 #rename-card-form button {
@@ -51,6 +51,7 @@
   line-height: 0;
   position: absolute;
   right: 0;
+  top: -20px;
   width: 30px;
 }
 
@@ -66,7 +67,7 @@
   cursor: pointer;
 }
 
-#CardModalContent-content h2 {
+#CardModalContent-content h3 {
   text-transform: none;
 }
 
@@ -79,8 +80,12 @@
 }
 
 #cardsColumnName {
-  background: #eee;
-  border: 1px solid #ddd;
-  border-radius: .3rem;
-  padding: 3px;
+  font-weight: bold;
+}
+
+#CardModalContent-comment textarea {
+  display: block;
+  width: 40%;
+  height: 75px;
+  font-size: 0.8rem;
 }

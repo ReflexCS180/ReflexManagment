@@ -18,7 +18,9 @@ class Card extends Component {
     this.state = {
       cardName: this.props.cardName,
       columnName: this.props.columnName,
-      modalIsOpen: false
+      modalIsOpen: false,
+      cardDescription: '',
+      cardComments: []
 
     }
     console.log(" columnName in card ", this.props.columnName); // debugging

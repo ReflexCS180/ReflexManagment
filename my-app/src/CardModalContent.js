@@ -76,11 +76,11 @@ class CardModalContent extends Component {
                   </form>
                 </div>
                   :
-                  <h2> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h2>
+                  <h3> <i class="fa fa-id-card-o" aria-hidden="true"></i> {this.props.cardName}</h3>
               }
 
                 {/*Location of Card Relative to Column*/}
-                <p>in list <span id="cardsColumnName">{this.props.columnName}</span></p>
+                <p>in list: <span id="cardsColumnName">{this.props.columnName}</span></p>
             </div>
           </div>
           {/* <div class="col">
@@ -101,9 +101,9 @@ class CardModalContent extends Component {
               {/* Comment */}
               <div id="CardModalContent-comment">
                 <h4><i class="fa fa-comment-o" aria-hidden="true"></i>Add Comment</h4>
-                <input></input>
+                <textarea class="mb-2" placeholder="Add your comment text here"></textarea>
                   {/* Save Button for Comment*/}
-                  <button>Save</button>
+                  <button class="btn btn-secondary">Save</button>
               </div>
               {/* Activity */}
             </div>
