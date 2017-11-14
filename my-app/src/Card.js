@@ -17,6 +17,7 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: this.props.user,
       cardName: this.props.cardName,
       columnName: this.props.columnName,
       modalIsOpen: false,
@@ -32,10 +33,11 @@ class Card extends Component {
         date: '11/14/2017'
       }]*/
     }
-    // cardComments is an array of objects like this: {username, comment, date?}
+    // cardComments is an array of objects like this: {username, comment, date}
 
     console.log(" columnName in card ", this.props.columnName); // debugging
     console.log(" uid of card: ", this.props.uid);
+    console.log("User from cards: ", this.props.user);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -85,11 +87,19 @@ class Card extends Component {
  addCardComment(newCardComment) {
    var tempComments = this.state.cardComments;
 
+   var date = new Date();
+   var time = date.getTime();
+   var displayTime = new Date(time);
+   //console.log("Current time: ", displayTime.toLocaleString());
+
+
    var newComment = {
-     username: 'jonei005',
+     username: this.props.user.displayName,
      comment: newCardComment,
-     date: '11/14/17'
+     date: displayTime.toLocaleString()  // to do: get real time
    }
+
+   console.log(this.state.user);
 
    tempComments.unshift(newComment);
    this.setState({
@@ -125,9 +135,9 @@ class Card extends Component {
           changeCardDescription={newDescription => this.changeCardDescription(newDescription)}
           cardComments={this.state.cardComments}
           addCardComment={newCardComment => this.addCardComment(newCardComment)}
+          user={this.props.user}
           />
-          <button onClick={this.closeModal}>Close
-          </button>
+          <button onClick={this.closeModal}>Close</button>
         </Modal>
       </div>
     )

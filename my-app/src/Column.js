@@ -10,10 +10,18 @@ class Column extends Component {
     this.state = {
       columnName: this.props.columnName,
       cardNames: [],
-      nameError: false
+      nameError: false,
+      user: this.props.user
     }
     // cardNames is an array of objects: {name, uid}
 
+  }
+
+  componentDidMount() {
+    // passing user from Board to column state
+    this.setState({
+      user: this.props.user
+    })
   }
 
   // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
@@ -55,7 +63,8 @@ class Column extends Component {
   // Renders list of cards onto a column.
   render() {
     var cards = this.state.cardNames.map(function({cardName, uid}, index) {
-			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index} renameCard={(uid, newName) => this.renameCard(uid, newName)} />)
+			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}
+        renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}/>)
 		}.bind(this)) // this means this this.
 
 		return(

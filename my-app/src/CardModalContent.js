@@ -13,7 +13,8 @@ class CardModalContent extends Component {
       renameInput: this.props.cardName,
       descriptionInput: this.props.cardDescription,
       cardComments: this.props.cardComments,
-      commentInput: ''
+      commentInput: '',
+      user: this.props.user
     }
 
     this.openRenameCardForm = this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
@@ -62,7 +63,7 @@ class CardModalContent extends Component {
   //function checks if key entered is "Shift + Enter", in which case it submits form
   onKeyPressDescriptionForm(event) {
     var key = event.which || event.keyCode
-    if (key == 13 && event.shiftKey) {
+    if (key === 13 && event.shiftKey) {
       this.onSubmitCardDescription(event);
     }
   }
@@ -82,7 +83,7 @@ class CardModalContent extends Component {
   //function checks if key entered is "Shift + Enter", in which case it submits form
   onKeyPressCommentForm(event) {
     var key = event.which || event.keyCode
-    if (key == 13 && event.shiftKey) {
+    if (key === 13 && event.shiftKey) {
       this.onSubmitCardComment(event);
     }
   }
@@ -277,6 +278,7 @@ class CardComment extends Component {
   render() {
     return(
       <li>
+        {/*  */}
         <p class="card-comment-username">{this.props.username} commented: </p>
         <p class="card-comment-date">{this.props.date}</p>
         <p class="card-comment-comment">{this.props.comment}</p>
