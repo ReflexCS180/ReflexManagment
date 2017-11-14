@@ -317,6 +317,7 @@ class Dashboard extends Component {
     // in order to retrieve json file with list of boards, then set state
 	}
 
+	//TODO Need to be completed after user push registration 
 	componentWillMount() {
 		document.title = "Huddle Dashboard";
 		auth.onAuthStateChanged((userAuth) => {
@@ -325,9 +326,6 @@ class Dashboard extends Component {
 				console.log(this.state.user);
 			}
 		});
-
-		"id/Dashboard/listOfBoards/personalBoardList/"
-
 
 	}
 
@@ -349,14 +347,14 @@ class Dashboard extends Component {
 		this.setState({ newBoard: true });
 
 		// Add the new board to the list of boards
-		this.state.newBoardNames.push({name: boardName, uid: shortid.generate()});
+		this.state.newBoards.push({name: boardName, uid: shortid.generate()});
 
 		// Create a database reference object
 		var boardNamesRef = firebase.database().ref('listOfBoards');
 
 		// Create a new boardList state object and copy the current state into it.
 		const boardList = {
-			newBoardNames: this.state.newBoardNames
+			newBoards: this.state.newBoards
 		}
 
 		// Use the reference object's push function to push the state to FBDB
@@ -371,7 +369,7 @@ class Dashboard extends Component {
 	updateBoards() {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
-		var boards = this.state.newBoardNames.map(function({name, uid}, index) {
+		var boards = this.state.newBoards.map(function({name, uid}, index) {
 			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)}
         onRename={(uid, newName) => {this.renameBoard(uid, newName)}}/>)
 		}.bind(this));
@@ -394,7 +392,7 @@ class Dashboard extends Component {
 	// TODO Delete doesn't work
 	deleteBoard(uid) {
 		// creates new variable boardNamesTemp to do all the delete work in
-		var boardNamesTemp = this.state.newBoardNames;
+		var boardNamesTemp = this.state.newBoards;
 
 		// finds the index of the "uid" parameter in the array
 		var deleteTileIndex = -1;
@@ -412,7 +410,7 @@ class Dashboard extends Component {
 		boardNamesTemp.splice(deleteTileIndex, 1);
 
 		// sets state.newBoards to be equal to new array with deleted item
-		this.setState({ newBoardNames: boardNamesTemp }, function() {
+		this.setState({ newBoards: boardNamesTemp }, function() {
 			// prints the name of the deleted board AFTER state is set
 			console.log("Deleted Board: ", uid);
 		});
@@ -423,7 +421,7 @@ class Dashboard extends Component {
 
 	renameBoard(uid, newName) {
 		// to be used for renaming the board, currently not functional
-    var boardNamesTemp = this.state.newBoardNames;
+    var boardNamesTemp = this.state.newBoards;
     var renameTileSuccess = 0;
     boardNamesTemp.forEach((board, index) => {
       if (board.uid === uid) {
