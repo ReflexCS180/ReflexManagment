@@ -313,6 +313,20 @@ class Dashboard extends Component {
     // in order to retrieve json file with list of boards, then set state
 	}
 
+	componentWillMount() {
+		document.title = "Huddle Dashboard";
+		auth.onAuthStateChanged((userAuth) => {
+			if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
+				this.setState({user: userAuth});
+				console.log(this.state.user);
+			}
+		});
+
+		"id/Dashboard/listOfBoards/personalBoardList/"
+
+
+	}
+
 	componentDidMount() {
 		// on component load: changes tab name and updates state.boardObjects
 		document.title = "Huddle Dashboard";
@@ -334,7 +348,7 @@ class Dashboard extends Component {
 		this.state.newBoardNames.push({name: boardName, uid: shortid.generate()});
 
 		// Create a database reference object
-		const boardNamesRef = firebase.database().ref('listOfBoards/-Kyr0Vrpl5H5s44AYQdG');
+		var boardNamesRef = firebase.database().ref('listOfBoards');
 
 		// Create a new boardList state object and copy the current state into it.
 		const boardList = {
@@ -373,6 +387,7 @@ class Dashboard extends Component {
 		});
 	}
 
+	// TODO Delete doesn't work
 	deleteBoard(uid) {
 		// creates new variable boardNamesTemp to do all the delete work in
 		var boardNamesTemp = this.state.newBoardNames;
