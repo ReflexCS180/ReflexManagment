@@ -11,7 +11,9 @@ class CardModalContent extends Component {
       isDescriptionFormOpen: false,
       cardName: this.props.cardName,
       renameInput: this.props.cardName,
-      descriptionInput: this.props.cardDescription
+      descriptionInput: this.props.cardDescription,
+      cardComments: this.props.cardComments,
+      commentInput: ''
     }
 
     this.openRenameCardForm = this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
@@ -57,6 +59,7 @@ class CardModalContent extends Component {
     });
   }
 
+  // handles submission of "Save" button for changing the card description
   onSubmitCardDescription(event) {
     event.preventDefault();
 
@@ -64,15 +67,22 @@ class CardModalContent extends Component {
       isDescriptionFormOpen: false
     });
 
+    // pass the new description input to the parent Card
     this.props.changeCardDescription(this.state.descriptionInput);
   }
 
+  // closes modal when Close button or X is pressed
   closeModal() {
     this.props.closeModal()
   }
 
 
   render() {
+    // create multiple CardComment objects from the array of comments in state
+    var comments = this.state.cardComments.map(function({username, comment, date}, index) {
+			return(<CardComment username={username} comment={comment} date={date} key={index} />)
+		}.bind(this)) // this means this this.
+
     return(
       <div id="CardModalContent-content">
         {/* Close Modal Top Right */}
@@ -143,13 +153,19 @@ class CardModalContent extends Component {
               </div>
 
               {/* Comment */}
-              <div id="CardModalContent-comment">
+              <div id="CardModalContent-comment" class="mb-4">
                 <h4><i class="fa fa-comment-o" aria-hidden="true"></i> Add Comment</h4>
                 <textarea class="form-control mb-2" placeholder="Add your comment text here"></textarea>
-                  {/* Save Button for Comment*/}
-                  <button class="btn btn-secondary">Save</button>
+                {/* Save Button for Comment*/}
+                <button onClick={e => this.onSubmitCardComment(e)} id="save-comment-btn" class="btn btn-secondary mb-2">Save</button>
               </div>
               {/* Activity */}
+              <div id="CardModalContent-activity">
+                <h4><i class="fa fa-comments-o" aria-hidden="true"></i> Activity</h4>
+                <ul id="card-activity-list">
+                  { comments }
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -218,6 +234,19 @@ class CardModalContent extends Component {
           </div> {/* End of second col-8 */}
         </div>   {/* End of second row */}
     </div>       // End of main div
+    )
+  }
+}
+
+class CardComment extends Component {
+  render() {
+    return(
+      <li>
+        <p class="card-comment-username">{this.props.username} commented: </p>
+        <p class="card-comment-comment">{this.props.comment}</p>
+        <p class="card-comment-date">{this.props.date}</p>
+
+      </li>
     )
   }
 }

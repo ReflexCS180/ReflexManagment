@@ -63,6 +63,11 @@
   padding: 2% 2%;
 }
 
+/* Make standard font size smaller in card modal content */
+#CardModalContent-content p,button.btn,a {
+  font-size: 14px;
+}
+
 #CardModalContent-content button:hover {
   cursor: pointer;
 }
@@ -88,7 +93,7 @@
   display: block;
   width: 60%;
   height: 75px;
-  font-size: 0.8rem;
+  font-size: 14px;
 }
 
 #edit-description-btn {
@@ -100,7 +105,7 @@
   display: block;
   width: 60%;
   height: 75px;
-  font-size: 0.8rem;
+  font-size: 14px;
 }
 
 #card-description {
@@ -110,4 +115,23 @@
   padding: 6px;
   white-space: pre-wrap;
   width: 60%;
+}
+
+#card-activity-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#card-activity-list li {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 0.3rem;
+  padding: 6px;
+  white-space: pre-wrap;
+  width: 60%;
+}
+
+.card-comment-username {
+  border-bottom: 1px solid #ddd;
 }
