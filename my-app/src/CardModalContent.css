@@ -1,0 +1,138 @@
+/* CardModalContent CSS */
+
+/* Styling for rename form */
+#rename-card-form {
+  position: relative;
+  width: 90%;
+}
+
+#rename-card-form input {
+  padding-right: 30px;
+  height: 38px; /* This height allows it to perfectly match the card Title h3 height */
+}
+
+#rename-card-form button {
+  background: 0;
+  border: 0;
+  color: #333;
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+}
+
+#rename-card-form button:hover {
+  opacity: 0.7;
+}
+
+#rename-card-form #invalidInputLabel {
+    background: white;
+    border-radius: 0.2rem;
+    color: red;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    text-align: center;
+    top: -20px;
+    width: 100%;
+}
+
+/* Styling for close button of new card form
+** It can be used for any close button */
+.cardModalContent-close-button {
+  background: 0;
+  border: 0;
+  box-sizing: content-box;
+  cursor: pointer;
+  font-size: 2rem;
+  height: 30px;
+  line-height: 0;
+  position: absolute;
+  right: 0;
+  top: -20px;
+  width: 30px;
+}
+
+.cardModalContent-close-button:hover {
+  color: red;
+}
+
+#CardModalContent-content {
+  padding: 2% 2%;
+/*background-color: #edeff1;*/
+}
+
+/* Make standard font size smaller in card modal content */
+#CardModalContent-content p,button.btn,a {
+  font-size: 14px;
+}
+
+#CardModalContent-content button:hover {
+  cursor: pointer;
+}
+
+#CardModalContent-content h3 {
+  text-transform: none;
+}
+
+#CardModalContent-leftbody h4 {
+  text-transform: none;
+  display: inline-block;
+}
+
+#CardModalContent-rightbody h4 {
+  text-transform: none;
+}
+
+#cardsColumnName {
+  font-weight: bold;
+}
+
+#CardModalContent-comment textarea {
+  display: block;
+  width: 60%;
+  height: 75px;
+  font-size: 14px;
+}
+
+#edit-description-btn {
+  padding: 5px 12px;
+  vertical-align: baseline;
+}
+
+#CardModalContent-description textarea {
+  display: block;
+  width: 60%;
+  height: 75px;
+  font-size: 14px;
+}
+
+#card-description {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 0.3rem;
+  padding: 6px;
+  white-space: pre-wrap;
+  width: 60%;
+}
+
+#card-activity-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#card-activity-list li {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 0.3rem;
+  padding: 6px;
+  white-space: pre-wrap;
+  width: 60%;
+}
+
+.card-comment-username {
+  border-bottom: 1px solid #ddd;
+}
