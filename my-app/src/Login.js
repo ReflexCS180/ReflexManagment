@@ -21,6 +21,11 @@ export default class Login extends Component {
     this.googleLogin = this.googleLogin.bind(this);
   }
 
+  componendDidMount() {
+    // changes title of browser tab
+    document.title = "Huddle Login";
+  }
+
   // Checks if all Components are filled with something
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;

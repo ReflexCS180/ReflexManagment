@@ -300,9 +300,13 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-			newBoardNames: [], // Contains a board name and a unique ID
-			boardObjects: [], // For displaying boards after each time newBoardNames is updated
+
+			newBoards: [],
+			boardObjects: [],
+			userID: null,
+			userName: null,
 			user: []
+
 		};
 		// newBoards is an array of just the names of the boards (for convenience)
 		// boardObjects is an array of objects that contain the names and React DOM info of each boardObjects
@@ -440,10 +444,10 @@ class Dashboard extends Component {
 		// that are stored in boardObjects and renders them
 		return(
 			<div>
-				{/* this.componentDidMount */}
-				<NavBoard />
+				{this.componentDidMount}
+				<NavBoard user={this.state.user}/>
 				<div class="container">
-					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName} Personal Boards</h3>
+					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName} Boards</h3>
 					<div class="row" id="personal-boards">
 						{ this.state.boardObjects }
 						<NewBoardTile onSubmit={boardName => { this.onNewBoardSubmit(boardName) }}/>

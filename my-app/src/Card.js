@@ -2,16 +2,33 @@ import React, { Component } from 'react'; // abstract component base
 import Modal from 'react-modal';
 import CardModalContent from './CardModalContent.js'
 
+// set styles object to use for <Modal> in Card component
+const modalStyles = {
+  content : {
+    top: '10%',
+    left: '20%',
+    right: '20%',
+    bottom: '20%',
+    backgroundColor: '#f5f5f5',
+  }
+};
+
 class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cardName: this.props.cardName,
       columnName: this.props.columnName,
-      cardBody: this.props.cardBody,
-      modalIsOpen: false
-
+      modalIsOpen: false,
+      cardDescription: 'A description of the card.',
+      cardComments: [{
+        username: 'jonei005',
+        comment: 'Hi there my name is Jeremy',
+        date: '11/13/2017'
+      }]
     }
+    // cardComments is an array of objects like this: {username, comment, date?}
+
     console.log(" columnName in card ", this.props.columnName); // debugging
     console.log(" uid of card: ", this.props.uid);
 
@@ -20,6 +37,9 @@ class Card extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  /**
+   * All functions related to Modal
+   */
   openModal() {
     this.setState({modalIsOpen: true});
   }
@@ -38,7 +58,34 @@ class Card extends Component {
       console.log(this.state.cardName);
     });
   }
+ //////////////////// End of Modal Functions
 
+ renameCard(newName) {
+   this.setState({
+     cardName: newName,
+   });
+
+   this.props.renameCard(this.props.uid, newName);
+
+ };
+
+ changeCardDescription(newDescription) {
+   this.setState({
+     cardDescription: newDescription
+   });
+
+   // do we need to pass it up to column?
+ }
+
+ addCardComment(newCardComment) {
+   var tempComments = this.state.cardComments;
+   tempComments.push(newCardComment);
+   this.setState({
+     cardComments: tempComments
+   });
+
+   // do we need to pass it up to column?
+ }
 
   render() {
     return(
@@ -47,15 +94,25 @@ class Card extends Component {
           <p class="card-title">{this.state.cardName}</p>
           <p class="card-text">Short description.</p>
         </div>
+
+        {/*Open Modal*/}
         <Modal
-        isOpen={this.state.modalIsOpen}
-        onAfterOpen={this.afterOpenModal}
-        onRequestClose={this.closeModal}
-        contentLabel="Example Modal"
-      >
+          style={modalStyles}
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          contentLabel="Example Modal"
+        >
+          {/*Display Modal Content*/}
           <CardModalContent
           cardName={this.state.cardName}
           columnName={this.state.columnName}
+          renameCardFromModalContent={newName => this.renameCard(newName)}
+          closeModal={this.closeModal}
+          cardDescription={this.state.cardDescription}
+          changeCardDescription={newDescription => this.changeCardDescription(newDescription)}
+          cardComments={this.state.cardComments}
+          addCardComment={newCardComment => this.addCardComment(newCardComment)}
           />
           <button onClick={this.closeModal}>Close
           </button>
@@ -65,4 +122,5 @@ class Card extends Component {
   }//
 }
 
-export default Card; //
+
+export default Card;
