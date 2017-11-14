@@ -334,7 +334,7 @@ class Dashboard extends Component {
 		this.state.newBoardNames.push({name: boardName, uid: shortid.generate()});
 
 		// Create a database reference object
-		const boardNamesRef = firebase.database().ref('listOfBoards');
+		const boardNamesRef = firebase.database().ref('listOfBoards/-Kyr0Vrpl5H5s44AYQdG');
 
 		// Create a new boardList state object and copy the current state into it.
 		const boardList = {
