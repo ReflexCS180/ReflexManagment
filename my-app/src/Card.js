@@ -8,7 +8,7 @@ const modalStyles = {
     top: '10%',
     left: '20%',
     right: '20%',
-    bottom: '20%',
+    bottom: '10%',
     backgroundColor: '#f5f5f5',
   }
 };
@@ -21,11 +21,16 @@ class Card extends Component {
       columnName: this.props.columnName,
       modalIsOpen: false,
       cardDescription: 'A description of the card.',
-      cardComments: [{
+      cardComments: []
+      /*cardComments: [{
         username: 'jonei005',
-        comment: 'Hi there my name is Jeremy',
+        comment: 'Hi there my name is Jeremy, this is a multi-line comment. This is the first comment on the card, so I hope you like it!',
         date: '11/13/2017'
-      }]
+      }, {
+        username: 'rbosh002',
+        comment: 'Hi, my name is Rick, and this is my comment.',
+        date: '11/14/2017'
+      }]*/
     }
     // cardComments is an array of objects like this: {username, comment, date?}
 
@@ -79,7 +84,14 @@ class Card extends Component {
 
  addCardComment(newCardComment) {
    var tempComments = this.state.cardComments;
-   tempComments.push(newCardComment);
+
+   var newComment = {
+     username: 'jonei005',
+     comment: newCardComment,
+     date: '11/14/17'
+   }
+
+   tempComments.unshift(newComment);
    this.setState({
      cardComments: tempComments
    });

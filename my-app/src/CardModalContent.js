@@ -59,6 +59,13 @@ class CardModalContent extends Component {
     });
   }
 
+  onKeyPressDescriptionForm(event) {
+    var key = event.which || event.keyCode
+    if (key == 13 && event.shiftKey) {
+      this.onSubmitCardDescription(event);
+    }
+  }
+
   // handles submission of "Save" button for changing the card description
   onSubmitCardDescription(event) {
     event.preventDefault();
@@ -71,6 +78,22 @@ class CardModalContent extends Component {
     this.props.changeCardDescription(this.state.descriptionInput);
   }
 
+  onKeyPressCommentForm(event) {
+    var key = event.which || event.keyCode
+    if (key == 13 && event.shiftKey) {
+      this.onSubmitCardComment(event);
+    }
+  }
+
+  onSubmitCardComment(event) {
+    event.preventDefault();
+    this.setState({
+      commentInput: ''
+    })
+    this.commentFormInput.value = '';
+    this.props.addCardComment(this.state.commentInput);
+  }
+
   // closes modal when Close button or X is pressed
   closeModal() {
     this.props.closeModal()
@@ -81,7 +104,7 @@ class CardModalContent extends Component {
     // create multiple CardComment objects from the array of comments in state
     var comments = this.state.cardComments.map(function({username, comment, date}, index) {
 			return(<CardComment username={username} comment={comment} date={date} key={index} />)
-		}.bind(this)) // this means this this.
+		})
 
     return(
       <div id="CardModalContent-content">
@@ -138,6 +161,7 @@ class CardModalContent extends Component {
                     <form>
                       <textarea class="form-control" value={this.state.descriptionInput} className="mb-2"
                         onChange={ event => this.setState({descriptionInput: event.target.value})} placeholder='Card Description'
+                        onKeyPress={ event => this.onKeyPressDescriptionForm(event) }
                         ref={input => { this.descriptionFormInput = input }} />
 
                       {/* The button below puts an arrow image in the input box*/}
@@ -155,7 +179,11 @@ class CardModalContent extends Component {
               {/* Comment */}
               <div id="CardModalContent-comment" class="mb-4">
                 <h4><i class="fa fa-comment-o" aria-hidden="true"></i> Add Comment</h4>
-                <textarea class="form-control mb-2" placeholder="Add your comment text here"></textarea>
+                <textarea class="form-control mb-2" placeholder="Add your comment text here"
+                  onChange={ event => this.setState({commentInput: event.target.value})}
+                  onKeyPress={ event => this.onKeyPressCommentForm(event) }
+                  ref={input => { this.commentFormInput = input }}
+                />
                 {/* Save Button for Comment*/}
                 <button onClick={e => this.onSubmitCardComment(e)} id="save-comment-btn" class="btn btn-secondary mb-2">Save</button>
               </div>
@@ -179,18 +207,18 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Rename' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block onClick={this.openRenameCardForm}>Rename</Button>
+                  <Button className="btn btn-secondary mb-1" block onClick={this.openRenameCardForm}>Rename</Button>
                 </div>
 
                 <div class="row">
                   {/* 'Move' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Move</Button>
+                  <Button className="btn btn-secondary mb-1" block>Move</Button>
                 </div>
 
                 {/* 'Copy' Button
                 <div class="row">
 
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Copy</Button>
+                  <Button className="btn btn-secondary mb-1" block>Copy</Button>
                 </div>
                 */}
 
@@ -198,7 +226,7 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Delete' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Delete</Button>
+                  <Button className="btn btn-secondary mb-1" block>Delete</Button>
                 </div>
                 {/* 'Archive' Button -- Implementation in version 2*/}
               </div>
@@ -212,24 +240,24 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Members' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Members</Button>
+                  <Button className="btn btn-secondary mb-1" block>Members</Button>
                 </div>
 
                 {/*<div class="row">
                   // 'Labels' Button
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Labels</Button>
+                  <Button className="btn btn-secondary mb-1" block>Labels</Button>
                 </div>
                 */}
                 {/*
                 <div class="row">
                   // 'Checklist' Button
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Checklist</Button>
+                  <Button className="btn btn-secondary mb-1" block>Checklist</Button>
                 </div>
                 */}
 
                 <div class="row">
                   {/* 'Due Date' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Due Date</Button>
+                  <Button className="btn btn-secondary mb-1" block>Due Date</Button>
                 </div>
 
                   {/* 'Attachement' Button -- Implementation in version 2  */}
@@ -247,9 +275,8 @@ class CardComment extends Component {
     return(
       <li>
         <p class="card-comment-username">{this.props.username} commented: </p>
-        <p class="card-comment-comment">{this.props.comment}</p>
         <p class="card-comment-date">{this.props.date}</p>
-
+        <p class="card-comment-comment">{this.props.comment}</p>
       </li>
     )
   }
