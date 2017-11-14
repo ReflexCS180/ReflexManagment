@@ -3,16 +3,22 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { NavLanding } from './Nav.js'
 import { Link } from 'react-router-dom'
 import "./Login.css";
+import firebase, { auth, provider } from './firebase.js';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      user: null,
       email: "",
       password: "",
-      company: ""
+      company: "",
+      error: false, //extra 2 variables for handling & passing error's state and message
+      errorMsg: "",
     };
+
+    this.googleLogin = this.googleLogin.bind(this);
   }
 
   componendDidMount() {
@@ -22,7 +28,7 @@ export default class Login extends Component {
 
   // Checks if all Components are filled with something
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.company.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 0;
   }
 
   // Handles a State Change upon a user's input
@@ -32,9 +38,55 @@ export default class Login extends Component {
     });
   }
 
-  // Don't Refresh the page upon each state change
+  //If there is error during login/register, pull out the error inside render
+  validateErrorForm() {
+    return this.state.error;
+  }
+
+  //If the user has logged in successfully. Will be called by either Google login or regular login
+  successfulLogin(result) {
+      this.setState({user:result.user, error: false}); //set the "user" state after successfully log in. No errors.
+      this.props.history.push('/dashboard');//redirecting the user to the dashboard
+  }
+
+  //If an error is caught during the login process. Will be called by either Google login or regular login
+  errorLogin(e) {
+    this.setState({error: true}); //There's an error, this will make the "error etc" text visible on render
+    if(e.code=="auth/wrong-password") this.setState({errorMsg: "Invalid password"})
+    else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found. Click \"Register here\" to register."})
+    else this.setState({errorMsg: "Error code: "+e.code})
+  }
+
+  // Functions for logging in through Google account
+  googleLogin() {
+    auth.signInWithPopup(provider) //Calls google login's API
+    .then((result) => {
+      this.successfulLogin(result);
+    })
+    .catch(e => {
+      this.errorLogin(e);
+    });
+  }
+
+  // Don't Refresh the page upon each state change <--- basically the normalLogin, but will be executed from whoever specify type=submit
   handleSubmit = event => {
     event.preventDefault();
+    auth.signInWithEmailAndPassword(this.state.email, this.state.password) //Passes the email & password to be verified by Firebase
+    .then((result) => {
+      this.successfulLogin(result);
+    })
+    .catch(e => {
+      this.errorLogin(e);
+    });
+  }
+
+  //----------Checks if the user is previously logged in
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({user});
+      }
+    });
   }
 
   render() {
@@ -61,14 +113,10 @@ export default class Login extends Component {
               type="password"
             />
           </FormGroup>
-          <FormGroup controlId="company" bsSize="large">
-            <ControlLabel>Company</ControlLabel>
-            <FormControl
-              value={this.state.company}
-              onChange={this.handleChange}
-              type="company"
-            />
-          </FormGroup>
+
+          {/*-- If there is any error message during the log in process, this will pop up */}
+          { this.validateErrorForm() && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>{this.state.errorMsg}</span> }
+
           <Button
             block
             bsSize="large"
@@ -78,10 +126,17 @@ export default class Login extends Component {
           >
             Login
           </Button>
-
+          <Button
+            block
+            bsSize="large"
+            className="GoogleLogin"
+            onClick={this.googleLogin}
+	         >Login with Google account</Button>
           <Link to='/register' id="LoginFooter">Register here!</Link>
         </form>
-      </div>
+
+
+</div>
     );
   }
 }

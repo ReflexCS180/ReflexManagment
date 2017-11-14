@@ -118,7 +118,11 @@ class Card extends Component {
         </Modal>
       </div>
     )
-  }//
+  }
 }
 
+<<<<<<< HEAD
 export default Card; //
+=======
+export default Card;
+>>>>>>> origin/backend
