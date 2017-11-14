@@ -8,7 +8,8 @@ const modalStyles = {
     top: '10%',
     left: '20%',
     right: '20%',
-    bottom: '20%'
+    bottom: '20%',
+    backgroundColor: '#f5f5f5',
   }
 };
 
@@ -121,8 +122,5 @@ class Card extends Component {
   }
 }
 
-<<<<<<< HEAD
-export default Card; //
-=======
+
 export default Card;
->>>>>>> origin/backend

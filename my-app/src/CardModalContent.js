@@ -171,38 +171,8 @@ class CardModalContent extends Component {
 
           <div class="col-2">
             <div id="CardModalContent-rightbody">
-              {/* 'Add' Buttons */}
-              <div id="CardModalContent-addbuttons">
-
-                <div class="row">
-                  <h4>Add</h4>
-                </div>
-
-                <div class="row">
-                  {/* 'Members' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Members</Button>
-                </div>
-
-                <div class="row">
-                  {/* 'Labels' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Labels</Button>
-                </div>
-
-                <div class="row">
-                  {/* 'Checklist' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Checklist</Button>
-                </div>
-
-                <div class="row">
-                  {/* 'Due Date' Button */}
-                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Due Date</Button>
-                </div>
-
-                  {/* 'Attachement' Button -- Implementation in version 2  */}
-              </div>
-
               {/* 'Actions' Buttons*/}
-              <div id="CardModalContent-actionbuttons">
+              <div class='mb-4' id="CardModalContent-actionbuttons">
                 <div class="row">
                   <h4>Actions</h4>
                 </div>
@@ -217,10 +187,12 @@ class CardModalContent extends Component {
                   <Button className="btn btn-secondary mb-1" bsSize="default" block>Move</Button>
                 </div>
 
+                {/* 'Copy' Button
                 <div class="row">
-                  {/* 'Copy' Button */}
+
                   <Button className="btn btn-secondary mb-1" bsSize="default" block>Copy</Button>
                 </div>
+                */}
 
                 {/* 'Subscribe' Button -- Implementation in version 2 */}
 
@@ -229,6 +201,38 @@ class CardModalContent extends Component {
                   <Button className="btn btn-secondary mb-1" bsSize="default" block>Delete</Button>
                 </div>
                 {/* 'Archive' Button -- Implementation in version 2*/}
+              </div>
+
+              {/* 'Add' Buttons */}
+              <div id="CardModalContent-addbuttons">
+
+                <div class="row">
+                  <h4>Add</h4>
+                </div>
+
+                <div class="row">
+                  {/* 'Members' Button */}
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Members</Button>
+                </div>
+
+                {/*<div class="row">
+                  // 'Labels' Button
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Labels</Button>
+                </div>
+                */}
+                {/*
+                <div class="row">
+                  // 'Checklist' Button
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Checklist</Button>
+                </div>
+                */}
+
+                <div class="row">
+                  {/* 'Due Date' Button */}
+                  <Button className="btn btn-secondary mb-1" bsSize="default" block>Due Date</Button>
+                </div>
+
+                  {/* 'Attachement' Button -- Implementation in version 2  */}
               </div>
             </div>
           </div> {/* End of second col-8 */}

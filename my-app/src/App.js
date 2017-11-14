@@ -15,7 +15,7 @@ class Landing extends Component {
     document.title = "Huddle, by Reflex";
   }
 
-<<<<<<< HEAD
+
   render() {
     return(
       <div>
@@ -23,29 +23,17 @@ class Landing extends Component {
           You need to enable JavaScript to run this app.
         </noscript>
         <NavLanding />
-=======
+
     <header class="masthead">
       <div class="container">
         <div class="intro-text">
           <div class="intro-lead-in">Management Tool for Software Engineers</div>
           <div class="intro-heading">Huddle</div>
-          <a class="btn btn-xl js-scroll-trigger mr-2" href="login">Login</a>          
+          <a class="btn btn-xl js-scroll-trigger mr-2" href="login">Login</a>
           <a class="btn btn-xl js-scroll-trigger" href="register">Register</a>
         </div>
       </div>
     </header>
->>>>>>> origin/backend
-
-        <header class="masthead">
-          <div class="container">
-            <div class="intro-text">
-              <div class="intro-lead-in">Management Tool for Software Engineers</div>
-              <div class="intro-heading">Huddle</div>
-              <a class="btn btn-xl js-scroll-trigger" href="login">Register Here!</a>
-            </div>
-          </div>
-        </header>
-
         <section id="services">
           <div class="container">
             <div class="row">

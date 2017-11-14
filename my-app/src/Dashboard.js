@@ -300,16 +300,13 @@ class Dashboard extends Component {
 		this.state = {
 			formOpen: false,
 			newBoard: false,
-<<<<<<< HEAD
+
 			newBoards: [],
-			boardObjects: []
-=======
-			newBoardNames: ["My First Board"],
 			boardObjects: [],
 			userID: null,
 			userName: null,
 			user: []
->>>>>>> origin/backend
+
 		};
 		// newBoards is an array of just the names of the boards (for convenience)
 		// boardObjects is an array of objects that contain the names and React DOM info of each boardObjects
