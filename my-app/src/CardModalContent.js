@@ -59,6 +59,7 @@ class CardModalContent extends Component {
     });
   }
 
+  //function checks if key entered is "Shift + Enter", in which case it submits form
   onKeyPressDescriptionForm(event) {
     var key = event.which || event.keyCode
     if (key == 13 && event.shiftKey) {
@@ -78,6 +79,7 @@ class CardModalContent extends Component {
     this.props.changeCardDescription(this.state.descriptionInput);
   }
 
+  //function checks if key entered is "Shift + Enter", in which case it submits form
   onKeyPressCommentForm(event) {
     var key = event.which || event.keyCode
     if (key == 13 && event.shiftKey) {
@@ -85,6 +87,7 @@ class CardModalContent extends Component {
     }
   }
 
+  // handles submission of "Add Comment" form
   onSubmitCardComment(event) {
     event.preventDefault();
     this.setState({
