@@ -111,7 +111,7 @@ class Card extends Component {
 
   deleteCard() {
     // pass up to column
-    this.props.deleteCard(this.state.uid);
+    this.props.deleteCard(this.state.uid);  // execute 'deleteCard' from parent component aka 'Column.js' component.
   }
 
   render() {

@@ -125,7 +125,7 @@ class CardModalContent extends Component {
       }, function() {
         this.dueDateFormInput.focus();
       });
-    };////////////////here
+    };
 
     // Pass new name of card to parent from this cardmodal.
     onSubmitDueDate(event) {
@@ -140,20 +140,24 @@ class CardModalContent extends Component {
         this.props.changeCardDueDate(this.state.cardDueDateInput)
     };
 
+  /////////////// End of Comment Functions
 
 
   // closes modal when Close button or X is pressed
   closeModal() {
     this.props.closeModal()
   }
-
+  /**
+    * Delete Card Function
+    */
   deleteCard(event) {
     event.preventDefault();
-    // ask for verification
+    // 'window.confirm' displays a prompt to the user at the top of the browser.
+    //  Returns user input in the form of true or false.
     if (window.confirm("Are you sure you want to delete this card?")) {
       // user clicks okay
-      this.props.closeModal();
-      this.props.deleteCard();
+      this.props.closeModal();        // Close Modal before executing delete
+      this.props.deleteCard();        // execute 'deleteCard' from parent component aka 'Card.js' component.
     }
   }
 
