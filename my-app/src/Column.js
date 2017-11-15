@@ -60,11 +60,34 @@ class Column extends Component {
     this.setState(this.state);
   }
 
+  deleteCard(uid) {
+    // delete this uid from column
+    var cardNamesTemp = this.state.cardNames;
+    
+    var deleteCardIndex = -1;
+    cardNamesTemp.forEach((card, index) => {
+      if (card.uid === uid) {
+        deleteCardIndex = index;
+      }
+    });
+
+    if (deleteCardIndex === -1) {
+      console.log("Something went wrong when deleting card: ", uid);
+    }
+
+    cardNamesTemp.splice(deleteCardIndex, 1);
+
+    this.setState({ cardNames: cardNamesTemp }, function() {
+      console.log("Deleted card: ", uid);
+    });
+  }
+
   // Renders list of cards onto a column.
   render() {
     var cards = this.state.cardNames.map(function({cardName, uid}, index) {
 			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}
-        renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}/>)
+        renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}
+        deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)} />)
 		}.bind(this)) // this means this this.
 
 		return(

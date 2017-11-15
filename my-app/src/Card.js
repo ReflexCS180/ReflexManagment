@@ -18,6 +18,7 @@ class Card extends Component {
     super(props);
     this.state = {
       user: this.props.user,
+      uid: this.props.uid,
       cardName: this.props.cardName,
       columnName: this.props.columnName,
       modalIsOpen: false,
@@ -33,6 +34,8 @@ class Card extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
+    this.deleteCard = this.deleteCard.bind(this);
   }
 
   /**
@@ -52,59 +55,64 @@ class Card extends Component {
   }
  //////////////////// End of Modal Functions
 
- // change cardName in state, call parent renameCard function
- renameCard(newName) {
-   this.setState({
+  // change cardName in state, call parent renameCard function
+  renameCard(newName) {
+    this.setState({
      cardName: newName,
-   });
+    });
 
-   this.props.renameCard(this.props.uid, newName);
- };
+    this.props.renameCard(this.props.uid, newName);
+  };
 
- changeCardDescription(newDescription) {
-   this.setState({
-     cardDescription: newDescription
-   });
+  changeCardDescription(newDescription) {
+    this.setState({
+      cardDescription: newDescription
+    });
 
    // do we need to pass it up to column?
- }
+  }
 
  // add a new comment to the card
- addCardComment(newCardComment) {
-   // temp array of card comments
-   var tempComments = this.state.cardComments;
+  addCardComment(newCardComment) {
+    // temp array of card comments
+    var tempComments = this.state.cardComments;
 
-   // create a javascript Date object with current date/time
-   var date = new Date();
-   var time = date.getTime();
-   var displayTime = new Date(time);
+    // create a javascript Date object with current date/time
+    var date = new Date();
+    var time = date.getTime();
+    var displayTime = new Date(time);
 
-   // create a new comment with current logged in user display name, the
-   // comment text, and the current date/time
-   var newComment = {
+    // create a new comment with current logged in user display name, the
+    // comment text, and the current date/time
+    var newComment = {
      username: this.props.user.displayName,
      comment: newCardComment,
      date: displayTime.toLocaleString()  // to do: get real time
-   }
+    }
 
-  //  console.log(this.state.user);
+    //  console.log(this.state.user);
 
-  // unshift = push new comment to front of array instead of back
-   tempComments.unshift(newComment);
+    // unshift = push new comment to front of array instead of back
+    tempComments.unshift(newComment);
 
-   // set state cardComments to the new temp variable with added comment
-   this.setState({
+    // set state cardComments to the new temp variable with added comment
+    this.setState({
      cardComments: tempComments
-   });
- }
+    });
+  }
 
  // 'newCardDueDate' is an expected parameter.
- dueDateFromModalContent(newCardDueDate){
+  dueDateFromModalContent(newCardDueDate){
    this.setState({
      cardDueDate:newCardDueDate
    });
 
- }
+  }
+
+  deleteCard() {
+    // pass up to column
+    this.props.deleteCard(this.state.uid);
+  }
 
   render() {
     return(
@@ -135,6 +143,7 @@ class Card extends Component {
           user={this.props.user}
           cardDueDate={this.state.cardDueDate}
           changeCardDueDate={cardDueDate => this.dueDateFromModalContent(cardDueDate) }   // this is how we pass variable control to child
+          deleteCard={this.deleteCard}
           />
           <button onClick={this.closeModal}>Close</button>
         </Modal>
