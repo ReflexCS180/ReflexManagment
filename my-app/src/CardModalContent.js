@@ -1,6 +1,6 @@
-import React, { Component } from 'react'; // abstract component base
-import { Button } from "react-bootstrap";
-import './CardModalContent.css';
+import React, { Component } from 'react';     // abstract component base
+import { Button } from "react-bootstrap";     // imported for button use
+import './CardModalContent.css';              // imported for card modal content use
 
 class CardModalContent extends Component {
   constructor(props) {
@@ -8,13 +8,13 @@ class CardModalContent extends Component {
 
     this.state={
       isRenameCardFormOpen: false,                      // 'renameCardFormOpen' refers to the rename button in card modal.
-      isDescriptionFormOpen: false,
+      isDescriptionFormOpen: false,                     // 'isDescriptionFormOpen' form that opens to let user edit card description.
       isDueDateFormOpen: false,                         // 'isDueDateFormOpen' when true opens form to set card due date.
-      cardName: this.props.cardName,
-      renameInput: this.props.cardName,
-      descriptionInput: this.props.cardDescription,
-      cardComments: this.props.cardComments,
-      commentInput: '',
+      cardName: this.props.cardName,                    // 'cardName' is set from parents card name
+      renameInput: this.props.cardName,                 // 'renameInput' is set from parent by default. 'renameInput's can be changed in card modal by user.
+      descriptionInput: this.props.cardDescription,     // 'descriptionInput' sets the card modal's description from parent
+      cardComments: this.props.cardComments,            // 'cardComments'
+      commentInput: '',                                 // 'commentInput'
       user: this.props.user,
       cardDueDate: this.props.cardDueDate,
       cardDueDateInput: '',                                 // 'cardDueDate' set to due date of the card by user.
@@ -307,18 +307,6 @@ class CardModalContent extends Component {
                   {/* 'Members' Button */}
                   <Button className="btn btn-secondary mb-1" block>Members</Button>
                 </div>
-
-                {/*<div class="row">
-                  // 'Labels' Button
-                  <Button className="btn btn-secondary mb-1" block>Labels</Button>
-                </div>
-                */}
-                {/*
-                <div class="row">
-                  // 'Checklist' Button
-                  <Button className="btn btn-secondary mb-1" block>Checklist</Button>
-                </div>
-                */}
 
                 <div class="row">
                   {/* 'Due Date' Button */}
