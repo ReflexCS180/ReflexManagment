@@ -326,8 +326,13 @@ class Dashboard extends Component {
 				this.setState({user: userAuth});
 				//console.log(this.state.user);
 
-				//-------------This is how we update the dashboard--------------
+				// fetches the object referencing the list of personalBoards of the current user
 				var getData = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
+
+				// fetches a snapshot (kinda like a constant camera watching the database)
+				// It will set the current State to update the newBoards with all the contents that the user
+				// might have. From there it will push all the contents to this.state.newBoards so that
+				// updateBoards() will create all the board components on the dashboards accordingly
 				getData.on("value", function(snapshot) {
 					var changedPost = snapshot.val();
 					this.setState({newBoards: []}, function() {
@@ -337,13 +342,11 @@ class Dashboard extends Component {
 					});
 					this.updateBoards();
 				}.bind(this))
-				//---------------------------------------------------------------
+
 			}
 		});
-
-
-		this.updateBoards();
 	}
+
 	getBoard() {
 		this.updateBoards();
 	}
@@ -360,21 +363,15 @@ class Dashboard extends Component {
 
 		// Create a database reference object -- for listOfBoards
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
-		// for listOfUsers
+		// Create a database reference object -- for listOfUsers
 		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+userBoardUid);
 
-		//This is the code to retrieve the User's personalBoards in form of array
+		// This is the code to retrieve the User's personalBoards in form of array
 		boardNamesRefUser.on("value", function(snapshot) {
 			var changedPost = snapshot.val();
 		})
 
-		//PS: we probably don't need this code for pushing into database, BUT instead
-		//we can use this code for retrieving the data from database.
-		// Create a new boardList state object and copy the current state into it.
-		// const boardList = {
-		// 	newBoards: this.state.newBoards
-		// }
-
+		// Creates a board instance that will be pushed into the database. (key, value) format
 		const boardList = {
 			boardName: boardName,
 			uid: uid,
@@ -386,16 +383,21 @@ class Dashboard extends Component {
     // this is the unique key from firebase
     //console.log(a.path.pieces_[1]);
 
-		// Need to update after the push
+		// Note that boardNamesRef has uid appended. Therefore it will be updating the db with a
+		// new boardList instance within the listOfBoards (db).
 		var a = boardNamesRef.set(boardList);
 
+		// Creates a specific instance for the user personalBoards
 		const userBoardList = {
 			boardName: boardName,
 			uid: uid
 		}
+
+		// Pushing said instance to the current user's personalBoards. Note that boardNamesRefUser
+		// conatins a special userBoardUid. This behavior is the same as boardNamesRef.set(...)
 		boardNamesRefUser.set(userBoardList);
 
-
+		// We want to make sure that the front end aspects are updated accordingly
 		this.updateBoards();
 	}
 
@@ -417,8 +419,7 @@ class Dashboard extends Component {
 
 		// sets state.boardObjects to be "myBoards", new list of objects
 		this.setState({ boardObjects: myBoards }, function() {
-			// prints new boardObjects state to console, AFTER update is done
-			//console.log(this.state.boardObjects);
+		// prints new boardObjects state to console, AFTER update is done
 		});
 	}
 
@@ -450,20 +451,31 @@ class Dashboard extends Component {
 		// Create a database reference object -- for listOfBoards
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
 
+		// Creating a promise with a resolve and reject states.
+		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		new Promise((resolve, reject) => {
+			// Creation of a snapshot to fetch the latest data of boardNamesRef
 			boardNamesRef.on("value", function(snapshot) {
 				var currObject = snapshot.val();
+
+				// A little hack I came up with so that we don't delete a null state or anything of that sort.
 				if(!currObject) {
 					reject("NULL Object");
 					return;
 				}
-				// console.log("HIOEFHOHWEOHFOHWHEFHHOIHAJSFO:IJDI:JFIJAJF: " + currObject['userId'] + " HFOIWHEHFH " + this.state.user.uid)
+
+				// Create a database reference object -- for listOfUsers
 				var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+currObject['userId']);
+				// Literally deletes the instance declared right above
 				boardNamesRefUser.remove();
+				// Sets the resolved state's message
 				resolve("Deletion of UserUi: " + currObject['userId'] + " successful");
-			}.bind(this))
+			}.bind(this)) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
-			console.log(successMessage);
+			// executing the resolve state only when the current promise is completed.
+			console.log(successMessage); // prints out the resolve state's successMessage
+
+			// Literally deletes the boardNamesRef instance from the db upon the Promises completing 
 			boardNamesRef.remove();
 		})
 
