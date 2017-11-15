@@ -147,6 +147,15 @@ class CardModalContent extends Component {
     this.props.closeModal()
   }
 
+  deleteCard(event) {
+    event.preventDefault();
+    // ask for verification
+    if (window.confirm("Are you sure you want to delete this card?")) {
+      // user clicks okay
+      this.props.closeModal();
+      this.props.deleteCard();
+    }
+  }
 
   render() {
     // create multiple CardComment objects from the array of comments in state
@@ -291,7 +300,7 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Delete' Button */}
-                  <Button className="btn btn-secondary mb-1" block>Delete</Button>
+                  <Button onClick={e => this.deleteCard(e)} className="btn btn-secondary mb-1" block>Delete</Button>
                 </div>
                 {/* 'Archive' Button -- Implementation in version 2*/}
               </div>
@@ -325,7 +334,6 @@ class CardModalContent extends Component {
                       <Button onClick={ e=> this.openDueDateForm(e)} className="btn btn-secondary mb-1" block>Due Date</Button>
                   }
                 </div>
-
                   {/* 'Attachement' Button -- Implementation in version 2  */}
               </div>
             </div>
