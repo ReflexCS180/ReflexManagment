@@ -52,14 +52,14 @@ export default class Register extends Component {
       user.updateProfile({'displayName': document.getElementById("name").value});
       // console.log(user);
 
-      var databaseCentral = firebase.database().ref('listOfUsers')
+      var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
       // Pushing user to database
       console.log(this.state.user.uid)
       const userList = {
         user: this.state.user.uid
       }
 
-      databaseCentral.push(userList)
+      databaseCentral.set(userList)
 
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
 

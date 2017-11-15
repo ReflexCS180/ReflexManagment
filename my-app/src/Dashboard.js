@@ -317,7 +317,7 @@ class Dashboard extends Component {
     // in order to retrieve json file with list of boards, then set state
 	}
 
-	//TODO Need to be completed after user push registration 
+	//TODO Need to be completed after user push registration
 	componentWillMount() {
 		document.title = "Huddle Dashboard";
 		auth.onAuthStateChanged((userAuth) => {
@@ -347,19 +347,31 @@ class Dashboard extends Component {
 		this.setState({ newBoard: true });
 
 		// Add the new board to the list of boards
-		this.state.newBoards.push({name: boardName, uid: shortid.generate()});
+		var uid = shortid.generate();
+		this.state.newBoards.push({name: boardName, uid: uid});
 
-		// Create a database reference object
-		var boardNamesRef = firebase.database().ref('listOfBoards');
+		// Create a database reference object -- for listOfBoards
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+
+		// for listOfUsers
+		//var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.user.uid+'personalBoards');
 
 		// Create a new boardList state object and copy the current state into it.
+		// const boardList = {
+		// 	newBoards: this.state.newBoards
+		// }
+
 		const boardList = {
-			newBoards: this.state.newBoards
+			name: boardName,
+			uid: uid
 		}
 
+		// const itemList = {
+		// 	item: uid
+		// }
 		// Use the reference object's push function to push the state to FBDB
-		var a = boardNamesRef.push(boardList);
-
+		var a = boardNamesRef.set(boardList);
+		//var b = boardNamesRefUser.set(itemList);
     // this is the unique key from firebase
     //console.log(a.path.pieces_[1]);
 
