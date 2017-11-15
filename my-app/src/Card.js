@@ -22,16 +22,8 @@ class Card extends Component {
       columnName: this.props.columnName,
       modalIsOpen: false,
       cardDescription: 'A description of the card.',
-      cardComments: []
-      /*cardComments: [{
-        username: 'jonei005',
-        comment: 'Hi there my name is Jeremy, this is a multi-line comment. This is the first comment on the card, so I hope you like it!',
-        date: '11/13/2017'
-      }, {
-        username: 'rbosh002',
-        comment: 'Hi, my name is Rick, and this is my comment.',
-        date: '11/14/2017'
-      }]*/
+      cardComments: [],
+      cardDueDate: ''
     }
     // cardComments is an array of objects like this: {username, comment, date}
 
@@ -109,6 +101,14 @@ class Card extends Component {
    // do we need to pass it up to column?
  }
 
+ // 'newCardDueDate' is an expected parameter.
+ dueDateFromModalContent(newCardDueDate){
+   this.setState({
+     cardDueDate:newCardDueDate
+   });
+
+ }
+
   render() {
     return(
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
@@ -136,6 +136,8 @@ class Card extends Component {
           cardComments={this.state.cardComments}
           addCardComment={newCardComment => this.addCardComment(newCardComment)}
           user={this.props.user}
+          cardDueDate={this.state.cardDueDate}
+          changeCardDueDate={cardDueDate => this.dueDateFromModalContent(cardDueDate) }   // this is how we pass variable control to child
           />
           <button onClick={this.closeModal}>Close</button>
         </Modal>

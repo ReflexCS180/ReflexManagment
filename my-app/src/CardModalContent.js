@@ -7,24 +7,32 @@ class CardModalContent extends Component {
     super(props);
 
     this.state={
-      isRenameCardFormOpen: false,  // 'renameCardFormOpen' refers to the rename button in card modal.
+      isRenameCardFormOpen: false,                      // 'renameCardFormOpen' refers to the rename button in card modal.
       isDescriptionFormOpen: false,
+      isDueDateFormOpen: false,                         // 'isDueDateFormOpen' when true opens form to set card due date.
       cardName: this.props.cardName,
       renameInput: this.props.cardName,
       descriptionInput: this.props.cardDescription,
       cardComments: this.props.cardComments,
       commentInput: '',
-      user: this.props.user
+      user: this.props.user,
+      cardDueDate: this.props.cardDueDate,
+      cardDueDateInput: '',                                 // 'cardDueDate' set to due date of the card by user.
     }
 
-    this.openRenameCardForm = this.openRenameCardForm.bind(this); // Telling the keyword this which component to refer to.
+    this.openRenameCardForm = this.openRenameCardForm.bind(this);    // .bind(this) sets which component to refer to.
     this.openDescriptionForm = this.openDescriptionForm.bind(this);
+    this.openDueDateForm = this.openDueDateForm.bind(this);
 
     console.log(this.props.cardName);
     console.log(this.props.columnName);
   }
 
-  // Function to change state of renameCardFormOpen
+  /**
+    * Rename Card Functions
+    */
+
+  // 'openRenameCardForm' changes the state of renameCardFormOpen
   // callback function "function()" of setState focuses on the input box
   openRenameCardForm(){
     this.setState({
@@ -34,7 +42,7 @@ class CardModalContent extends Component {
     });
   };
 
-  // used by "openRenameCardForm()" function above; highlights text of card rename input box
+  // used by 'openRenameCardForm()' function above; highlights text of card rename input box
   handleFocus(e) {
     e.target.select();
   }
@@ -49,6 +57,12 @@ class CardModalContent extends Component {
     });
     this.props.renameCardFromModalContent(this.state.renameInput)
   };
+
+  ////////////// End of Rename Card functions
+
+  /**
+    * Description Functions
+    */
 
   // Function to change state of isDescriptionFormOpen
   // callback function "function()" of setState focuses on the input box
@@ -97,6 +111,36 @@ class CardModalContent extends Component {
     this.commentFormInput.value = '';
     this.props.addCardComment(this.state.commentInput);
   }
+
+  /////////////// End of Comment Functions
+
+  /**
+    * Due Date Functions
+    */
+
+    openDueDateForm(event){
+      event.preventDefault();
+      this.setState({
+        isDueDateFormOpen: true,
+      }, function() {
+        this.dueDateFormInput.focus();
+      });
+    };////////////////here
+
+    // Pass new name of card to parent from this cardmodal.
+    onSubmitDueDate(event) {
+      event.preventDefault();
+
+      // Change the local state of isRenameCardFormOpen back to false
+      this.setState({
+        isDueDateFormOpen: false,
+        cardDueDate: this.state.cardDueDateInput    // Note: cardDueDateInput is the changed input value.
+      });
+     // This line of code allows us to pass info to parent.
+        this.props.changeCardDueDate(this.state.cardDueDateInput)
+    };
+
+
 
   // closes modal when Close button or X is pressed
   closeModal() {
@@ -152,7 +196,7 @@ class CardModalContent extends Component {
         <div class="row">
           <div class="col-10">
             <div id="CardModalContent-leftbody">
-              {/* Description */}
+              {/* Card Description */}
               <div id="CardModalContent-description" class="mb-4">
                 <h4>
                   <i class="fa fa-list" aria-hidden="true"></i> Description
@@ -203,6 +247,23 @@ class CardModalContent extends Component {
 
           <div class="col-2">
             <div id="CardModalContent-rightbody">
+
+              {/*Due Date*/}
+              <div class="mb-4" >
+                <div class="row">
+                  {(this.state.cardDueDate === '') ?
+                    <div>
+                      {/*Empty Div Intentional. Does not display due.*/}
+                    </div>
+                      :
+                      <div>
+                        <h5 id="CardModalContent-dueDate">Due:</h5>
+                        <p>{this.state.cardDueDate}</p>
+                      </div>
+
+                  }
+                </div>
+              </div>
               {/* 'Actions' Buttons*/}
               <div class='mb-4' id="CardModalContent-actionbuttons">
                 <div class="row">
@@ -261,7 +322,20 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Due Date' Button */}
-                  <Button className="btn btn-secondary mb-1" block>Due Date</Button>
+
+                  {(this.state.isDueDateFormOpen) ?
+                    <form>
+                      <input type="text" class="form-control" id="CardModalContent-DueDateForm" value={this.state.cardDueDateInput} className="mb-2"
+                        onChange={ event => this.setState({cardDueDateInput: event.target.value})} placeholder='Card Due Date'
+                        ref={input => { this.dueDateFormInput = input }} />
+                      {/* The button below puts an arrow image in the input box*/}
+                      <button onClick={e => this.onSubmitDueDate(e)} className="btn btn-secondary" id="submit-description-btn">
+                        Save
+                      </button>
+                    </form>
+                      :
+                      <Button onClick={ e=> this.openDueDateForm(e)} className="btn btn-secondary mb-1" block>Due Date</Button>
+                  }
                 </div>
 
                   {/* 'Attachement' Button -- Implementation in version 2  */}
