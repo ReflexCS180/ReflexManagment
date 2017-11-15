@@ -23,21 +23,12 @@ class Card extends Component {
       modalIsOpen: false,
       cardDescription: 'A description of the card.',
       cardComments: []
-      /*cardComments: [{
-        username: 'jonei005',
-        comment: 'Hi there my name is Jeremy, this is a multi-line comment. This is the first comment on the card, so I hope you like it!',
-        date: '11/13/2017'
-      }, {
-        username: 'rbosh002',
-        comment: 'Hi, my name is Rick, and this is my comment.',
-        date: '11/14/2017'
-      }]*/
     }
     // cardComments is an array of objects like this: {username, comment, date}
 
-    console.log(" columnName in card ", this.props.columnName); // debugging
-    console.log(" uid of card: ", this.props.uid);
-    console.log("User from cards: ", this.props.user);
+    // console.log(" columnName in card ", this.props.columnName); // debugging
+    // console.log(" uid of card: ", this.props.uid);
+    // console.log("User from cards: ", this.props.user);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -51,12 +42,6 @@ class Card extends Component {
     this.setState({modalIsOpen: true});
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    //this.subtitle.style.color = '#f00';
-  }
-
-
   // Not sure why this only works if we use the function. Will need to investigate later.
   closeModal() {
     this.setState({modalIsOpen: false}, function() {
@@ -67,13 +52,13 @@ class Card extends Component {
   }
  //////////////////// End of Modal Functions
 
+ // change cardName in state, call parent renameCard function
  renameCard(newName) {
    this.setState({
      cardName: newName,
    });
 
    this.props.renameCard(this.props.uid, newName);
-
  };
 
  changeCardDescription(newDescription) {
@@ -84,29 +69,33 @@ class Card extends Component {
    // do we need to pass it up to column?
  }
 
+ // add a new comment to the card
  addCardComment(newCardComment) {
+   // temp array of card comments
    var tempComments = this.state.cardComments;
 
+   // create a javascript Date object with current date/time
    var date = new Date();
    var time = date.getTime();
    var displayTime = new Date(time);
-   //console.log("Current time: ", displayTime.toLocaleString());
 
-
+   // create a new comment with current logged in user display name, the
+   // comment text, and the current date/time
    var newComment = {
      username: this.props.user.displayName,
      comment: newCardComment,
      date: displayTime.toLocaleString()  // to do: get real time
    }
 
-   console.log(this.state.user);
+  //  console.log(this.state.user);
 
+  // unshift = push new comment to front of array instead of back
    tempComments.unshift(newComment);
+
+   // set state cardComments to the new temp variable with added comment
    this.setState({
      cardComments: tempComments
    });
-
-   // do we need to pass it up to column?
  }
 
   render() {
