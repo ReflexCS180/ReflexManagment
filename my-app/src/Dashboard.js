@@ -324,8 +324,6 @@ class Dashboard extends Component {
 		auth.onAuthStateChanged((userAuth) => {
 				if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
 				this.setState({user: userAuth});
-				//console.log(this.state.user);
-
 				// fetches the object referencing the list of personalBoards of the current user
 				var getData = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
 
@@ -381,7 +379,7 @@ class Dashboard extends Component {
 		// --------- THIS is where you update/push data into the database --------
 		// Use the reference object's push function to push the state to FBDB
     // this is the unique key from firebase
-    //console.log(a.path.pieces_[1]);
+    // console.log(a.path.pieces_[1]);
 
 		// Note that boardNamesRef has uid appended. Therefore it will be updating the db with a
 		// new boardList instance within the listOfBoards (db).
@@ -443,10 +441,7 @@ class Dashboard extends Component {
 		boardNamesTemp.splice(deleteTileIndex, 1);
 
 		// sets state.newBoards to be equal to new array with deleted item
-		this.setState({ newBoards: boardNamesTemp }, function() {
-			// prints the name of the deleted board AFTER state is set
-			// console.log("Deleted Board: ", uid);
-		});
+		this.setState({ newBoards: boardNamesTemp });
 
 		// Create a database reference object -- for listOfBoards
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
@@ -475,7 +470,7 @@ class Dashboard extends Component {
 			// executing the resolve state only when the current promise is completed.
 			console.log(successMessage); // prints out the resolve state's successMessage
 
-			// Literally deletes the boardNamesRef instance from the db upon the Promises completing 
+			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 			boardNamesRef.remove();
 		})
 

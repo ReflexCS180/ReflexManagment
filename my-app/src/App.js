@@ -13,29 +13,7 @@ import firebase from 'firebase';
 class App extends Component {
   constructor(props){
     super(props);
-    //this.app = firebase.initializeApp(fbconfig);
-
-
-
-    this.db = firebase.database().ref().child('userFrame');
   }
-
-/* From Youtube tutorial - complex method??
-  componentWillMount(){
-    const previousFrame = this.state.userFrame;
-
-    // Data Snapshot
-    this.database.on('board_added', snap => {
-        previousFrame.push({
-          id:snap.key,
-          boardContent: snap.val().boardContent,
-        })
-
-        this.setState({
-          userFrame: previousFrame
-        })
-    })
-  }*/
 
   render(){
     return(
