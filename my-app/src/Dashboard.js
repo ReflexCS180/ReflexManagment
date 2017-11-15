@@ -315,6 +315,7 @@ class Dashboard extends Component {
 
     // when connected to database, here we can send user id to database
     // in order to retrieve json file with list of boards, then set state
+		//this.onNewBoardSubmit = this.onNewBoardSubmit.bind(this);
 	}
 
 	//TODO Need to be completed after user push registration
@@ -323,7 +324,7 @@ class Dashboard extends Component {
 		auth.onAuthStateChanged((userAuth) => {
 			if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
 				this.setState({user: userAuth});
-				console.log(this.state.user);
+				//console.log(this.state.user);
 			}
 		});
 
@@ -335,9 +336,27 @@ class Dashboard extends Component {
 		auth.onAuthStateChanged((userAuth) => {
 				if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
 				this.setState({user: userAuth});
-				console.log(this.state.user);
+				//console.log(this.state.user);
+
+				//-------------This is how we update the dashboard--------------
+				var getData = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
+				getData.on("value", function(snapshot) {
+					var changedPost = snapshot.val();
+					this.setState({newBoards: []}, function() {
+						for (var i in changedPost) {
+							this.state.newBoards.push({name: changedPost[i].boardName, uid: changedPost[i].uid});
+						}
+					});
+					this.updateBoards();
+				}.bind(this))
+				//---------------------------------------------------------------
 			}
 		});
+
+
+		this.updateBoards();
+	}
+	getBoard() {
 		this.updateBoards();
 	}
 
@@ -352,16 +371,18 @@ class Dashboard extends Component {
 
 		// Create a database reference object -- for listOfBoards
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
-
 		// for listOfUsers
 		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
 
-		
+		//This is the code to retrieve the User's personalBoards in form of array
 		boardNamesRefUser.on("value", function(snapshot) {
 			var changedPost = snapshot.val();
-			console.log("Snapshot: "+changedPost);
+			//console.log(changedPost);
+
 		})
 
+		//PS: we probably don't need this code for pushing into database, BUT instead
+		//we can use this code for retrieving the data from database.
 		// Create a new boardList state object and copy the current state into it.
 		// const boardList = {
 		// 	newBoards: this.state.newBoards
@@ -372,12 +393,14 @@ class Dashboard extends Component {
 			uid: uid
 		}
 
-
+		// --------- THIS is where you update/push data into the database --------
 		// Use the reference object's push function to push the state to FBDB
 		var a = boardNamesRef.set(boardList);
 		var b = boardNamesRefUser.push(boardList);
     // this is the unique key from firebase
     //console.log(a.path.pieces_[1]);
+
+
 
 		this.updateBoards();
 	}
@@ -401,7 +424,7 @@ class Dashboard extends Component {
 		// sets state.boardObjects to be "myBoards", new list of objects
 		this.setState({ boardObjects: myBoards }, function() {
 			// prints new boardObjects state to console, AFTER update is done
-			console.log(this.state.boardObjects);
+			//console.log(this.state.boardObjects);
 		});
 	}
 
@@ -458,7 +481,6 @@ class Dashboard extends Component {
 		// that are stored in boardObjects and renders them
 		return(
 			<div>
-				{this.componentDidMount}
 				<NavBoard user={this.state.user}/>
 				<div class="container">
 					<h3 class="mt-5 mb-4"><i class="fa fa-user-o mr-2" aria-hidden="true"></i> {this.state.user.displayName} Boards</h3>
