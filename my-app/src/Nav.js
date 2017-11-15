@@ -41,7 +41,7 @@ class NavBoard extends Component {
   }
 
   //Fetch "user" from firebase. Only needed so we may know whether the user has logged in or not
-  componentWillMount() {
+  componentDidMount() {
     auth.onAuthStateChanged((userAuth) => {
         if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
           this.setState({user: userAuth});
