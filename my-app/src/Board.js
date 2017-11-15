@@ -65,10 +65,13 @@ class Board extends Component {
   componentDidMount() {
     // changes title of browser tab
     document.title = "Huddle Board Page";
-
     document.body.style.backgroundColor = "#ffe070";
-    if (this.props.match.params.name !== undefined) {
-      this.setState({boardName: this.props.match.params.name});
+
+    // 'this.props.match.params.boardID' is from the URL
+    // if url is huddlereflex.me/board/abc, params.boardID = 'abc'
+    if (this.props.match.params.boardID !== undefined) {
+      // TODO: get name of board from firebase with this uid: this.props.match.params.boardID
+      this.setState({boardName: this.props.match.params.boardID});
     }
   }
 
