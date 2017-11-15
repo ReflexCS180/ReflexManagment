@@ -354,7 +354,13 @@ class Dashboard extends Component {
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
 
 		// for listOfUsers
-		//var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.user.uid+'personalBoards');
+		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
+
+		
+		boardNamesRefUser.on("value", function(snapshot) {
+			var changedPost = snapshot.val();
+			console.log("Snapshot: "+changedPost);
+		})
 
 		// Create a new boardList state object and copy the current state into it.
 		// const boardList = {
@@ -362,16 +368,14 @@ class Dashboard extends Component {
 		// }
 
 		const boardList = {
-			name: boardName,
+			boardName: boardName,
 			uid: uid
 		}
 
-		// const itemList = {
-		// 	item: uid
-		// }
+
 		// Use the reference object's push function to push the state to FBDB
 		var a = boardNamesRef.set(boardList);
-		//var b = boardNamesRefUser.set(itemList);
+		var b = boardNamesRefUser.push(boardList);
     // this is the unique key from firebase
     //console.log(a.path.pieces_[1]);
 
