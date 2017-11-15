@@ -61,9 +61,10 @@ class Column extends Component {
   }
 
   deleteCard(uid) {
-    // delete this uid from column
+    // create temp array of cardNames
     var cardNamesTemp = this.state.cardNames;
-    
+
+    // finds the index of the "uid" parameter in the array of cardNames
     var deleteCardIndex = -1;
     cardNamesTemp.forEach((card, index) => {
       if (card.uid === uid) {
@@ -71,15 +72,20 @@ class Column extends Component {
       }
     });
 
+    // if deleteCardIndex was not overwritten, the uid was never found (error)
     if (deleteCardIndex === -1) {
       console.log("Something went wrong when deleting card: ", uid);
     }
 
+    // delete that value in the array
     cardNamesTemp.splice(deleteCardIndex, 1);
 
+    // rewrite state with new array, then log that it was deleted
     this.setState({ cardNames: cardNamesTemp }, function() {
       console.log("Deleted card: ", uid);
     });
+
+    // TODO: database injection (delete card from database)
   }
 
   // Renders list of cards onto a column.
