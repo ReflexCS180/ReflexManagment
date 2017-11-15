@@ -335,10 +335,29 @@ class Dashboard extends Component {
 		auth.onAuthStateChanged((userAuth) => {
 				if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
 				this.setState({user: userAuth});
-				console.log(this.state.user);
+
+				// Grabbing all saved boards from firebase based on the user's uid
+				var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/');
+
+				boardNamesRefUser.on("value", function(snapshot) {
+				  var snapshotObject = snapshot.val();
+					var temp = [ ];
+
+					console.log(snapshotObject);
+					for(var key in snapshotObject) {
+						var BoardObject = snapshotObject[key];
+						temp.push({name: BoardObject.boardName, uid: BoardObject.uid});
+					}
+
+					this.setState({ newBoards: temp });
+				}, function (errorObject) {
+				  console.log("The read failed: " + errorObject.code);
+				});
+
+				this.updateBoards();
 			}
 		});
-		this.updateBoards();
+
 	}
 
 	onNewBoardSubmit = (boardName) => {
@@ -355,12 +374,6 @@ class Dashboard extends Component {
 
 		// for listOfUsers
 		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
-
-		
-		boardNamesRefUser.on("value", function(snapshot) {
-			var changedPost = snapshot.val();
-			console.log("Snapshot: "+changedPost);
-		})
 
 		// Create a new boardList state object and copy the current state into it.
 		// const boardList = {
