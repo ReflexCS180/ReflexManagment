@@ -31,7 +31,6 @@ class Card extends Component {
     // console.log("User from cards: ", this.props.user);
 
     this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
