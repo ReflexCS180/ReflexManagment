@@ -318,18 +318,6 @@ class Dashboard extends Component {
 		//this.onNewBoardSubmit = this.onNewBoardSubmit.bind(this);
 	}
 
-	//TODO Need to be completed after user push registration
-	componentWillMount() {
-		document.title = "Huddle Dashboard";
-		auth.onAuthStateChanged((userAuth) => {
-			if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
-				this.setState({user: userAuth});
-				//console.log(this.state.user);
-			}
-		});
-
-	}
-
 	componentDidMount() {
 		// on component load: changes tab name and updates state.boardObjects
 		document.title = "Huddle Dashboard";
@@ -367,18 +355,17 @@ class Dashboard extends Component {
 
 		// Add the new board to the list of boards
 		var uid = shortid.generate();
+		var userBoardUid = shortid.generate();
 		this.state.newBoards.push({name: boardName, uid: uid});
 
 		// Create a database reference object -- for listOfBoards
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
 		// for listOfUsers
-		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
+		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+userBoardUid);
 
 		//This is the code to retrieve the User's personalBoards in form of array
 		boardNamesRefUser.on("value", function(snapshot) {
 			var changedPost = snapshot.val();
-			//console.log(changedPost);
-
 		})
 
 		//PS: we probably don't need this code for pushing into database, BUT instead
@@ -390,16 +377,23 @@ class Dashboard extends Component {
 
 		const boardList = {
 			boardName: boardName,
-			uid: uid
+			uid: uid,
+			userId: userBoardUid
 		}
 
 		// --------- THIS is where you update/push data into the database --------
 		// Use the reference object's push function to push the state to FBDB
-		var a = boardNamesRef.set(boardList);
-		var b = boardNamesRefUser.push(boardList);
     // this is the unique key from firebase
     //console.log(a.path.pieces_[1]);
 
+		// Need to update after the push
+		var a = boardNamesRef.set(boardList);
+
+		const userBoardList = {
+			boardName: boardName,
+			uid: uid
+		}
+		boardNamesRefUser.set(userBoardList);
 
 
 		this.updateBoards();
@@ -428,7 +422,6 @@ class Dashboard extends Component {
 		});
 	}
 
-	// TODO Delete doesn't work
 	deleteBoard(uid) {
 		// creates new variable boardNamesTemp to do all the delete work in
 		var boardNamesTemp = this.state.newBoards;
@@ -451,8 +444,28 @@ class Dashboard extends Component {
 		// sets state.newBoards to be equal to new array with deleted item
 		this.setState({ newBoards: boardNamesTemp }, function() {
 			// prints the name of the deleted board AFTER state is set
-			console.log("Deleted Board: ", uid);
+			// console.log("Deleted Board: ", uid);
 		});
+
+		// Create a database reference object -- for listOfBoards
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+
+		new Promise((resolve, reject) => {
+			boardNamesRef.on("value", function(snapshot) {
+				var currObject = snapshot.val();
+				if(!currObject) {
+					reject("NULL Object");
+					return;
+				}
+				// console.log("HIOEFHOHWEOHFOHWHEFHHOIHAJSFO:IJDI:JFIJAJF: " + currObject['userId'] + " HFOIWHEHFH " + this.state.user.uid)
+				var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+currObject['userId']);
+				boardNamesRefUser.remove();
+				resolve("Deletion of UserUi: " + currObject['userId'] + " successful");
+			}.bind(this))
+		}).then((successMessage) => {
+			console.log(successMessage);
+			boardNamesRef.remove();
+		})
 
 		// updates state.boardObjects based on the newBoards array
 		this.updateBoards();
