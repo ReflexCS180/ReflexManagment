@@ -12,7 +12,8 @@ class BoardTile extends Component {
 		super(props);
 		this.state = {
 			showTools: false,
-      showRenameForm: false
+      showRenameForm: false,
+
 		}
 
 		// binds certain functions so the "this" keyword knows what to refer to

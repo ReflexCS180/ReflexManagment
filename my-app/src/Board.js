@@ -7,6 +7,7 @@ import './Board.css';
 const BoardMenu = () => (
   <div id="rightMenu">
     <div class="container">
+
       <div class="mt-5 mb-4" id="topic">
         <h5>
           Menu
@@ -47,8 +48,11 @@ class Board extends Component {
         {columnName: "Backlog", cards: []},
         {columnName: "In Progress", cards: []},
         {columnName: "Completed", cards: []}
-      ]
+      ],
+      showBoardMenu: false
     }
+
+    this.openMenu.bind(this);
 
     // check if user is logged in, set state "user" if true
     auth.onAuthStateChanged((userAuth) => {
@@ -142,26 +146,49 @@ class Board extends Component {
     this.setState(this.state);
   }
 
+  openMenu(e) {
+    e.preventDefault();
+    this.setState({
+      showBoardMenu: true,
+    });
+    console.log('showBoardMenu')
+    console.log(this.showBoardMenu)
+  };
+
+  closeMenu(e) {
+    e.preventDefault();
+    this.setState({
+      showBoardMenu: false
+    })
+  }
+
   render() {
     var columns = this.state.columns.map(function({columnName, cards}, index) {
       return(
-        <Column
-          columnName={columnName}
-          user={this.state.user}
-          cards={cards}
-          addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
-          addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
-          changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
-            newDescription, cardUid, columnName)}
-          addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
-        />
-      )
+          <Column
+            columnName={columnName}
+            user={this.state.user}
+            cards={cards}
+            addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
+            addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
+            changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
+              newDescription, cardUid, columnName)}
+            addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
+          />
+        )
     }.bind(this));
 
     return(
       <div>
         <NavBoard />
-        <BoardMenu />
+        { this.state.showBoardMenu ?
+          <div>
+          <button onClick={e =>this.closeMenu(e)} class="BoardMenu-close-button" >&times;</button>
+          <BoardMenu />
+          </div>
+          :
+          <button onClick={e => this.openMenu(e)} class="BoardMenu-open-button"> ... Show Menu </button>
+        }
 
         <div class="container" id="board">
           <h3 class="mt-5 mb-4">{this.state.boardName}</h3>
