@@ -171,3 +171,8 @@
   width:100%;
 
 }
+
+#CardModalContent-movecardform{
+  border: 1px solid;
+  background: white;
+}

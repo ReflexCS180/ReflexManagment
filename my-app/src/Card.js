@@ -114,6 +114,18 @@ class Card extends Component {
     this.props.deleteCard(this.state.uid);  // execute 'deleteCard' from parent component aka 'Column.js' component.
   }
 
+
+  moveCardFromCardModal(columnName) {
+    var cardData = {
+      uid: this.state.uid,
+      cardName: this.state.cardName,
+      cardDescription: this.state.cardDescription,
+      cardComments: this.state.cardComments,
+      cardDueDate: this.state.cardDueDate
+    }
+
+    this.props.moveCard(columnName, cardData);
+  }
   render() {
     return(
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
@@ -144,6 +156,7 @@ class Card extends Component {
           cardDueDate={this.state.cardDueDate}
           changeCardDueDate={cardDueDate => this.dueDateFromModalContent(cardDueDate) }   // this is how we pass variable control to child
           deleteCard={this.deleteCard}
+          moveCardFromCardModal={columnName => this.moveCardFromCardModal(columnName)}
           />
           <button onClick={this.closeModal}>Close</button>
         </Modal>

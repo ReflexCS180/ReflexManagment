@@ -163,9 +163,26 @@ class CardModalContent extends Component {
     }
   }
 
+  openMoveCardForm(event) {
+    event.preventDefault();
+    this.setState({
+      isMoveCardFormOpen:true,
+    })
+  }
+
   // open move card form
   moveCard(event, columnToMoveTo) {
+    event.preventDefault();
     alert("Move this card to: " + columnToMoveTo);
+
+    this.props.moveCardFromCardModal(columnToMoveTo);
+
+
+
+
+    this.setState({
+      isMoveCardFormOpen: false,
+    })
   }
 
   render() {
@@ -296,13 +313,14 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Move' Button */}
-                  <DropdownButton title="Move" id="move-card-dropdown" className="btn btn-secondary mb-1">
-                    <MenuItem eventKey="1" onSelect={e => this.moveCard(e, "Backlog")}>Backlog</MenuItem>
-                    <MenuItem eventKey="2" onSelect={e => this.moveCard(e, "In Progress")}>In Progress</MenuItem>
-                    <MenuItem eventKey="3" onSelect={e => this.moveCard(e, "Completed")}>Completed</MenuItem>
-                  </DropdownButton>
-
-                  <Button className="btn btn-secondary mb-1" block onClick={this.openMoveCardForm}>Move</Button>
+                  <Button className="btn btn-secondary mb-1" block onClick={e => this.openMoveCardForm(e)}>Move</Button>
+                  {this.state.isMoveCardFormOpen &&
+                    <div id="CardModalContent-movecardform">
+                      <Button className="btn btn-secondary mb-1" block onClick={e => this.moveCard(e, "Backlog")}>Backlog</Button>
+                      <Button className="btn btn-secondary mb-1" block onClick={e => this.moveCard(e, "In Progress")}>In Progress</Button>
+                      <Button className="btn btn-secondary mb-1" block onClick={e => this.moveCard(e, "Completed")}>Completed</Button>
+                    </div>
+                  }
 
 
                 </div>

@@ -88,12 +88,23 @@ class Column extends Component {
     // TODO: database injection (delete card from database)
   }
 
+  moveCard(newColumnName, cardData){
+    // delete card
+    this.deleteCard(cardData.uid);
+
+    // add card
+    ///this.props.
+  }
+
   // Renders list of cards onto a column.
   render() {
     var cards = this.state.cardNames.map(function({cardName, uid}, index) {
-			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}
-        renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}
-        deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)} />)
+			return(
+        <Card
+          columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}
+          renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}
+          deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)}
+          moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}  />)
 		}.bind(this)) // this means this this.
 
 		return(
