@@ -113,14 +113,14 @@ class Column extends Component {
           <div class="card-header">{this.state.columnName}</div>
           <div class="btn-group-vertical">
 
-            {/* Load all cards into column. Refer to line 37 */}
-            { cards }
-
             {/* NewCardForm compenent is used to add new cards to a column*/}
             <NewCardForm onSubmit={ cardName => { this.onNewCardSubmit(cardName) }} />
 
             {/* Throw catch to user for bad card name */}
             { this.state.nameError && <span style={{fontSize: "0.9rem", marginBottom: "12px"}}>Valid characters: <span style={{color: "red"}}>A-z 0-9 _-+*$!.</span></span> }
+
+            {/* Load all cards into column. Refer to line 37 */}
+            { cards }
           </div>
         </div>
       </div>
