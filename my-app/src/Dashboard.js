@@ -51,6 +51,7 @@ class BoardTile extends Component {
 	share = (emailToShare) => {
 		const currentUid = this.props.uid; 	// Keeps track of the board's uid that is being shared
 		const currentBoardName = this.props.name;  // Keeps track of the board's name that is being shared
+		var previousLength = 0; // Temporary variable for the following loop
 
 		// Create a database reference object -- for listOfUsers
 		var refUser = firebase.database().ref('listOfUsers/');
@@ -68,13 +69,14 @@ class BoardTile extends Component {
 					return;
 				}
 
+				var found = false;
 				// Looping through all of the keys in currObject
 				for (var i in currObject) {
 					// Once we find one, execute it
 					if (currObject[i]['userEmail'] == emailToShare) {
 						const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
 						var refUserFound = firebase.database().ref('listOfUsers/'+foundUserId+'/personalBoards/'+currentUid);  // Reference to the found user's information
-
+						found = true;
 						// Creating an new Board object for the found user to append to
 						const userBoardRef = {
 							boardName: currentBoardName,
@@ -85,7 +87,6 @@ class BoardTile extends Component {
 
 						// Adding to the current board itself (db)
 						// Create a database reference object -- for listOfBoards
-						var previousLength = 0; // Temporary variable for the following loop
 						var refBoard = firebase.database().ref('listOfBoards/'+currentUid);  // Reference to the list of board of the shared board in question
 
 						refBoard.on("value", function(snapshot) {		// Creating a snapshot of the current state
@@ -116,6 +117,10 @@ class BoardTile extends Component {
 						})
 
 					}
+				}
+				if(!found) {
+					alert("Error " + emailToShare + " was not found");
+					return;
 				}
 			}.bind(this))
 		}).then((successMessage) => {
