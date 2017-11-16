@@ -113,6 +113,10 @@ class Column extends Component {
     this.props.addCardComment(newComment, cardUid, this.props.columnName);
   }
 
+  addCardDueDate(newDueDate, cardUid) {
+    this.props.addCardDueDate(newDueDate,cardUid,this.props.columnName)
+  }
+
   // Renders list of cards onto a column.
   render() {
     // state here is a good thing. usually we are trying to use props
@@ -125,6 +129,7 @@ class Column extends Component {
           deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)}
           moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}
           addCardComment={(newComment, cardUid) => this.addCardComment(newComment, cardUid)}
+          addCardDueDate={(newDueDate,cardUid) => this.addCardDueDate(newDueDate, cardUid)}
         />
       )
 		}.bind(this)) // this means this this.

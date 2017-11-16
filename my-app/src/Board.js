@@ -117,6 +117,17 @@ class Board extends Component {
 
   }
 
+  addCardDueDate(newDueDate, cardUid, columnName) {
+    this.state.columns.forEach((column,index) => {
+      column.cards.forEach((card,index2) => {
+        if(card.uid === cardUid) {
+          card.cardDueDate = newDueDate
+        }
+      })
+    })
+    this.setState(this.state)
+  }
+
   render() {
     var columns = this.state.columns.map(function({columnName, cards}, index) {
       return(
@@ -126,6 +137,7 @@ class Board extends Component {
           cards={cards}
           addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
           addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
+          addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
         />
       )
     }.bind(this));

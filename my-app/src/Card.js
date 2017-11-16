@@ -103,12 +103,14 @@ class Card extends Component {
   }
 
  // 'newCardDueDate' is an expected parameter.
-  dueDateFromModalContent(newCardDueDate){
-   this.setState({
-     cardDueDate:newCardDueDate
-   });
-
+  dueDateFromModalContent(newDueDate){
+  //  this.setState({
+  //    cardDueDate:newDueDate
+  //  });
+   this.props.addCardDueDate(newDueDate, this.props.uid);
   }
+
+
 
   deleteCard() {
     // pass up to column
