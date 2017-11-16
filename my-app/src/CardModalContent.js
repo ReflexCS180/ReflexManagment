@@ -312,7 +312,25 @@ class CardModalContent extends Component {
                 </div>
 
                 <div class="row">
-                  {/* 'Move' Button */}
+                  {/* NEW'Move' Button */}
+                  <div class="dropdown btn-block mb-1">
+                    <button class="btn btn-secondary dropdown-toggle btn-block " id="CardModalContent-actionbuttons-dropdown" type="button" data-toggle="dropdown">
+                      Move
+                    <span class="caret"></span></button>
+                    <ul class="CardModalContent-dropdown-menu dropdown-menu">
+                      <li  onClick={e => this.moveCard(e, "Backlog")}>Backlog</li>
+
+                      <li onClick={e => this.moveCard(e, "In Progress")}>In Progress</li>
+
+                      <li onClick={e => this.moveCard(e, "Completed")}>Completed</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 'Move' Button
+                <div class="row">
+
+
                   <Button className="btn btn-secondary mb-1" block onClick={e => this.openMoveCardForm(e)}>Move</Button>
                   {this.state.isMoveCardFormOpen &&
                     <div id="CardModalContent-movecardform">
@@ -322,8 +340,8 @@ class CardModalContent extends Component {
                     </div>
                   }
 
-
                 </div>
+                */}
 
                 {/* 'Copy' Button
                 <div class="row">

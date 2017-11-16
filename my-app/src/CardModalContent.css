@@ -176,3 +176,28 @@
   border: 1px solid;
   background: white;
 }
+
+#CardModalContent-actionbuttons-dropdown {
+  width: 100%
+}
+
+.CardModalContent-dropdown-menu {
+  border: 1px solid;
+  width: 100%;
+}
+
+.divider {
+
+}
+
+.CardModalContent-dropdown-menu li {
+  padding: 3px 0;
+  border: 1px 1px  0 0 solid;
+  text-align: center;
+  cursor: pointer;
+}
+
+.CardModalContent-dropdown-menu li:hover {
+  background: #868e95;
+  color: white;
+}
