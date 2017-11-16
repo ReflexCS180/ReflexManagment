@@ -115,6 +115,19 @@ class Board extends Component {
       })
     })
 
+    this.setState(this.state);
+  }
+
+  changeCardDescription(newDescription, cardUid, columnName) {
+    this.state.columns.forEach((column, index) => {
+      column.cards.forEach((card, index2) => {
+        if (card.uid === cardUid) {
+          card.cardDescription = newDescription;
+        }
+      })
+    })
+    
+    this.setState(this.state);
   }
 
   render() {
@@ -126,6 +139,8 @@ class Board extends Component {
           cards={cards}
           addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
           addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
+          changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
+            newDescription, cardUid, columnName)}
         />
       )
     }.bind(this));

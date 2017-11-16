@@ -69,6 +69,9 @@ class Card extends Component {
       cardDescription: newDescription
     });
 
+    // pass description and uid up to parent
+    this.props.changeCardDescription(newDescription, this.props.uid);
+
    // do we need to pass it up to column?
   }
 
@@ -112,17 +115,17 @@ class Card extends Component {
 
   deleteCard() {
     // pass up to column
-    this.props.deleteCard(this.state.uid);  // execute 'deleteCard' from parent component aka 'Column.js' component.
+    this.props.deleteCard(this.props.uid);  // execute 'deleteCard' from parent component aka 'Column.js' component.
   }
 
 
   moveCardFromCardModal(columnName) {
     var cardData = {
-      uid: this.state.uid,
-      cardName: this.state.cardName,
-      cardDescription: this.state.cardDescription,
-      cardComments: this.state.cardComments,
-      cardDueDate: this.state.cardDueDate
+      uid: this.props.uid,
+      cardName: this.props.cardName,
+      cardDescription: this.props.cardDescription,
+      cardComments: this.props.cardComments,
+      cardDueDate: this.props.cardDueDate
     }
 
     this.props.moveCard(columnName, cardData);
