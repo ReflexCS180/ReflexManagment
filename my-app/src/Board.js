@@ -44,7 +44,7 @@ class Board extends Component {
       boardName: "Board Name", /* TODO: Add feature to match board name with selected board*/
       user: [],
       columns: [
-        {columnName: "Backend", cards: []},
+        {columnName: "Backlog", cards: []},
         {columnName: "In Progress", cards: []},
         {columnName: "Completed", cards: []}
       ]
@@ -91,6 +91,7 @@ class Board extends Component {
   addCardToColumn(newCard, columnName) {
     // search through list of columns for 'columnName'
     // unshift newCard into that column
+    console.log("from Board.js: ", newCard);
 
     this.state.columns.forEach((column, index) => {
       if (column.columnName === columnName) {
@@ -101,6 +102,21 @@ class Board extends Component {
     })
   }
 
+  addCardComment(newComment, cardUid, columnName) {
+    // find the column
+    // find the card
+    // add the comment to the card (unshift)
+
+    this.state.columns.forEach((column, index) => {
+      column.cards.forEach((card, index2) => {
+        if (card.uid === cardUid) {
+          card.cardComments.unshift(newComment)
+        }
+      })
+    })
+
+  }
+
   render() {
     var columns = this.state.columns.map(function({columnName, cards}, index) {
       return(
@@ -109,6 +125,7 @@ class Board extends Component {
           user={this.state.user}
           cards={cards}
           addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
+          addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
         />
       )
     }.bind(this));

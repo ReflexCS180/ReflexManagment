@@ -107,8 +107,15 @@ class Column extends Component {
     ///this.props.
   }
 
+  addCardComment(newComment, cardUid) {
+    //blah blah
+    // pass new comment info, uid of card, and column name to board
+    this.props.addCardComment(newComment, cardUid, this.props.columnName);
+  }
+
   // Renders list of cards onto a column.
   render() {
+    // state here is a good thing. usually we are trying to use props
     var cards = this.state.cards.map(function({cardName, uid, cardDescription, cardComments, cardDueDate}, index) {
 			return(
         <Card
@@ -117,6 +124,7 @@ class Column extends Component {
           renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}
           deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)}
           moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}
+          addCardComment={(newComment, cardUid) => this.addCardComment(newComment, cardUid)}
         />
       )
 		}.bind(this)) // this means this this.

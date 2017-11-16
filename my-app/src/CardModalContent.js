@@ -187,7 +187,7 @@ class CardModalContent extends Component {
 
   render() {
     // create multiple CardComment objects from the array of comments in state
-    var comments = this.state.cardComments.map(function({username, comment, date}, index) {
+    var comments = this.props.cardComments.map(function({username, comment, date}, index) {
 			return(<CardComment username={username} comment={comment} date={date} key={index} />)
 		})
 

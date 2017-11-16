@@ -90,15 +90,16 @@ class Card extends Component {
      date: displayTime.toLocaleString()  // to do: get real time
     }
 
+    this.props.addCardComment(newComment, this.props.uid)
     //  console.log(this.state.user);
 
     // unshift = push new comment to front of array instead of back
-    tempComments.unshift(newComment);
+    //tempComments.unshift(newComment);
 
     // set state cardComments to the new temp variable with added comment
-    this.setState({
-     cardComments: tempComments
-    });
+    // this.setState({
+    //  cardComments: tempComments
+    // });
   }
 
  // 'newCardDueDate' is an expected parameter.
@@ -130,7 +131,7 @@ class Card extends Component {
     return(
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
         <div class="card-body">
-          <p class="card-title">{this.state.cardName}</p>
+          <p class="card-title">{this.props.cardName}</p>
           <p class="card-text">Short description.</p>
         </div>
 
@@ -144,16 +145,16 @@ class Card extends Component {
         >
           {/*Display Modal Content*/}
           <CardModalContent
-          cardName={this.state.cardName}
-          columnName={this.state.columnName}
+          cardName={this.props.cardName}
+          columnName={this.props.columnName}
           renameCardFromModalContent={newName => this.renameCard(newName)}
           closeModal={this.closeModal}
-          cardDescription={this.state.cardDescription}
+          cardDescription={this.props.cardDescription}
           changeCardDescription={newDescription => this.changeCardDescription(newDescription)}
-          cardComments={this.state.cardComments}
+          cardComments={this.props.cardComments}
           addCardComment={newCardComment => this.addCardComment(newCardComment)}
           user={this.props.user}
-          cardDueDate={this.state.cardDueDate}
+          cardDueDate={this.props.cardDueDate}
           changeCardDueDate={cardDueDate => this.dueDateFromModalContent(cardDueDate) }   // this is how we pass variable control to child
           deleteCard={this.deleteCard}
           moveCardFromCardModal={columnName => this.moveCardFromCardModal(columnName)}
