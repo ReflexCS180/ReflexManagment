@@ -46,7 +46,6 @@ export default class Login extends Component {
   //If the user has logged in successfully. Will be called by either Google login or regular login
   successfulLogin(result) {
       this.setState({user:result.user, error: false}); //set the "user" state after successfully log in. No errors.
-      this.props.history.push('/dashboard');//redirecting the user to the dashboard
   }
 
   //If an error is caught during the login process. Will be called by either Google login or regular login
@@ -62,6 +61,19 @@ export default class Login extends Component {
     auth.signInWithPopup(provider) //Calls google login's API
     .then((result) => {
       this.successfulLogin(result);
+      //-------------If user has never login before aka register---------------
+      var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
+      // Pushing user to database
+      console.log(this.state.user.uid)
+      const userList = {
+        user: this.state.user.uid,
+        userEmail: this.state.user.email
+      }
+
+      databaseCentral.set(userList);
+      this.props.history.push('/dashboard');//redirecting the user to the dashboard
+
+      //------------------------------
     })
     .catch(e => {
       this.errorLogin(e);
@@ -74,6 +86,8 @@ export default class Login extends Component {
     auth.signInWithEmailAndPassword(this.state.email, this.state.password) //Passes the email & password to be verified by Firebase
     .then((result) => {
       this.successfulLogin(result);
+      this.props.history.push('/dashboard');//redirecting the user to the dashboard
+
     })
     .catch(e => {
       this.errorLogin(e);

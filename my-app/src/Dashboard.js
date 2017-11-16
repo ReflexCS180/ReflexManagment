@@ -483,11 +483,18 @@ class Dashboard extends Component {
 				// Create a database reference object -- for listOfUsers
 				for (var i in currObject) {
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
+						console.log("Debugging: "+ i + " =  "+ currObject[i] );
+					if(this.state.user.uid==currObject[i]) {
+						// Literally deletes the instance declared right above
+						boardNamesRefUser.remove();
+						// Sets the resolved state's message
+						console.log("Debugging2: "+ i + " =  "+ currObject[i] );
+						resolve("Deletion of UserUi: " + currObject[i] + " successful");
+						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId"+"/"+i);
 
-					// Literally deletes the instance declared right above
-					boardNamesRefUser.remove();
-					// Sets the resolved state's message
-					resolve("Deletion of UserUi: " + currObject[i] + " successful");
+						// Literally deletes the boardNamesRef instance from the db upon the Promises completing
+						boardNamesRef.remove();
+					}
 				}
 
 			}.bind(this)) // Make sure that it's referring to the correct this
