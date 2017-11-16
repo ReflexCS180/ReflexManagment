@@ -125,7 +125,7 @@ class Board extends Component {
         }
       })
     })
-    this.setState(this.state)
+    this.setState(this.state);
   }
 
   render() {
