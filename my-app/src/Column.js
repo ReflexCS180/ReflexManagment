@@ -1,28 +1,35 @@
 import React, { Component } from 'react'; // abstract component base
 import Card from './Card.js'
 
+// imports shortid package to create unique IDs.
+var shortid = require('shortid');
+
 class Column extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      columnName: this.props.name,
+      columnName: this.props.columnName,
       cardNames: [],
       nameError: false
     }
+    // cardNames is an array of objects: {name, uid}
+
   }
 
+  // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
   checkValidity(nameToCheck) {
     if (nameToCheck.length > 0) {
-      return(!(/[^A-Za-z0-9_-]/.test(nameToCheck)));
+      return(!(/[^A-Za-z0-9.!$+*_-\s]/.test(nameToCheck)));
     }
     else {
       return false;
     }
   }
 
+  // onSubmit is used specifically to add cards to the cardlist.
   onSubmit(cardName) {
     if (this.checkValidity(cardName)) {
-      this.state.cardNames.push(cardName);
+      this.state.cardNames.push({cardName: cardName, uid: shortid.generate()});
       this.setState({nameError: false});
     }
     else {
@@ -30,19 +37,41 @@ class Column extends Component {
     }
   }
 
+  // rename the card, passed up from CardModalContent and Card components
+  renameCard(uid, newName) {
+    var cardNamesTemp = this.state.cardNames;
+    cardNamesTemp.forEach((card, index) => {
+      if (card.uid === uid) {
+        card.cardName = newName;
+      }
+    })
+
+    this.setState({
+      cardNames: cardNamesTemp
+    })
+    this.setState(this.state);
+  }
+
+  // Renders list of cards onto a column.
   render() {
-    var cards = this.state.cardNames.map(function(name, index) {
-			return(<Card name={name} key={index}/>)
-		})
+    var cards = this.state.cardNames.map(function({cardName, uid}, index) {
+			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index} renameCard={(uid, newName) => this.renameCard(uid, newName)} />)
+		}.bind(this)) // this means this this.
 
 		return(
       <div class="col-2" >
         <div class="col-12 board-column">
           <div class="card-header">{this.state.columnName}</div>
           <div class="btn-group-vertical">
+
+            {/* Load all cards into column. Refer to line 37 */}
             { cards }
+
+            {/* NewCardForm compenent is used to add new cards to a column*/}
             <NewCardForm onSubmit={ cardName => { this.onSubmit(cardName) }} />
-            { this.state.nameError && <span style={{color: "red", fontSize: "0.8rem", marginBottom: "12px"}}>Please use alphanumeric characters, dashes, and underscores.</span> }
+
+            {/* Throw catch to user for bad card name */}
+            { this.state.nameError && <span style={{fontSize: "0.9rem", marginBottom: "12px"}}>Valid characters: <span style={{color: "red"}}>A-z 0-9 _-+*$!.</span></span> }
           </div>
         </div>
       </div>
@@ -78,14 +107,5 @@ class NewCardForm extends Component {
 		)
 	}
 }
-
-// DERPIRCATED CODE MOVING TO CLASS STRUCTURE
-// const Column = () => (
-// 	<div>
-// 		<h2>Column</h2>
-// 	</div>
-// )
-
-
 
 export default Column; //

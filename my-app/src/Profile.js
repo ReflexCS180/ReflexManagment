@@ -47,8 +47,8 @@ class Profile extends Component {
                     {/* TODO Show emails*/}
                     <p><strong> Emails: </strong> Testing.js.com </p>
                     {/* TODO list of Boards*/}
-                    <p><
-                      strong> Boards: </strong>
+                    <p>
+                      <strong> Boards: </strong>
                       <li>
                         <a href="ToBoard1"> ToBoard1 </a>
                       </li>
