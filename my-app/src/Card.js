@@ -8,7 +8,7 @@ const modalStyles = {
     top: '10%',
     left: '20%',
     right: '20%',
-    bottom: '20%',
+    bottom: '10%',
     backgroundColor: '#f5f5f5',
   }
 };
@@ -17,20 +17,27 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: this.props.user,
       cardName: this.props.cardName,
       columnName: this.props.columnName,
       modalIsOpen: false,
       cardDescription: 'A description of the card.',
-      cardComments: [{
+      cardComments: []
+      /*cardComments: [{
         username: 'jonei005',
-        comment: 'Hi there my name is Jeremy',
+        comment: 'Hi there my name is Jeremy, this is a multi-line comment. This is the first comment on the card, so I hope you like it!',
         date: '11/13/2017'
-      }]
+      }, {
+        username: 'rbosh002',
+        comment: 'Hi, my name is Rick, and this is my comment.',
+        date: '11/14/2017'
+      }]*/
     }
-    // cardComments is an array of objects like this: {username, comment, date?}
+    // cardComments is an array of objects like this: {username, comment, date}
 
     console.log(" columnName in card ", this.props.columnName); // debugging
     console.log(" uid of card: ", this.props.uid);
+    console.log("User from cards: ", this.props.user);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -79,7 +86,22 @@ class Card extends Component {
 
  addCardComment(newCardComment) {
    var tempComments = this.state.cardComments;
-   tempComments.push(newCardComment);
+
+   var date = new Date();
+   var time = date.getTime();
+   var displayTime = new Date(time);
+   //console.log("Current time: ", displayTime.toLocaleString());
+
+
+   var newComment = {
+     username: this.props.user.displayName,
+     comment: newCardComment,
+     date: displayTime.toLocaleString()  // to do: get real time
+   }
+
+   console.log(this.state.user);
+
+   tempComments.unshift(newComment);
    this.setState({
      cardComments: tempComments
    });
@@ -113,9 +135,9 @@ class Card extends Component {
           changeCardDescription={newDescription => this.changeCardDescription(newDescription)}
           cardComments={this.state.cardComments}
           addCardComment={newCardComment => this.addCardComment(newCardComment)}
+          user={this.props.user}
           />
-          <button onClick={this.closeModal}>Close
-          </button>
+          <button onClick={this.closeModal}>Close</button>
         </Modal>
       </div>
     )

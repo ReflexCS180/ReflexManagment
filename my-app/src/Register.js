@@ -73,8 +73,8 @@ export default class Register extends Component {
     })
     .catch(e => {
       this.setState({error: true});
-      if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
-      else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
+      if(e.code==="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
+      else if(e.code==="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
       else this.setState({errorMsg: "Error code: "+e.code})
     })
   }
