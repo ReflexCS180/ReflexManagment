@@ -366,10 +366,11 @@ class CardModalContent extends Component {
                   <h4>Add</h4>
                 </div>
 
+                {/* 'Members' Button
                 <div class="row">
-                  {/* 'Members' Button */}
                   <Button className="btn btn-secondary mb-1" block>Members</Button>
                 </div>
+                */}
 
                 <div class="row">
                   {/* 'Due Date' Button */}
