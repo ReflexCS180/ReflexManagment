@@ -42,7 +42,12 @@ class Board extends Component {
     super(props);
     this.state = {
       boardName: "Board Name", /* TODO: Add feature to match board name with selected board*/
-      user: []
+      user: [],
+      columns: [
+        {columnName: "Backend", cards: []},
+        {columnName: "In Progress", cards: []},
+        {columnName: "Completed", cards: []}
+      ]
     }
 
     // check if user is logged in, set state "user" if true
@@ -60,6 +65,10 @@ class Board extends Component {
       }
     });
 
+  }
+
+  componentWillMount() {
+    // get columns from database
   }
 
   componentDidMount() {
@@ -80,6 +89,16 @@ class Board extends Component {
   }
 
   render() {
+    var columns = this.state.columns.map(function({columnName, cards}, index) {
+      return(
+        <Column
+          columnName={columnName}
+          user={this.state.user}
+          cards={cards}
+        />
+      )
+    }.bind(this));
+
     return(
       <div>
         <NavBoard />
@@ -89,10 +108,9 @@ class Board extends Component {
           <h3 class="mt-5 mb-4">{this.state.boardName}</h3>
 
           {/*TODO Resize column width for small screens*/}
+          
           <div class="row">
-            <Column columnName="Backlog" user={this.state.user}/>
-            <Column columnName="In Progress" user={this.state.user}/>
-            <Column columnName="Completed" user={this.state.user}/>
+            { columns } {/* Prints <Column> objects, refer to 'var columns' above */}
           </div>
         </div>
       </div>

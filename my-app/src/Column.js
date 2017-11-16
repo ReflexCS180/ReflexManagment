@@ -34,8 +34,8 @@ class Column extends Component {
     }
   }
 
-  // onSubmit is used specifically to add cards to the cardlist.
-  onSubmit(cardName) {
+  // 'onNewCardSubmit' is used specifically to add cards to the cardlist.
+  onNewCardSubmit(cardName) {
     if (this.checkValidity(cardName)) {
       this.state.cardNames.push({cardName: cardName, uid: shortid.generate()});
       this.setState({nameError: false});
@@ -117,7 +117,7 @@ class Column extends Component {
             { cards }
 
             {/* NewCardForm compenent is used to add new cards to a column*/}
-            <NewCardForm onSubmit={ cardName => { this.onSubmit(cardName) }} />
+            <NewCardForm onSubmit={ cardName => { this.onNewCardSubmit(cardName) }} />
 
             {/* Throw catch to user for bad card name */}
             { this.state.nameError && <span style={{fontSize: "0.9rem", marginBottom: "12px"}}>Valid characters: <span style={{color: "red"}}>A-z 0-9 _-+*$!.</span></span> }

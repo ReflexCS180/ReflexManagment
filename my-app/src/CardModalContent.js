@@ -11,14 +11,14 @@ class CardModalContent extends Component {
       isDescriptionFormOpen: false,                     // 'isDescriptionFormOpen' form that opens to let user edit card description.
       isDueDateFormOpen: false,                         // 'isDueDateFormOpen' when true opens form to set card due date.
       isMoveCardFormOpen: false,
-      cardName: this.props.cardName,                    // 'cardName' is set from parents card name
+      cardName: this.props.cardName,                    // 'cardName' is set from parent's card name
       renameInput: this.props.cardName,                 // 'renameInput' is set from parent by default. 'renameInput's can be changed in card modal by user.
       descriptionInput: this.props.cardDescription,     // 'descriptionInput' sets the card modal's description from parent
       cardComments: this.props.cardComments,            // 'cardComments'
       commentInput: '',                                 // 'commentInput'
       user: this.props.user,
-      cardDueDate: this.props.cardDueDate,
-      cardDueDateInput: '',                                 // 'cardDueDate' set to due date of the card by user.
+      cardDueDate: this.props.cardDueDate,              // 'cardDueDate' refers to the card's due date. Set from parent
+      cardDueDateInput: '',                             // 'cardDueDate' set to due date of the card by user.
     }
 
     this.openRenameCardForm = this.openRenameCardForm.bind(this);    // .bind(this) sets which component to refer to.
