@@ -52,8 +52,8 @@ export default class Login extends Component {
   //If an error is caught during the login process. Will be called by either Google login or regular login
   errorLogin(e) {
     this.setState({error: true}); //There's an error, this will make the "error etc" text visible on render
-    if(e.code=="auth/wrong-password") this.setState({errorMsg: "Invalid password"})
-    else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found. Click \"Register here\" to register."})
+    if(e.code==="auth/wrong-password") this.setState({errorMsg: "Invalid password"})
+    else if(e.code==="auth/user-not-found") this.setState({errorMsg: "Email is not found. Click \"Register here\" to register."})
     else this.setState({errorMsg: "Error code: "+e.code})
   }
 
