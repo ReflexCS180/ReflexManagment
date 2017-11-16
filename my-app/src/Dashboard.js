@@ -19,6 +19,7 @@ class BoardTile extends Component {
 		this.onMouseEnterHandler = this.onMouseEnterHandler.bind(this);
 		this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
 		this.delete = this.delete.bind(this);
+		this.unlink = this.unlink.bind(this);
 		this.rename = this.rename.bind(this);
     this.renameSubmit = this.renameSubmit.bind(this);
 	}
@@ -47,6 +48,10 @@ class BoardTile extends Component {
     this.setState({ showRenameForm: false });
   }
 
+	unlink() {
+		this.props.onUnlink(this.props.uid);
+	}
+
 	delete() {
 		// when called, passes the name of the button to the dashboard component
 		// to be deleted
@@ -67,7 +72,7 @@ class BoardTile extends Component {
 					{this.props.name}
 				</Link>
         {this.state.showRenameForm && <RenameForm onSubmit={newName => {this.renameSubmit(newName)}} />}
-        {this.state.showTools && <BoardTileTools onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
+        {this.state.showTools && <BoardTileTools onUnlink={this.unlink} onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
 			</div>
 		)
 	}
@@ -77,6 +82,7 @@ class BoardTileTools extends Component {
 	constructor(props){
 		super(props);
 		this.rename = this.rename.bind(this);
+		this.unlink = this.unlink.bind(this);
 		this.delete = this.delete.bind(this);
     this.state = {
       renameFormOpen: false,
@@ -116,6 +122,7 @@ class BoardTileTools extends Component {
 		// actual unlink functionality not implemented yet
 		// purpose: unlink yourself from the board, so you don't see it anymore,
 		// but it's not deleted or removed from anyone else's dashboard
+		this.props.onUnlink();
 		console.log("I want to unlink");
 	}
 
@@ -402,7 +409,7 @@ class Dashboard extends Component {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
 		var boards = this.state.newBoards.map(function({name, uid}, index) {
-			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)}
+			return(<BoardTile name={name} key={index} uid={uid} onDelete={this.deleteBoard.bind(this, uid)} onUnlink={this.unlinkBoard.bind(this, uid)}
         onRename={(uid, newName) => {this.renameBoard(uid, newName)}}/>)
 		}.bind(this));
 
@@ -418,6 +425,73 @@ class Dashboard extends Component {
 		this.setState({ boardObjects: myBoards }, function() {
 		// prints new boardObjects state to console, AFTER update is done
 		});
+	}
+
+	//was copy pasted from deleteBoard, therefore it is identical except one line
+	unlinkBoard(uid) {
+		// creates new variable boardNamesTemp to do all the delete work in
+		var boardNamesTemp = this.state.newBoards;
+
+		// finds the index of the "uid" parameter in the array
+		var deleteTileIndex = -1;
+    boardNamesTemp.forEach((board, index) => {
+      if (board.uid === uid) {
+        deleteTileIndex = index;
+      }
+    });
+    if (deleteTileIndex === -1) {
+      console.log("Something went wrong with the ID's in deleteBoard");
+      console.log("uid not found: ", uid);
+    }
+
+		// removes the corresponding element from the array
+		boardNamesTemp.splice(deleteTileIndex, 1);
+
+		// sets state.newBoards to be equal to new array with deleted item
+		this.setState({ newBoards: boardNamesTemp });
+
+		// Create a database reference object -- for listOfBoards
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId");
+		//console.log(boardNamesRef);
+
+		// Creating a promise with a resolve and reject states.
+		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+		new Promise((resolve, reject) => {
+			// Creation of a snapshot to fetch the latest data of boardNamesRef
+			boardNamesRef.on("value", function(snapshot) {
+				var currObject = snapshot.val();
+
+				// A little hack I came up with so that we don't delete a null state or anything of that sort.
+				if (!currObject) {
+					reject("NULL Object");
+					return;
+				}
+
+				// Create a database reference object -- for listOfUsers
+				for (var i in currObject) {
+					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
+
+					// Literally deletes the instance declared right above
+					boardNamesRefUser.remove();
+					// Sets the resolved state's message
+					resolve("Deletion of UserUi: " + currObject[i] + " successful");
+				}
+
+			}.bind(this)) // Make sure that it's referring to the correct this
+		}).then((successMessage) => {
+			// executing the resolve state only when the current promise is completed.
+			console.log(successMessage); // prints out the resolve state's successMessage
+
+			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
+			boardNamesRef.remove();
+		}).catch((err) => {
+			console.log(err);
+
+			console.log("FUCK That's not supposed to happen");
+		})
+
+		// updates state.boardObjects based on the newBoards array
+		this.updateBoards();
 	}
 
 	deleteBoard(uid) {
@@ -443,8 +517,8 @@ class Dashboard extends Component {
 		this.setState({ newBoards: boardNamesTemp });
 
 		// Create a database reference object -- for listOfBoards
-		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId");
-		console.log(boardNamesRef);
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+		//console.log(boardNamesRef);
 
 		// Creating a promise with a resolve and reject states.
 		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise

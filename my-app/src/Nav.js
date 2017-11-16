@@ -45,7 +45,7 @@ class NavBoard extends Component {
     auth.onAuthStateChanged((userAuth) => {
         if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
           this.setState({user: userAuth});
-          console.log(this.state.user);
+          //console.log(this.state.user);
         }
     });
   }
