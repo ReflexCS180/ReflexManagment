@@ -110,11 +110,24 @@ class BoardTileTools extends Component {
 
 	}
 
+
+	// Implementing the share functionality
 	share() {
-		// you will see this console.log text when the share button is clicked.
-		// actual share functionality not implemented yet
-		// purpose: share with another user
-		console.log("I want to share");
+		// Grabbing the user's friend's email
+		var txt;
+		var emailToShare = prompt("Please enter your friend's email: ");
+		if (emailToShare == null || emailToShare == "") {
+			return;
+		}
+
+		// Create a database reference object -- for listOfBoards
+		var boardNamesRef = firebase.database().ref('listOfBoards/');
+		// Create a database reference object -- for listOfUsers
+		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/');
+
+
+
+
 	}
 
 	unlink() {
@@ -347,7 +360,6 @@ class Dashboard extends Component {
 					});
 					this.updateBoards();
 				}.bind(this))
-
 			}
 		});
 	}
