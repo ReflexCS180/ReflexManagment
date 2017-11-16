@@ -16,7 +16,8 @@ export default class Register extends Component {
       confirmPassword: "",
       company: "",
       error: false, //extra 2 variables for handling & passing error's state and message
-      errorMsg: "",
+      errorMsg: ""
+      // db: ""
     };
   }
 
@@ -27,7 +28,7 @@ export default class Register extends Component {
 
   // Checks if all Components are filled with something
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0/* && this.state.company.length > 0*/;
+    return this.state.email.length > 0 && this.state.password.length > 0 /*&& this.state.company.length > 0*/;
   }
 
   // Handles a State Change upon a user's input */}
@@ -47,10 +48,19 @@ export default class Register extends Component {
     auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then((user) => {
       console.log("Register console log:");
-      console.log(user); //for debugging
       this.setState({user:user, error: false}); //set the "user" state after successfully log in. No errors.
       user.updateProfile({'displayName': document.getElementById("name").value});
-      console.log(user);
+      // console.log(user);
+
+      var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
+      // Pushing user to database
+      console.log(this.state.user.uid)
+      const userList = {
+        user: this.state.user.uid
+      }
+
+      databaseCentral.set(userList)
+
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
 
     })
@@ -59,7 +69,7 @@ export default class Register extends Component {
       //if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
       //else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
       //else
-      this.setState({errorMsg: "Error code: "+e.code})
+      this.setState({errorMsg: "Error code: "+e})
     });
   }
 
@@ -91,7 +101,6 @@ export default class Register extends Component {
   render() {
     return (
       <div className="Login">
-        {/**/}
         <div id="particles-js"></div>
         <NavLanding />
         <br /><br />

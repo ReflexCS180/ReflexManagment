@@ -7,7 +7,22 @@ import { Login } from './Login.js'
 import { Register } from './Register.js'
 import './App.css';
 import './Landing.css';
-import './firebase.js';
+import { auth, provider, fbconfig } from './firebase.js';
+import firebase from 'firebase';
+
+class App extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+      <div>
+        <Main />
+      </div>
+    )
+  }
+}
 
 class Landing extends Component {
   componentDidMount() {
@@ -87,12 +102,6 @@ const Main = () => (
       <Route exact path='/register' component={ Register } />
     </Switch>
   </main>
-)
-
-const App = () => (
-  <div>
-    <Main />
-  </div>
 )
 
 export { App };
