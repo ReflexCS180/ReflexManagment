@@ -9,8 +9,13 @@ class Profile extends Component {
     this.state = {
       userName: "TestSam",
       userEmail: "Sam@sam.com",
+      user: NULL, // This will contain a reference to the logged-in user
       boards: [],
       cards: []
+
+      // State variables for editing
+      areFieldFormsOpen: false
+
     }
     // userName is a string literal which must be recieved from the database
     // userEmail is a string literal which must be recieved from the database

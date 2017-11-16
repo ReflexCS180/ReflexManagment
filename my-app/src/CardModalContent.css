@@ -164,3 +164,15 @@
 #card-activity-list p.card-comment-comment {
   margin-bottom: 0;
 }
+
+#CardModalContent-DueDateForm {
+
+  position: relative;
+  width:100%;
+
+}
+
+#CardModalContent-movecardform{
+  border: 1px solid;
+  background: white;
+}
