@@ -19,6 +19,8 @@ export default class Register extends Component {
       errorMsg: ""
       // db: ""
     };
+
+    this.googleLogin = this.googleLogin.bind(this);
   }
 
   componendDidMount() {
@@ -56,20 +58,17 @@ export default class Register extends Component {
       // Pushing user to database
       console.log(this.state.user.uid)
       const userList = {
-        user: this.state.user.uid
+        user: this.state.user.uid,
+        userEmail: this.state.user.email
       }
 
-      databaseCentral.set(userList)
+      databaseCentral.set(userList);
 
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
-
     })
     .catch(e => {
       this.setState({error: true});
-      //if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
-      //else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
-      //else
-      this.setState({errorMsg: "Error code: "+e})
+      this.setState({errorMsg: "Error code: " + e})
     });
   }
 
@@ -78,6 +77,18 @@ export default class Register extends Component {
     auth.signInWithPopup(provider)
     .then((result) => {
       this.setState({user:result.user, error: false}); //set the "user" state after successfully log in. No errors.
+
+      //-------------If user has never login before aka register---------------
+      var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
+      // Pushing user to database
+      console.log(this.state.user.uid)
+      const userList = {
+        user: this.state.user.uid,
+        userEmail: this.state.user.email
+      }
+
+      databaseCentral.set(userList);
+      //------------------------------
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
       //!!!!!! need to save the user's token HERE !!!!!!
     })

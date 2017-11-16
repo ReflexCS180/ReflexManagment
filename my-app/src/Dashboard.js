@@ -49,6 +49,89 @@ class BoardTile extends Component {
     this.setState({ showRenameForm: false });
   }
 
+	share = (emailToShare) => {
+		const currentUid = this.props.uid; 	// Keeps track of the board's uid that is being shared
+		const currentBoardName = this.props.name;  // Keeps track of the board's name that is being shared
+		var previousLength = 0; // Temporary variable for the following loop
+
+		// Create a database reference object -- for listOfUsers
+		var refUser = firebase.database().ref('listOfUsers/');
+
+		// Creating a promise with a resolve and reject states.
+		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+		new Promise((resolve, reject) => {
+			// Creation of a snapshot to fetch the latest data of refUser
+			refUser.on("value", function(snapshot) {
+				var currObject = snapshot.val();
+
+				// A little hack I came up with so that we don't delete a null state or anything of that sort.
+				if (!currObject) {
+					reject("NULL Object");
+					return;
+				}
+
+				var found = false;
+				// Looping through all of the keys in currObject
+				for (var i in currObject) {
+					console.log("Outside of IF function: ", currObject);
+					// Once we find one, execute it
+					if (currObject[i]['userEmail'] == emailToShare) {
+						const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
+						var refUserFound = firebase.database().ref('listOfUsers/'+foundUserId+'/personalBoards/'+currentUid);  // Reference to the found user's information
+
+						// Creating an new Board object for the found user to append to
+						const userBoardRef = {
+							boardName: currentBoardName,
+							uid: currentUid
+						}
+							console.log("Inside of IF function: ", refUserFound, userBoardRef);
+
+						refUserFound.set(userBoardRef); // Updating the found user
+
+						// Adding to the current board itself (db)
+						// Create a database reference object -- for listOfBoards
+						var refBoard = firebase.database().ref('listOfBoards/'+currentUid);  // Reference to the list of board of the shared board in question
+
+						refBoard.on("value", function(snapshot) {		// Creating a snapshot of the current state
+							var refBoardCurr = snapshot.val();
+							var currentUserIdList = refBoardCurr['userId'];
+
+							// This is a small little hack to prevent the state being pushed in indefinitely
+							if (previousLength === 0) {
+								previousLength = currentUserIdList.length;
+							}
+							else if (currentUserIdList.length > previousLength) {
+								return;
+							}
+
+							// Adding the sharing user to the list
+							currentUserIdList.push(foundUserId);
+
+							// Creating an updated version of the Board
+							const newUserIdList = {
+								boardName: refBoardCurr['boardName'],
+								masterUser: refBoardCurr['masterUser'],
+								userId: currentUserIdList
+							}
+
+							refBoard.set(newUserIdList); // Updates the Board
+							resolve("Shared Board works properly");
+							return;
+						})
+
+					}
+				}
+			}.bind(this))
+		}).then((successMessage) => {
+			console.log(successMessage);
+		}).catch((err) => {
+			console.log(err);
+			console.log("FUCK That's not supposed to happen");
+		})
+
+
+	}
+
 	unlink() {
 		this.props.onUnlink(this.props.uid);
 	}
@@ -73,7 +156,7 @@ class BoardTile extends Component {
 					{this.props.name}
 				</Link>
         {this.state.showRenameForm && <RenameForm onSubmit={newName => {this.renameSubmit(newName)}} />}
-        {this.state.showTools && <BoardTileTools onUnlink={this.unlink} onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
+        {this.state.showTools && <BoardTileTools onUnlink={this.unlink} onShare={this.share} onRename={this.rename} onDelete={this.delete} renameShow={this.state.showRenameForm} />}
 			</div>
 		)
 	}
@@ -83,6 +166,7 @@ class BoardTileTools extends Component {
 	constructor(props){
 		super(props);
 		this.rename = this.rename.bind(this);
+		this.share  = this.share.bind(this);
 		this.unlink = this.unlink.bind(this);
 		this.delete = this.delete.bind(this);
     this.state = {
@@ -111,11 +195,17 @@ class BoardTileTools extends Component {
 
 	}
 
+
+	// Implementing the share functionality
 	share() {
-		// you will see this console.log text when the share button is clicked.
-		// actual share functionality not implemented yet
-		// purpose: share with another user
-		console.log("I want to share");
+		// Grabbing the user's friend's email
+		var emailToShare = prompt("Please enter your friend's email: ");
+		if (emailToShare == null || emailToShare == "") {
+			return;
+		}
+
+		this.props.onShare(emailToShare);
+
 	}
 
 	unlink() {
@@ -309,14 +399,14 @@ class Dashboard extends Component {
 			formOpen: false,
 			newBoard: false,
 
-			newBoards: [],       // newBoards is an array of {boardName, uid} (for convenience)
+			newBoards: [],
 			boardObjects: [],
 			userID: null,
 			userName: null,
 			user: []
 
 		};
-
+		// newBoards is an array of just the names of the boards (for convenience)
 		// boardObjects is an array of objects that contain the names and React DOM info of each boardObjects
 		// note: the board tiles are actually rendered from boardObjects, not from newBoards
 		// newBoards is used for easy updates. boardObjects is then updated based on the names in newBoards
@@ -348,7 +438,6 @@ class Dashboard extends Component {
 					});
 					this.updateBoards();
 				}.bind(this))
-
 			}
 		});
 	}
@@ -372,14 +461,10 @@ class Dashboard extends Component {
 		// Create a database reference object -- for listOfUsers
 		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+uid);
 
-		// This is the code to retrieve the User's personalBoards in form of array
-		boardNamesRefUser.on("value", function(snapshot) {
-			var changedPost = snapshot.val();
-		})
-
 		// Creates a board instance that will be pushed into the database. (key, value) format
 		const boardList = {
 			boardName: boardName,
+			masterUser: this.state.user.uid,
 			userId: [this.state.user.uid]
 		}
 
@@ -390,7 +475,7 @@ class Dashboard extends Component {
 
 		// Note that boardNamesRef has uid appended. Therefore it will be updating the db with a
 		// new boardList instance within the listOfBoards (db).
-		var a = boardNamesRef.set(boardList);
+		boardNamesRef.set(boardList);
 
 		// Creates a specific instance for the user personalBoards
 		const userBoardList = {
@@ -471,11 +556,18 @@ class Dashboard extends Component {
 				// Create a database reference object -- for listOfUsers
 				for (var i in currObject) {
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
+						//console.log("Debugging: "+ i + " =  "+ currObject[i] );
+					if(this.state.user.uid==currObject[i]) {
+						// Literally deletes the instance declared right above
+						boardNamesRefUser.remove();
+						// Sets the resolved state's message
+						//console.log("Debugging2: "+ i + " =  "+ currObject[i] );
+						resolve("Unlink of UserUi: " + currObject[i] + " successful");
+						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId"+"/"+i);
 
-					// Literally deletes the instance declared right above
-					boardNamesRefUser.remove();
-					// Sets the resolved state's message
-					resolve("Deletion of UserUi: " + currObject[i] + " successful");
+						// Literally deletes the boardNamesRef instance from the db upon the Promises completing
+						boardNamesRef.remove();
+					}
 				}
 
 			}.bind(this)) // Make sure that it's referring to the correct this
@@ -518,7 +610,7 @@ class Dashboard extends Component {
 		this.setState({ newBoards: boardNamesTemp });
 
 		// Create a database reference object -- for listOfBoards
-		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId');
 		//console.log(boardNamesRef);
 
 		// Creating a promise with a resolve and reject states.
@@ -536,6 +628,7 @@ class Dashboard extends Component {
 
 				// Create a database reference object -- for listOfUsers
 				for (var i in currObject) {
+					console.log("inForLoop: ", 'listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 
 					// Literally deletes the instance declared right above
@@ -544,12 +637,14 @@ class Dashboard extends Component {
 					resolve("Deletion of UserUi: " + currObject[i] + " successful");
 				}
 
+
 			}.bind(this)) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
 			console.log(successMessage); // prints out the resolve state's successMessage
 
 			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
+			boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
 			boardNamesRef.remove();
 		}).catch((err) => {
 			console.log(err);
