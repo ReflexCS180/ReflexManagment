@@ -356,13 +356,13 @@ class Dashboard extends Component {
 
 		// Add the new board to the list of boards
 		var uid = shortid.generate();
-		var userBoardUid = shortid.generate();
+		// var userBoardUid = shortid.generate();
 		this.state.newBoards.push({name: boardName, uid: uid});
 
 		// Create a database reference object -- for listOfBoards
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
 		// Create a database reference object -- for listOfUsers
-		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+userBoardUid);
+		var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+uid);
 
 		// This is the code to retrieve the User's personalBoards in form of array
 		boardNamesRefUser.on("value", function(snapshot) {
@@ -372,8 +372,7 @@ class Dashboard extends Component {
 		// Creates a board instance that will be pushed into the database. (key, value) format
 		const boardList = {
 			boardName: boardName,
-			uid: uid,
-			userId: userBoardUid
+			userId: [this.state.user.uid]
 		}
 
 		// --------- THIS is where you update/push data into the database --------
@@ -444,7 +443,8 @@ class Dashboard extends Component {
 		this.setState({ newBoards: boardNamesTemp });
 
 		// Create a database reference object -- for listOfBoards
-		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId");
+		console.log(boardNamesRef);
 
 		// Creating a promise with a resolve and reject states.
 		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
@@ -454,17 +454,21 @@ class Dashboard extends Component {
 				var currObject = snapshot.val();
 
 				// A little hack I came up with so that we don't delete a null state or anything of that sort.
-				if(!currObject) {
+				if (!currObject) {
 					reject("NULL Object");
 					return;
 				}
 
 				// Create a database reference object -- for listOfUsers
-				var boardNamesRefUser = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards/'+currObject['userId']);
-				// Literally deletes the instance declared right above
-				boardNamesRefUser.remove();
-				// Sets the resolved state's message
-				resolve("Deletion of UserUi: " + currObject['userId'] + " successful");
+				for (var i in currObject) {
+					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
+
+					// Literally deletes the instance declared right above
+					boardNamesRefUser.remove();
+					// Sets the resolved state's message
+					resolve("Deletion of UserUi: " + currObject[i] + " successful");
+				}
+
 			}.bind(this)) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
@@ -472,6 +476,10 @@ class Dashboard extends Component {
 
 			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 			boardNamesRef.remove();
+		}).catch((err) => {
+			console.log(err);
+
+			console.log("FUCK That's not supposed to happen");
 		})
 
 		// updates state.boardObjects based on the newBoards array
