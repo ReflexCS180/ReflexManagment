@@ -100,10 +100,11 @@ class Column extends Component {
   }
 
   moveCard(newColumnName, cardData){
-    // delete card
+    // calls delete card from this component. deleteCard propogagetes to Board
     this.deleteCard(cardData.uid);
-
     // add card
+
+    this.props.addCardToColumn( cardData, newColumnName);
     ///this.props.
   }
 

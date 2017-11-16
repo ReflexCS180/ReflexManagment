@@ -100,6 +100,7 @@ class Board extends Component {
         console.log("after: ", column.cards);
       }
     })
+    this.setState(this.state);
   }
 
   addCardComment(newComment, cardUid, columnName) {
