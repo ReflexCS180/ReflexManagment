@@ -308,14 +308,14 @@ class Dashboard extends Component {
 			formOpen: false,
 			newBoard: false,
 
-			newBoards: [],
+			newBoards: [],       // newBoards is an array of {boardName, uid} (for convenience)
 			boardObjects: [],
 			userID: null,
 			userName: null,
 			user: []
 
 		};
-		// newBoards is an array of just the names of the boards (for convenience)
+
 		// boardObjects is an array of objects that contain the names and React DOM info of each boardObjects
 		// note: the board tiles are actually rendered from boardObjects, not from newBoards
 		// newBoards is used for easy updates. boardObjects is then updated based on the names in newBoards

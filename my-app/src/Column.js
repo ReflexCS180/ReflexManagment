@@ -9,14 +9,21 @@ class Column extends Component {
     super(props);
     this.state = {
       columnName: this.props.columnName,
-      cardNames: [],
-      nameError: false
+      //cards: [], // cards is an array of objects: {name, uid, description, comments, due date}
+      cards: this.props.cards,
+      nameError: false,
+      user: this.props.user
     }
-    // cardNames is an array of objects: {name, uid}
-
   }
 
-  // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
+  componentDidMount() {
+    // passing user from Board to column state
+    this.setState({
+      user: this.props.user
+    })
+  }
+
+  // checkValidity is used to validate user input. Accepts alphanumeric or dashes or underscores
   checkValidity(nameToCheck) {
     if (nameToCheck.length > 0) {
       return(!(/[^A-Za-z0-9.!$+*_-\s]/.test(nameToCheck)));
@@ -26,13 +33,23 @@ class Column extends Component {
     }
   }
 
-  // onSubmit is used specifically to add cards to the cardlist.
-  onSubmit(cardName) {
+  // 'onNewCardSubmit' is used specifically to add cards to the cardlist.
+  onNewCardSubmit(cardName) {
     if (this.checkValidity(cardName)) {
-      this.state.cardNames.push({cardName: cardName, uid: shortid.generate()});
+
+      var newCard = {
+        cardName: cardName,
+        uid: shortid.generate(),
+        cardDescription: '',
+        cardComments: [],
+        cardDueDate: ''
+      }
+
+      // this.state.cards.push(newCard);
       this.setState({nameError: false});
-      // Attempt to inject onChange and value carriers here
-      //
+
+      // pass this up to Board
+      this.props.addCardToColumn(newCard, this.state.columnName);
     }
     else {
       this.setState({nameError: true});
@@ -41,23 +58,88 @@ class Column extends Component {
 
   // rename the card, passed up from CardModalContent and Card components
   renameCard(uid, newName) {
-    var cardNamesTemp = this.state.cardNames;
-    cardNamesTemp.forEach((card, index) => {
+    var cardsTemp = this.state.cards;
+    cardsTemp.forEach((card, index) => {
       if (card.uid === uid) {
         card.cardName = newName;
       }
     })
 
     this.setState({
-      cardNames: cardNamesTemp
+      cards: cardsTemp
     })
     this.setState(this.state);
   }
 
+  deleteCard(uid) {
+    // create temp array of cards
+    var cardsTemp = this.state.cards;
+
+    // finds the index of the "uid" parameter in the array of cards
+    var deleteCardIndex = -1;
+    cardsTemp.forEach((card, index) => {
+      if (card.uid === uid) {
+        deleteCardIndex = index;
+      }
+    });
+
+    // if deleteCardIndex was not overwritten, the uid was never found (error)
+    if (deleteCardIndex === -1) {
+      console.log("Something went wrong when deleting card: ", uid);
+    }
+
+    // delete that value in the array
+    cardsTemp.splice(deleteCardIndex, 1);
+
+    // rewrite state with new array, then log that it was deleted
+    this.setState({ cards: cardsTemp }, function() {
+      console.log("Deleted card: ", uid);
+    });
+
+    // TODO: database injection (delete card from database)
+  }
+
+  moveCard(newColumnName, cardData){
+    // calls delete card from this component. deleteCard propogagetes to Board
+    this.deleteCard(cardData.uid);
+    // add card
+
+    this.props.addCardToColumn( cardData, newColumnName);
+    ///this.props.
+  }
+
+  addCardComment(newComment, cardUid) {
+    //blah blah
+    // pass new comment info, uid of card, and column name to board
+    this.props.addCardComment(newComment, cardUid, this.props.columnName);
+  }
+
+
+  changeCardDescription(newDescription, cardUid) {
+    // pass up to board
+    this.props.changeCardDescription(newDescription, cardUid, this.props.columnName);
+  }
+
+  addCardDueDate(newDueDate, cardUid) {
+    this.props.addCardDueDate(newDueDate, cardUid, this.props.columnName);
+  }
+
   // Renders list of cards onto a column.
   render() {
-    var cards = this.state.cardNames.map(function({cardName, uid}, index) {
-			return(<Card columnName={this.state.columnName} cardName={cardName} uid={uid} key={index} renameCard={(uid, newName) => this.renameCard(uid, newName)} />)
+    // state here is a good thing. usually we are trying to use props
+    var cards = this.state.cards.map(function({cardName, uid, cardDescription, cardComments, cardDueDate}, index) {
+			return(
+        <Card
+          columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}
+          cardDescription={cardDescription} cardComments={cardComments} cardDueDate={cardDueDate}
+          renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}
+          deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)}
+          moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}
+          addCardComment={(newComment, cardUid) => this.addCardComment(newComment, cardUid)}
+          changeCardDescription={(newDescription, cardUid) => this.changeCardDescription(newDescription, cardUid)}
+          addCardDueDate={(newDueDate,cardUid) => this.addCardDueDate(newDueDate, cardUid)}
+        />
+      )
 		}.bind(this)) // this means this this.
 
 		return(
@@ -66,14 +148,14 @@ class Column extends Component {
           <div class="card-header">{this.state.columnName}</div>
           <div class="btn-group-vertical">
 
-            {/* Load all cards into column. Refer to line 37 */}
-            { cards }
-
             {/* NewCardForm compenent is used to add new cards to a column*/}
-            <NewCardForm onSubmit={ cardName => { this.onSubmit(cardName) }} />
+            <NewCardForm onSubmit={ cardName => { this.onNewCardSubmit(cardName) }} />
 
             {/* Throw catch to user for bad card name */}
             { this.state.nameError && <span style={{fontSize: "0.9rem", marginBottom: "12px"}}>Valid characters: <span style={{color: "red"}}>A-z 0-9 _-+*$!.</span></span> }
+
+            {/* Load all cards into column. Refer to line 37 */}
+            { cards }
           </div>
         </div>
       </div>
