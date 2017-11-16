@@ -126,8 +126,19 @@ class Board extends Component {
         }
       })
     })
-    
+
     this.setState(this.state);
+  }
+
+  addCardDueDate(newDueDate, cardUid, columnName) {
+    this.state.columns.forEach((column,index) => {
+      column.cards.forEach((card,index2) => {
+        if(card.uid === cardUid) {
+          card.cardDueDate = newDueDate
+        }
+      })
+    })
+    this.setState(this.state)
   }
 
   render() {
@@ -141,6 +152,7 @@ class Board extends Component {
           addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
           changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
             newDescription, cardUid, columnName)}
+          addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
         />
       )
     }.bind(this));

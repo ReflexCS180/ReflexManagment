@@ -113,9 +113,14 @@ class Column extends Component {
     this.props.addCardComment(newComment, cardUid, this.props.columnName);
   }
 
+
   changeCardDescription(newDescription, cardUid) {
     // pass up to board
     this.props.changeCardDescription(newDescription, cardUid, this.props.columnName);
+  }
+
+  addCardDueDate(newDueDate, cardUid) {
+    this.props.addCardDueDate(newDueDate, cardUid, this.props.columnName);
   }
 
   // Renders list of cards onto a column.
@@ -131,6 +136,7 @@ class Column extends Component {
           moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}
           addCardComment={(newComment, cardUid) => this.addCardComment(newComment, cardUid)}
           changeCardDescription={(newDescription, cardUid) => this.changeCardDescription(newDescription, cardUid)}
+          addCardDueDate={(newDueDate,cardUid) => this.addCardDueDate(newDueDate, cardUid)}
         />
       )
 		}.bind(this)) // this means this this.
