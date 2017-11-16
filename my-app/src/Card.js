@@ -22,9 +22,9 @@ class Card extends Component {
       cardName: this.props.cardName,
       columnName: this.props.columnName,
       modalIsOpen: false,
-      cardDescription: 'A description of the card.',
-      cardComments: [],
-      cardDueDate: ''
+      cardDescription: this.props.cardDescription,
+      cardComments: this.props.cardComments,
+      cardDueDate: this.props.cardDueDate
     }
     // cardComments is an array of objects like this: {username, comment, date}
 

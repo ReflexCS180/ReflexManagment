@@ -88,6 +88,19 @@ class Board extends Component {
     document.body.style.backgroundColor = "#fff";
   }
 
+  addCardToColumn(newCard, columnName) {
+    // search through list of columns for 'columnName'
+    // unshift newCard into that column
+
+    this.state.columns.forEach((column, index) => {
+      if (column.columnName === columnName) {
+        console.log("before: ", column.cards);
+        column.cards.unshift(newCard);
+        console.log("after: ", column.cards);
+      }
+    })
+  }
+
   render() {
     var columns = this.state.columns.map(function({columnName, cards}, index) {
       return(
@@ -95,6 +108,7 @@ class Board extends Component {
           columnName={columnName}
           user={this.state.user}
           cards={cards}
+          addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
         />
       )
     }.bind(this));
@@ -108,7 +122,7 @@ class Board extends Component {
           <h3 class="mt-5 mb-4">{this.state.boardName}</h3>
 
           {/*TODO Resize column width for small screens*/}
-          
+
           <div class="row">
             { columns } {/* Prints <Column> objects, refer to 'var columns' above */}
           </div>

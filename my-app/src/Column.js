@@ -9,12 +9,11 @@ class Column extends Component {
     super(props);
     this.state = {
       columnName: this.props.columnName,
-      cardNames: [],
+      //cards: [], // cards is an array of objects: {name, uid, description, comments, due date}
+      cards: this.props.cards,
       nameError: false,
       user: this.props.user
     }
-    // cardNames is an array of objects: {name, uid}
-
   }
 
   componentDidMount() {
@@ -37,8 +36,20 @@ class Column extends Component {
   // 'onNewCardSubmit' is used specifically to add cards to the cardlist.
   onNewCardSubmit(cardName) {
     if (this.checkValidity(cardName)) {
-      this.state.cardNames.push({cardName: cardName, uid: shortid.generate()});
+
+      var newCard = {
+        cardName: cardName,
+        uid: shortid.generate(),
+        cardDescription: '',
+        cardComments: [],
+        cardDueDate: ''
+      }
+
+      // this.state.cards.push(newCard);
       this.setState({nameError: false});
+
+      // pass this up to Board
+      this.props.addCardToColumn(newCard, this.state.columnName);
     }
     else {
       this.setState({nameError: true});
@@ -47,26 +58,26 @@ class Column extends Component {
 
   // rename the card, passed up from CardModalContent and Card components
   renameCard(uid, newName) {
-    var cardNamesTemp = this.state.cardNames;
-    cardNamesTemp.forEach((card, index) => {
+    var cardsTemp = this.state.cards;
+    cardsTemp.forEach((card, index) => {
       if (card.uid === uid) {
         card.cardName = newName;
       }
     })
 
     this.setState({
-      cardNames: cardNamesTemp
+      cards: cardsTemp
     })
     this.setState(this.state);
   }
 
   deleteCard(uid) {
-    // create temp array of cardNames
-    var cardNamesTemp = this.state.cardNames;
+    // create temp array of cards
+    var cardsTemp = this.state.cards;
 
-    // finds the index of the "uid" parameter in the array of cardNames
+    // finds the index of the "uid" parameter in the array of cards
     var deleteCardIndex = -1;
-    cardNamesTemp.forEach((card, index) => {
+    cardsTemp.forEach((card, index) => {
       if (card.uid === uid) {
         deleteCardIndex = index;
       }
@@ -78,10 +89,10 @@ class Column extends Component {
     }
 
     // delete that value in the array
-    cardNamesTemp.splice(deleteCardIndex, 1);
+    cardsTemp.splice(deleteCardIndex, 1);
 
     // rewrite state with new array, then log that it was deleted
-    this.setState({ cardNames: cardNamesTemp }, function() {
+    this.setState({ cards: cardsTemp }, function() {
       console.log("Deleted card: ", uid);
     });
 
@@ -98,13 +109,16 @@ class Column extends Component {
 
   // Renders list of cards onto a column.
   render() {
-    var cards = this.state.cardNames.map(function({cardName, uid}, index) {
+    var cards = this.state.cards.map(function({cardName, uid, cardDescription, cardComments, cardDueDate}, index) {
 			return(
         <Card
           columnName={this.state.columnName} cardName={cardName} uid={uid} key={index}
+          cardDescription={cardDescription} cardComments={cardComments} cardDueDate={cardDueDate}
           renameCard={(uid, newName) => this.renameCard(uid, newName)} user={this.props.user}
           deleteCard={ deleteCardUid => this.deleteCard(deleteCardUid)}
-          moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}  />)
+          moveCard={(newColumnName, cardData) => this.moveCard(newColumnName, cardData)}
+        />
+      )
 		}.bind(this)) // this means this this.
 
 		return(
