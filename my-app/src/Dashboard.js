@@ -379,6 +379,7 @@ class Dashboard extends Component {
 		// Creates a board instance that will be pushed into the database. (key, value) format
 		const boardList = {
 			boardName: boardName,
+			masterUser: this.state.user.uid,
 			userId: [this.state.user.uid]
 		}
 

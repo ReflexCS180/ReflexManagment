@@ -56,20 +56,17 @@ export default class Register extends Component {
       // Pushing user to database
       console.log(this.state.user.uid)
       const userList = {
-        user: this.state.user.uid
+        user: this.state.user.uid,
+        userEmail: this.state.email
       }
 
       databaseCentral.set(userList)
 
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
-
     })
     .catch(e => {
       this.setState({error: true});
-      //if(e.code=="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
-      //else if(e.code=="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
-      //else
-      this.setState({errorMsg: "Error code: "+e})
+      this.setState({errorMsg: "Error code: " + e})
     });
   }
 
