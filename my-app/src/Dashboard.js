@@ -49,8 +49,8 @@ class BoardTile extends Component {
   }
 
 	share = (emailToShare) => {
-		const currentUid = this.props.uid;
-		const currentBoardName = this.props.name;
+		const currentUid = this.props.uid; 	// Keeps track of the board's uid that is being shared
+		const currentBoardName = this.props.name;  // Keeps track of the board's name that is being shared
 
 		// Create a database reference object -- for listOfUsers
 		var refUser = firebase.database().ref('listOfUsers/');
@@ -68,25 +68,31 @@ class BoardTile extends Component {
 					return;
 				}
 
+				// Looping through all of the keys in currObject
 				for (var i in currObject) {
+					// Once we find one, execute it
 					if (currObject[i]['userEmail'] == emailToShare) {
-						const foundUserId = currObject[i]['user'];
-						var refUserFound = firebase.database().ref('listOfUsers/'+foundUserId+'/personalBoards/'+currentUid);
+						const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
+						var refUserFound = firebase.database().ref('listOfUsers/'+foundUserId+'/personalBoards/'+currentUid);  // Reference to the found user's information
 
+						// Creating an new Board object for the found user to append to
 						const userBoardRef = {
 							boardName: currentBoardName,
 							uid: currentUid
 						}
 
-						var previousLength = 0;
-						refUserFound.set(userBoardRef);
+						refUserFound.set(userBoardRef); // Updating the found user
+
 						// Adding to the current board itself (db)
 						// Create a database reference object -- for listOfBoards
-						var refBoard = firebase.database().ref('listOfBoards/'+currentUid);
-						refBoard.on("value", function(snapshot) {
+						var previousLength = 0; // Temporary variable for the following loop
+						var refBoard = firebase.database().ref('listOfBoards/'+currentUid);  // Reference to the list of board of the shared board in question
+
+						refBoard.on("value", function(snapshot) {		// Creating a snapshot of the current state
 							var refBoardCurr = snapshot.val();
 							var currentUserIdList = refBoardCurr['userId'];
 
+							// This is a small little hack to prevent the state being pushed in indefinitely
 							if (previousLength === 0) {
 								previousLength = currentUserIdList.length;
 							}
@@ -97,14 +103,15 @@ class BoardTile extends Component {
 							// Adding the sharing user to the list
 							currentUserIdList.push(foundUserId);
 
+							// Creating an updated version of the Board
 							const newUserIdList = {
 								boardName: refBoardCurr['boardName'],
 								masterUser: refBoardCurr['masterUser'],
 								userId: currentUserIdList
 							}
 
-							refBoard.update(newUserIdList);
-							resolve("WORKS");
+							refBoard.update(newUserIdList); // Updates the Board
+							resolve("Shared Board works properly");
 							return;
 						})
 
