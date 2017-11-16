@@ -1,5 +1,5 @@
 import React, { Component } from 'react';     // abstract component base
-import { Button } from "react-bootstrap";     // imported for button use
+import { Button, DropdownButton, MenuItem } from "react-bootstrap";     // imported for button use
 import './CardModalContent.css';              // imported for card modal content use
 
 class CardModalContent extends Component {
@@ -10,6 +10,7 @@ class CardModalContent extends Component {
       isRenameCardFormOpen: false,                      // 'renameCardFormOpen' refers to the rename button in card modal.
       isDescriptionFormOpen: false,                     // 'isDescriptionFormOpen' form that opens to let user edit card description.
       isDueDateFormOpen: false,                         // 'isDueDateFormOpen' when true opens form to set card due date.
+      isMoveCardFormOpen: false,
       cardName: this.props.cardName,                    // 'cardName' is set from parents card name
       renameInput: this.props.cardName,                 // 'renameInput' is set from parent by default. 'renameInput's can be changed in card modal by user.
       descriptionInput: this.props.cardDescription,     // 'descriptionInput' sets the card modal's description from parent
@@ -23,6 +24,7 @@ class CardModalContent extends Component {
     this.openRenameCardForm = this.openRenameCardForm.bind(this);    // .bind(this) sets which component to refer to.
     this.openDescriptionForm = this.openDescriptionForm.bind(this);
     this.openDueDateForm = this.openDueDateForm.bind(this);
+    this.moveCard = this.moveCard.bind(this);
 
     console.log(this.props.cardName);
     console.log(this.props.columnName);
@@ -161,6 +163,11 @@ class CardModalContent extends Component {
     }
   }
 
+  // open move card form
+  moveCard(event, columnToMoveTo) {
+    alert("Move this card to: " + columnToMoveTo);
+  }
+
   render() {
     // create multiple CardComment objects from the array of comments in state
     var comments = this.state.cardComments.map(function({username, comment, date}, index) {
@@ -273,8 +280,7 @@ class CardModalContent extends Component {
                         <h5 id="CardModalContent-dueDate">Due:</h5>
                         <p>{this.state.cardDueDate}</p>
                       </div>
-
-                  }
+                  } {/* end of ternary */}
                 </div>
               </div>
               {/* 'Actions' Buttons*/}
@@ -290,7 +296,15 @@ class CardModalContent extends Component {
 
                 <div class="row">
                   {/* 'Move' Button */}
-                  <Button className="btn btn-secondary mb-1" block>Move</Button>
+                  <DropdownButton title="Move" id="move-card-dropdown" className="btn btn-secondary mb-1">
+                    <MenuItem eventKey="1" onSelect={e => this.moveCard(e, "Backlog")}>Backlog</MenuItem>
+                    <MenuItem eventKey="2" onSelect={e => this.moveCard(e, "In Progress")}>In Progress</MenuItem>
+                    <MenuItem eventKey="3" onSelect={e => this.moveCard(e, "Completed")}>Completed</MenuItem>
+                  </DropdownButton>
+
+                  <Button className="btn btn-secondary mb-1" block onClick={this.openMoveCardForm}>Move</Button>
+
+
                 </div>
 
                 {/* 'Copy' Button

@@ -24,7 +24,7 @@ class Column extends Component {
     })
   }
 
-  // checkValidity is used to validate user input. Accpets alphanumeric or dashes or underscores
+  // checkValidity is used to validate user input. Accepts alphanumeric or dashes or underscores
   checkValidity(nameToCheck) {
     if (nameToCheck.length > 0) {
       return(!(/[^A-Za-z0-9.!$+*_-\s]/.test(nameToCheck)));
