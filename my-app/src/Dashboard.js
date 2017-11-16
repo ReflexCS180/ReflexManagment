@@ -76,7 +76,7 @@ class BoardTile extends Component {
 					if (currObject[i]['userEmail'] == emailToShare) {
 						const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
 						var refUserFound = firebase.database().ref('listOfUsers/'+foundUserId+'/personalBoards/'+currentUid);  // Reference to the found user's information
-						found = true;
+
 						// Creating an new Board object for the found user to append to
 						const userBoardRef = {
 							boardName: currentBoardName,
@@ -111,16 +111,12 @@ class BoardTile extends Component {
 								userId: currentUserIdList
 							}
 
-							refBoard.update(newUserIdList); // Updates the Board
+							refBoard.set(newUserIdList); // Updates the Board
 							resolve("Shared Board works properly");
 							return;
 						})
 
 					}
-				}
-				if(!found) {
-					alert("Error " + emailToShare + " was not found");
-					return;
 				}
 			}.bind(this))
 		}).then((successMessage) => {
