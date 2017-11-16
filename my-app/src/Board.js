@@ -21,7 +21,7 @@ const BoardMenu = () => (
 
 			<div class="mt-5 mb-4" id="topic">
 				<h5>Settings</h5>
-				
+
 			</div>
 
 
