@@ -134,7 +134,7 @@ class Card extends Component {
       <div class="card" onClick={this.openModal} > {/* 'onClick={() => alert('click')' Adds click event when a card is clicked.*/}
         <div class="card-body">
           <p class="card-title">{this.props.cardName}</p>
-          <p class="card-text">Short description.</p>
+          {/*<p class="card-text">Short description.</p>*/}
         </div>
 
         {/*Open Modal*/}
