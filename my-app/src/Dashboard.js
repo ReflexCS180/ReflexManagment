@@ -415,6 +415,9 @@ class Dashboard extends Component {
 		//this.onNewBoardSubmit = this.onNewBoardSubmit.bind(this);
 	}
 	componentWillMount() {
+	}
+
+	componentDidMount() {
 		// on component load: changes tab name and updates state.boardObjects
 		document.title = "Huddle Dashboard";
 		auth.onAuthStateChanged((userAuth) => {
@@ -427,27 +430,16 @@ class Dashboard extends Component {
 				// It will set the current State to update the newBoards with all the contents that the user
 				// might have. From there it will push all the contents to this.state.newBoards so that
 				// updateBoards() will create all the board components on the dashboards accordingly
-				getData.on("value", function(snapshot) { //this will enable us to access & browse listOfUsers/{user's ID}/personalBoards
+				getData.once("value", function(snapshot) { //this will enable us to access & browse listOfUsers/{user's ID}/personalBoards
 					var changedPost = snapshot.val();
-					console.log("changedPost: ",changedPost);
 					this.setState({newBoards: []}, function() {
 						for (var i in changedPost) {
 							var test = firebase.database().ref('listOfBoards/'+changedPost[i].uid);
-							test.on("value", function(snapshot) {//this will enable us to browse listOfBoards/{the item's ID}
+							test.once("value", function(snapshot) {//this will enable us to browse listOfBoards/{the item's ID}
 								//console.log("test"); //apparently, this page will UPDATE itself if there's any changes in snapshot's path
 								if(snapshot.val()){ //so that it doesn't execute if we delete the board/item
 								//console.log(snapshot.val());
-									for (var j =0; j<=this.state.newBoards.length;j++) { //browse through this.state.newBoards' item
-										console.log("aye ", this.state.newBoards[j]);
-										//Jeremy, this is where I want to implement so that: "if the board uid already exist, don't push the board"
-										// if(this.state.newBoards[j].uid== snapshot.val().uid) { //the only way to know is comparing newBoards' uid with the updated snapshot's uid
-										// 	this.state.newBoards[j].boardName=snapshot.val().boardName; //and I want to change the j newBoard's name to the updated name
-										// 	updating=true;
-										// }
-									}
-									if(!updating)
 									this.state.newBoards.push({name: snapshot.val().boardName, uid: snapshot.val().uid});
-									updating=false;
 								}
 								this.updateBoards();
 								//console.log(this.state.newBoards);
@@ -459,9 +451,6 @@ class Dashboard extends Component {
 				}.bind(this));
 			}
 		});
-	}
-
-	componentDidMount() {
 	}
 
 	getBoard() {
@@ -548,7 +537,7 @@ class Dashboard extends Component {
 			// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 			new Promise((resolve, reject) => {
 				// Creation of a snapshot to fetch the latest data of refUser
-				refUser.on("value", function(snapshot) {
+				refUser.once("value", function(snapshot) {
 					var currObject = snapshot.val();
 
 					// A little hack I came up with so that we don't delete a null state or anything of that sort.
@@ -579,7 +568,7 @@ class Dashboard extends Component {
 							// Create a database reference object -- for listOfBoards
 							var refBoard = firebase.database().ref('listOfBoards/'+currentUid);  // Reference to the list of board of the shared board in question
 
-							refBoard.on("value", function(snapshot) {		// Creating a snapshot of the current state
+							refBoard.once("value", function(snapshot) {		// Creating a snapshot of the current state
 								var refBoardCurr = snapshot.val();
 								var currentUserIdList = refBoardCurr['userId'];
 
@@ -734,13 +723,13 @@ class Dashboard extends Component {
 
 				// Create a database reference object -- for listOfUsers
 				for (var i in currObject) {
-					console.log("inForLoop: ", 'listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
+					// console.log("inForLoop: ", 'listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 
 					// Literally deletes the instance declared right above
 					boardNamesRefUser.remove();
 					// Sets the resolved state's message
-					resolve("Deletion of UserUi: " + currObject[i] + " successful");
+					// resolve("Deletion of UserUi: " + currObject[i] + " successful");
 				}
 
 
