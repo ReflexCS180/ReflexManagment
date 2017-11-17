@@ -123,6 +123,7 @@ class Board extends Component {
             user={this.state.user}
             cards={cards}
             key={index}
+            boardUid={this.props.match.params.boardID}
             addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
             addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
             changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(

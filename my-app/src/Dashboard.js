@@ -195,7 +195,6 @@ class BoardTileTools extends Component {
 
 	}
 
-
 	// Implementing the share functionality
 	share() {
 		// Grabbing the user's friend's email
