@@ -476,7 +476,11 @@ class Dashboard extends Component {
 			boardName: boardName,
 			masterUser: this.state.user.uid,
 			userId: [this.state.user.uid],
-			uid: uid
+			columns: [
+				{columnName: 'Backlog', cards: []},
+				{columnName: 'In Progress', cards: []},
+				{columnName: 'Complete', cards: []}
+			]
 		}
 
 		// --------- THIS is where you update/push data into the database --------
