@@ -82,7 +82,9 @@ class Board extends Component {
           var columns = currentBoardObject['columns'];
           var newColumnState = [];
           columns.forEach((column, index) => {
-            column.cards = [];
+            if (!column.cards) {
+              column.cards = [];
+            }
             newColumnState.push({columnName: column.columnName, cards: column.cards});
           })
 
