@@ -80,22 +80,23 @@ class Board extends Component {
           })
 
           var columns = currentBoardObject['columns'];
-
+          var newColumnState = [];
           columns.forEach((column, index) => {
             column.cards = [];
-            this.state.columns.push({columnName: column.columnName, cards: column.cards});
+            newColumnState.push({columnName: column.columnName, cards: column.cards});
           })
 
-					// this.setState({columns: []}, function() {
-					// 	for (var i in currentBoardObject['columns']) {
-					// 		this.state.columns.push({columnName: currentBoardObject['columns'][i].columnName, cards: []});
-					// 	}
-					// });
+          this.setState({
+            columns: newColumnState
+          }, function() {
+            this.updateColumns();
+          })
+
 				}.bind(this))
 			}
 		});
 
-    this.updateColumns();
+    // this.updateColumns();
   }
 
   componentWillUnmount() {
