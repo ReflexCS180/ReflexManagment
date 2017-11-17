@@ -433,12 +433,14 @@ class Dashboard extends Component {
 				// updateBoards() will create all the board components on the dashboards accordingly
 				getData.on("value", function(snapshot) { //this will enable us to access & browse listOfUsers/{user's ID}/personalBoards
 					var changedPost = snapshot.val();
+					console.log("changedPost: ",changedPost);
 					this.setState({newBoards: []}, function() {
 						for (var i in changedPost) {
 							var test = firebase.database().ref('listOfBoards/'+changedPost[i].uid);
 							test.on("value", function(snapshot) {//this will enable us to browse listOfBoards/{the item's ID}
-								console.log("test"); //apparently, this page will UPDATE itself if there's any changes in snapshot's path
+								//console.log("test"); //apparently, this page will UPDATE itself if there's any changes in snapshot's path
 								if(snapshot.val()){ //so that it doesn't execute if we delete the board/item
+								//console.log(snapshot.val());
 									for (var j =0; j<=this.state.newBoards.length;j++) { //browse through this.state.newBoards' item
 										console.log("aye ", this.state.newBoards[j]);
 										//Jeremy, this is where I want to implement so that: "if the board uid already exist, don't push the board"
@@ -452,7 +454,7 @@ class Dashboard extends Component {
 									updating=false;
 								}
 								this.updateBoards();
-								console.log(this.state.newBoards);
+								//console.log(this.state.newBoards);
 							}.bind(this));
 							//console.log(test);
 						}
@@ -771,6 +773,11 @@ class Dashboard extends Component {
         renameTileSuccess = 1;
       }
     });
+
+		//----This is the part where we update our changes into the database---
+		var renameRef = firebase.database().ref('listOfBoards/'+uid);
+		renameRef.set({boardName: newName, uid: uid});
+		//---------------------------------------------------------------------
 
     if (!renameTileSuccess) {
       console.log("Something went wrong, rename failed. ", uid);
