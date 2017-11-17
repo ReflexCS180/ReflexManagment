@@ -415,10 +415,6 @@ class Dashboard extends Component {
 		//this.onNewBoardSubmit = this.onNewBoardSubmit.bind(this);
 	}
 	componentWillMount() {
-
-	}
-
-	componentDidMount() {
 		// on component load: changes tab name and updates state.boardObjects
 		document.title = "Huddle Dashboard";
 		auth.onAuthStateChanged((userAuth) => {
@@ -463,6 +459,9 @@ class Dashboard extends Component {
 				}.bind(this));
 			}
 		});
+	}
+
+	componentDidMount() {
 	}
 
 	getBoard() {
@@ -776,7 +775,7 @@ class Dashboard extends Component {
 
 		//----This is the part where we update our changes into the database---
 		var renameRef = firebase.database().ref('listOfBoards/'+uid);
-		renameRef.set({boardName: newName, uid: uid});
+		renameRef.update({boardName: newName});
 		//---------------------------------------------------------------------
 
     if (!renameTileSuccess) {
