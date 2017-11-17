@@ -5,6 +5,7 @@ import { NavLanding } from './Nav.js'
 import { Board } from './Board.js'
 import { Login } from './Login.js'
 import { Register } from './Register.js'
+import { Profile } from './Profile.js'
 import './App.css';
 import './Landing.css';
 import { auth, provider, fbconfig } from './firebase.js';
@@ -100,6 +101,7 @@ const Main = () => (
       <Route path='/board/:boardID' component={ Board } />
       <Route exact path='/login' component={ Login } />
       <Route exact path='/register' component={ Register } />
+      <Route path='/profile' component={ Profile } />
     </Switch>
   </main>
 )
