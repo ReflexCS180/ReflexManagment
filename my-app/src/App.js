@@ -8,14 +8,8 @@ import { Register } from './Register.js'
 import { Profile } from './Profile.js'
 import './App.css';
 import './Landing.css';
-import { auth, provider, fbconfig } from './firebase.js';
-import firebase from 'firebase';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-  }
-
   render(){
     return(
       <div>

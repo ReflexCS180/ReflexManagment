@@ -1,5 +1,5 @@
 import React, { Component } from 'react';     // abstract component base
-import { Button, DropdownButton, MenuItem } from "react-bootstrap";     // imported for button use
+import { Button } from "react-bootstrap";     // imported for button use
 import './CardModalContent.css';              // imported for card modal content use
 
 class CardModalContent extends Component {
@@ -187,9 +187,12 @@ class CardModalContent extends Component {
 
   render() {
     // create multiple CardComment objects from the array of comments in state
-    var comments = this.props.cardComments.map(function({username, comment, date}, index) {
-			return(<CardComment username={username} comment={comment} date={date} key={index} />)
-		})
+    if (this.props.cardComments) {
+      var comments = this.props.cardComments.map(function({username, comment, date}, index) {
+  			return(<CardComment username={username} comment={comment} date={date} key={index} />)
+  		})
+    }
+
 
     return(
       <div id="CardModalContent-content">
@@ -312,7 +315,25 @@ class CardModalContent extends Component {
                 </div>
 
                 <div class="row">
-                  {/* 'Move' Button */}
+                  {/* NEW'Move' Button */}
+                  <div class="dropdown btn-block mb-1">
+                    <button class="btn btn-secondary dropdown-toggle btn-block " id="CardModalContent-actionbuttons-dropdown" type="button" data-toggle="dropdown">
+                      Move
+                    <span class="caret"></span></button>
+                    <ul class="CardModalContent-dropdown-menu dropdown-menu">
+                      <li  onClick={e => this.moveCard(e, "Backlog")}>Backlog</li>
+
+                      <li onClick={e => this.moveCard(e, "In Progress")}>In Progress</li>
+
+                      <li onClick={e => this.moveCard(e, "Complete")}>Completed</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 'Move' Button
+                <div class="row">
+
+
                   <Button className="btn btn-secondary mb-1" block onClick={e => this.openMoveCardForm(e)}>Move</Button>
                   {this.state.isMoveCardFormOpen &&
                     <div id="CardModalContent-movecardform">
@@ -322,8 +343,8 @@ class CardModalContent extends Component {
                     </div>
                   }
 
-
                 </div>
+                */}
 
                 {/* 'Copy' Button
                 <div class="row">
@@ -348,10 +369,11 @@ class CardModalContent extends Component {
                   <h4>Add</h4>
                 </div>
 
+                {/* 'Members' Button
                 <div class="row">
-                  {/* 'Members' Button */}
                   <Button className="btn btn-secondary mb-1" block>Members</Button>
                 </div>
+                */}
 
                 <div class="row">
                   {/* 'Due Date' Button */}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth } from './firebase.js';
 
 // use shortid.generate() to generate a unique ID for our boards
 var shortid = require('shortid');
@@ -132,7 +132,6 @@ class BoardTileTools extends Component {
     });
 
 	}
-
 
 	// Implementing the share functionality
 	share() {
@@ -477,7 +476,11 @@ class Dashboard extends Component {
 			boardName: boardName,
 			masterUser: this.state.user.uid,
 			userId: [this.state.user.uid],
-			uid: uid
+			columns: [
+				{columnName: 'Backlog', cards: []},
+				{columnName: 'In Progress', cards: []},
+				{columnName: 'Complete', cards: []}
+			]
 		}
 
 		// --------- THIS is where you update/push data into the database --------
@@ -659,13 +662,13 @@ class Dashboard extends Component {
 				for (var i in currObject) {
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 						//console.log("Debugging: "+ i + " =  "+ currObject[i] );
-					if(this.state.user.uid==currObject[i]) {
+					if (this.state.user.uid === currObject[i]) {
 						// Literally deletes the instance declared right above
 						boardNamesRefUser.remove();
 						// Sets the resolved state's message
 						//console.log("Debugging2: "+ i + " =  "+ currObject[i] );
 						resolve("Unlink of UserUi: " + currObject[i] + " successful");
-						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId"+"/"+i);
+						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId+/'+i);
 
 						// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 						boardNamesRef.remove();
@@ -743,7 +746,7 @@ class Dashboard extends Component {
 				console.log(uid);
 				boardNamesRef.remove();
 
-			}.bind(this)) // Make sure that it's referring to the correct this
+			}) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
 			console.log(successMessage); // prints out the resolve state's successMessage

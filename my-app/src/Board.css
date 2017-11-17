@@ -71,11 +71,67 @@
 }
 
 #rightMenu {
-  position: fixed;
-  right: 0px;
-  width: 300px;
-  height: 100%;
-  background-color: #79ADDC;
-  max-height: 100%;
-  border-left: 2px solid;
+    z-index: 0;
+    position: fixed;
+    padding-top: 56px;
+    right: 0px;
+    width: 300px;
+    height: 100%;
+    overflow: hidden;
+    background-color: #79ADDC;
+    max-height: 100%;
+    border-left: 2px solid;
+}
+
+.BoardMenu-open-button {
+  background: 0;
+  border: 0;
+  box-sizing: content-box;
+  color: #78addc;
+  cursor: pointer;
+  font-size: 14px;
+  height: 30px;
+  line-height: 0;
+  position: absolute;
+  right: 0;
+  top: 60px;
+  width: auto;
+  z-index: 1;
+}
+
+.BoardMenu-open-button:hover {
+  background: #bd9b27;
+  border: 0;
+  box-sizing: content-box;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  height: 30px;
+  line-height: 0;
+  position: absolute;
+  right: 0;
+  top: 60px;
+  width: auto;
+  z-index: 1;
+}
+
+.BoardMenu-close-button {
+
+  background: 0;
+  border: 0;
+  box-sizing: content-box;
+  cursor: pointer;
+  font-size: 2rem;
+  height: 30px;
+  line-height: 0;
+  position: absolute;
+  right: 0;
+  top: 60px;
+  width: 30px;
+  z-index: 1;
+
+}
+
+.BoardMenu-close-button:hover {
+  color: red;
 }

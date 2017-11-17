@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; // abstract component base
 import Card from './Card.js'
+import firebase, { auth } from './firebase.js';
 
 // imports shortid package to create unique IDs.
 var shortid = require('shortid');
@@ -14,6 +15,7 @@ class Column extends Component {
       nameError: false,
       user: this.props.user
     }
+    this.deleteCard = this.deleteCard.bind(this)
   }
 
   componentDidMount() {
@@ -96,20 +98,60 @@ class Column extends Component {
       console.log("Deleted card: ", uid);
     });
 
-    // TODO: database injection (delete card from database)
+    const boardUid = this.props.boardUid;
+
+    var jeremyColumnName = this.props.columnName;
+    // from dashboard
+    auth.onAuthStateChanged((userAuth) => {
+			if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
+				this.setState({user: userAuth});
+				// fetches the object referencing the list of personalBoards of the current user
+				var getData = firebase.database().ref('listOfBoards/'+boardUid);
+
+				getData.on("value", function(snapshot) {
+					var currentBoardObject = snapshot.val(); // Gives us the columnList object which contains a bunch of columns
+
+
+
+          var columns = currentBoardObject['columns'];
+          columns.forEach((column, index) => {
+            if(column.columnName === jeremyColumnName) {
+            if (column['cards']) {
+              column['cards'].forEach((card, indexInner) => {
+                if (card['uid'] === uid) {  // If we found the card to delete
+                  var cardToDelete = firebase.database().ref('listOfBoards/'+boardUid+'/columns/'+index+"/cards/"+indexInner);
+                  // console.log("PLEASE REMOVE THIS: " + 'listOfBoards/'+boardUid+'/columns/'+index+"/cards/"+indexInner)
+                  cardToDelete.remove();
+                }
+              })
+            } // end of inner if
+          }
+        })
+
+
+				})
+			}
+		});
+
   }
 
   moveCard(newColumnName, cardData){
+
+    let tmpColumnName = null
+    let tmpCardData = []
+
+    tmpColumnName = newColumnName
+    tmpCardData = cardData
+
     // calls delete card from this component. deleteCard propogagetes to Board
     this.deleteCard(cardData.uid);
     // add card
 
-    this.props.addCardToColumn( cardData, newColumnName);
-    ///this.props.
+    this.props.addCardToColumn(tmpCardData, tmpColumnName);
+    // this.props.
   }
 
   addCardComment(newComment, cardUid) {
-    //blah blah
     // pass new comment info, uid of card, and column name to board
     this.props.addCardComment(newComment, cardUid, this.props.columnName);
   }
