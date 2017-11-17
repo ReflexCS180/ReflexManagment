@@ -465,7 +465,12 @@ class Dashboard extends Component {
 		const boardList = {
 			boardName: boardName,
 			masterUser: this.state.user.uid,
-			userId: [this.state.user.uid]
+			userId: [this.state.user.uid],
+      columns: [
+        {columnName: 'Backlog', cards: []},
+        {columnName: 'In Progress', cards: []},
+        {columnName: 'Complete', cards: []}
+      ]
 		}
 
 		// --------- THIS is where you update/push data into the database --------

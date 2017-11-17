@@ -42,32 +42,13 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      boardName: "Board Name", /* TODO: Add feature to match board name with selected board*/
+      boardName: '',
       user: [],
-      columns: [
-        {columnName: "Backlog", cards: []},
-        {columnName: "In Progress", cards: []},
-        {columnName: "Completed", cards: []}
-      ],
+      columns: [],
       showBoardMenu: false
     }
 
     this.openMenu.bind(this);
-
-    // check if user is logged in, set state "user" if true
-    auth.onAuthStateChanged((userAuth) => {
-      if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
-            //console.log("user is logged in");
-            this.setState({
-              user: firebase.auth().currentUser
-            }, function() {
-              //console.log("user from board constructor: ", this.state.user);
-            })
-      }
-      else {
-        console.log("user is not logged in");
-      }
-    });
 
   }
 
@@ -80,17 +61,72 @@ class Board extends Component {
     document.title = "Huddle Board Page";
     document.body.style.backgroundColor = "#ffe070";
 
-    // 'this.props.match.params.boardID' is from the URL
-    // if url is huddlereflex.me/board/abc, params.boardID = 'abc'
-    if (this.props.match.params.boardID !== undefined) {
-      // TODO: get name of board from firebase with this uid: this.props.match.params.boardID
-      this.setState({boardName: this.props.match.params.boardID});
-    }
+    // from dashboard
+    auth.onAuthStateChanged((userAuth) => {
+				if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
+				this.setState({user: userAuth});
+				// fetches the object referencing the list of personalBoards of the current user
+				var getData = firebase.database().ref('listOfBoards/'+this.props.match.params.boardID);
+
+				// fetches a snapshot (kinda like a constant camera watching the database)
+				// It will set the current State to update the newBoards with all the contents that the user
+				// might have. From there it will push all the contents to this.state.newBoards so that
+				// updateBoards() will create all the board components on the dashboards accordingly
+				getData.on("value", function(snapshot) {
+					var currentBoardObject = snapshot.val();
+          this.setState({
+            boardName: currentBoardObject['boardName']
+          })
+
+					this.setState({columns: []}, function() {
+						for (var i in currentBoardObject['columns']) {
+							this.state.columns.push({columnName: currentBoardObject['columns'][i].columnName, cards: []});
+						}
+					});
+				}.bind(this))
+			}
+		});
+
+    this.setState(this.state);
+    console.log("before update columns ", this.state.columns);
+    this.updateColumns();
   }
 
   componentWillUnmount() {
     document.body.style.backgroundColor = "#fff";
   }
+
+  updateColumns() {
+		// look at this.state.newBoards, map the names to variable "boards"
+		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
+    var columns = this.state.columns.map(function({columnName, cards}, index) {
+      return(
+          <Column
+            columnName={columnName}
+            user={this.state.user}
+            cards={cards}
+            addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
+            addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
+            changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
+              newDescription, cardUid, columnName)}
+            addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
+          />
+        )
+    }.bind(this));
+
+		// new array to store each object in
+		var myColumns = [];
+
+		// for each item in "boards" variable, add it to the "myBoards" array
+		columns.forEach(function(item, key) {
+			myColumns.push(item);
+		})
+
+		// sets state.boardObjects to be "myBoards", new list of objects
+		this.setState({ columnObjects: myColumns }, function() {
+		    // prints new boardObjects state to console, AFTER update is done
+		});
+	}
 
   addCardToColumn(newCard, columnName) {
     // search through list of columns for 'columnName'
@@ -163,20 +199,25 @@ class Board extends Component {
   }
 
   render() {
-    var columns = this.state.columns.map(function({columnName, cards}, index) {
-      return(
-          <Column
-            columnName={columnName}
-            user={this.state.user}
-            cards={cards}
-            addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
-            addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
-            changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
-              newDescription, cardUid, columnName)}
-            addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
-          />
-        )
-    }.bind(this));
+
+    // console.log("state columns: ", this.state.columns);
+
+    // var columns = this.state.columns.map(function({columnName, cards}, index) {
+    //   return(
+    //       <Column
+    //         columnName={columnName}
+    //         user={this.state.user}
+    //         cards={cards}
+    //         addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
+    //         addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
+    //         changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
+    //           newDescription, cardUid, columnName)}
+    //         addCardDueDate={(newDueDate, cardUid, columnName) => this.addCardDueDate(newDueDate, cardUid, columnName)}
+    //       />
+    //     )
+    // }.bind(this));
+
+    // console.log("columns: ", columns);
 
     return(
       <div>
@@ -196,7 +237,7 @@ class Board extends Component {
           {/*TODO Resize column width for small screens*/}
 
           <div class="row">
-            { columns } {/* Prints <Column> objects, refer to 'var columns' above */}
+            { this.state.columnObjects } {/* Prints <Column> objects, refer to 'var columns' above */}
           </div>
         </div>
       </div>
