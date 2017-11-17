@@ -159,7 +159,9 @@ class Board extends Component {
         console.log("after: ", column.cards);
       }
     })
-    this.setState(this.state);
+    //this.setState(this.state);
+
+    this.sendBoardToDatabase();
   }
 
   addCardComment(newComment, cardUid, columnName) {
@@ -170,12 +172,17 @@ class Board extends Component {
     this.state.columns.forEach((column, index) => {
       column.cards.forEach((card, index2) => {
         if (card.uid === cardUid) {
+          if (card.cardComments === undefined) {
+            card.cardComments = [];
+          }
           card.cardComments.unshift(newComment)
         }
       })
     })
 
-    this.setState(this.state);
+    //this.setState(this.state);
+
+    this.sendBoardToDatabase();
   }
 
   changeCardDescription(newDescription, cardUid, columnName) {
@@ -187,7 +194,9 @@ class Board extends Component {
       })
     })
 
-    this.setState(this.state);
+    //this.setState(this.state);
+
+    this.sendBoardToDatabase();
   }
 
   addCardDueDate(newDueDate, cardUid, columnName) {
@@ -198,7 +207,9 @@ class Board extends Component {
         }
       })
     })
-    this.setState(this.state);
+    //this.setState(this.state);
+
+    this.sendBoardToDatabase();
   }
 
   openMenu(e) {
@@ -215,6 +226,16 @@ class Board extends Component {
     this.setState({
       showBoardMenu: false
     })
+  }
+
+  sendBoardToDatabase() {
+    var boardRef = firebase.database().ref('listOfBoards/'+this.props.match.params.boardID+'/columns');
+
+    boardRef.set(this.state.columns);
+
+    this.updateColumns();
+
+    this.setState(this.state);
   }
 
   render() {
