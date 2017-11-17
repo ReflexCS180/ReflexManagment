@@ -72,6 +72,7 @@ class BoardTile extends Component {
 				var found = false;
 				// Looping through all of the keys in currObject
 				for (var i in currObject) {
+					console.log("Outside of IF function: ", currObject);
 					// Once we find one, execute it
 					if (currObject[i]['userEmail'] == emailToShare) {
 						const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
@@ -82,6 +83,7 @@ class BoardTile extends Component {
 							boardName: currentBoardName,
 							uid: currentUid
 						}
+							console.log("Inside of IF function: ", refUserFound, userBoardRef);
 
 						refUserFound.set(userBoardRef); // Updating the found user
 
@@ -553,13 +555,13 @@ class Dashboard extends Component {
 				// Create a database reference object -- for listOfUsers
 				for (var i in currObject) {
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
-						console.log("Debugging: "+ i + " =  "+ currObject[i] );
+						//console.log("Debugging: "+ i + " =  "+ currObject[i] );
 					if(this.state.user.uid==currObject[i]) {
 						// Literally deletes the instance declared right above
 						boardNamesRefUser.remove();
 						// Sets the resolved state's message
-						console.log("Debugging2: "+ i + " =  "+ currObject[i] );
-						resolve("Deletion of UserUi: " + currObject[i] + " successful");
+						//console.log("Debugging2: "+ i + " =  "+ currObject[i] );
+						resolve("Unlink of UserUi: " + currObject[i] + " successful");
 						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId"+"/"+i);
 
 						// Literally deletes the boardNamesRef instance from the db upon the Promises completing
@@ -607,7 +609,7 @@ class Dashboard extends Component {
 		this.setState({ newBoards: boardNamesTemp });
 
 		// Create a database reference object -- for listOfBoards
-		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId');
 		//console.log(boardNamesRef);
 
 		// Creating a promise with a resolve and reject states.
@@ -625,6 +627,7 @@ class Dashboard extends Component {
 
 				// Create a database reference object -- for listOfUsers
 				for (var i in currObject) {
+					console.log("inForLoop: ", 'listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 
 					// Literally deletes the instance declared right above
@@ -633,12 +636,14 @@ class Dashboard extends Component {
 					resolve("Deletion of UserUi: " + currObject[i] + " successful");
 				}
 
+
 			}.bind(this)) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
 			console.log(successMessage); // prints out the resolve state's successMessage
 
 			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
+			boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
 			boardNamesRef.remove();
 		}).catch((err) => {
 			console.log(err);
