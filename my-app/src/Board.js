@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavBoard } from './Nav.js'; // Why do we need this import in Board.js?
 import Column from './Column.js';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth } from './firebase.js';
 import './Board.css';
 
 const BoardMenu = () => (
@@ -74,21 +74,27 @@ class Board extends Component {
 				// updateBoards() will create all the board components on the dashboards accordingly
 				getData.on("value", function(snapshot) {
 					var currentBoardObject = snapshot.val();
+
           this.setState({
             boardName: currentBoardObject['boardName']
           })
 
-					this.setState({columns: []}, function() {
-						for (var i in currentBoardObject['columns']) {
-							this.state.columns.push({columnName: currentBoardObject['columns'][i].columnName, cards: []});
-						}
-					});
+          var columns = currentBoardObject['columns'];
+
+          columns.forEach((column, index) => {
+            column.cards = [];
+            this.state.columns.push({columnName: column.columnName, cards: column.cards});
+          })
+
+					// this.setState({columns: []}, function() {
+					// 	for (var i in currentBoardObject['columns']) {
+					// 		this.state.columns.push({columnName: currentBoardObject['columns'][i].columnName, cards: []});
+					// 	}
+					// });
 				}.bind(this))
 			}
 		});
 
-    this.setState(this.state);
-    console.log("before update columns ", this.state.columns);
     this.updateColumns();
   }
 
@@ -99,12 +105,21 @@ class Board extends Component {
   updateColumns() {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
-    var columns = this.state.columns.map(function({columnName, cards}, index) {
+    var stateColumns = this.state.columns;
+    console.log("state columns: ", this.state.columns);
+
+    // var stateColumns = this.state.columns;
+    // console.log("stateColumns length: ", stateColumns.length);
+
+    console.log("stateColumns: ", stateColumns);
+    console.log("stateColumns length: ", stateColumns.length);
+    var columns = stateColumns.map(function({columnName, cards}, index) {
       return(
           <Column
             columnName={columnName}
             user={this.state.user}
             cards={cards}
+            key={index}
             addCardToColumn={(newCard, columnName) => this.addCardToColumn(newCard, columnName)}
             addCardComment={(newComment, cardUid, columnName) => this.addCardComment(newComment, cardUid, columnName)}
             changeCardDescription={(newDescription, cardUid, columnName) => this.changeCardDescription(
@@ -114,6 +129,8 @@ class Board extends Component {
         )
     }.bind(this));
 
+    console.log("columns: ", columns);
+
 		// new array to store each object in
 		var myColumns = [];
 
@@ -121,7 +138,6 @@ class Board extends Component {
 		columns.forEach(function(item, key) {
 			myColumns.push(item);
 		})
-
 		// sets state.boardObjects to be "myBoards", new list of objects
 		this.setState({ columnObjects: myColumns }, function() {
 		    // prints new boardObjects state to console, AFTER update is done
