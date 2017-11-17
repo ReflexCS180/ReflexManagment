@@ -97,7 +97,7 @@ export default class Register extends Component {
       if(e.code==="auth/wrong-password") this.setState({errorMsg: "Wrong password!"})
       else if(e.code==="auth/user-not-found") this.setState({errorMsg: "Email is not found!"})
       else this.setState({errorMsg: "Error code: "+e.code})
-    });
+    })
   }
 
   //----------Checks if the user is previously logged in
