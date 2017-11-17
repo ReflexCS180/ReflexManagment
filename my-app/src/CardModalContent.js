@@ -325,7 +325,7 @@ class CardModalContent extends Component {
 
                       <li onClick={e => this.moveCard(e, "In Progress")}>In Progress</li>
 
-                      <li onClick={e => this.moveCard(e, "Completed")}>Completed</li>
+                      <li onClick={e => this.moveCard(e, "Complete")}>Completed</li>
                     </ul>
                   </div>
                 </div>

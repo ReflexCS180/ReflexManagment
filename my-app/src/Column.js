@@ -15,6 +15,7 @@ class Column extends Component {
       nameError: false,
       user: this.props.user
     }
+    this.deleteCard = this.deleteCard.bind(this)
   }
 
   componentDidMount() {
@@ -98,6 +99,8 @@ class Column extends Component {
     });
 
     const boardUid = this.props.boardUid;
+
+    var jeremyColumnName = this.props.columnName;
     // from dashboard
     auth.onAuthStateChanged((userAuth) => {
 			if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
@@ -108,8 +111,11 @@ class Column extends Component {
 				getData.on("value", function(snapshot) {
 					var currentBoardObject = snapshot.val(); // Gives us the columnList object which contains a bunch of columns
 
+
+
           var columns = currentBoardObject['columns'];
           columns.forEach((column, index) => {
+            if(column.columnName === jeremyColumnName) {
             if (column['cards']) {
               column['cards'].forEach((card, indexInner) => {
                 if (card['uid'] === uid) {  // If we found the card to delete
@@ -118,8 +124,9 @@ class Column extends Component {
                   cardToDelete.remove();
                 }
               })
-            }
-          })
+            } // end of inner if
+          }
+        })
 
 
 				})
@@ -129,11 +136,18 @@ class Column extends Component {
   }
 
   moveCard(newColumnName, cardData){
+
+    let tmpColumnName = null
+    let tmpCardData = []
+
+    tmpColumnName = newColumnName
+    tmpCardData = cardData
+
     // calls delete card from this component. deleteCard propogagetes to Board
     this.deleteCard(cardData.uid);
     // add card
 
-    this.props.addCardToColumn(cardData, newColumnName);
+    this.props.addCardToColumn(tmpCardData, tmpColumnName);
     // this.props.
   }
 
