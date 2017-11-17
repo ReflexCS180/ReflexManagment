@@ -568,32 +568,39 @@ class Dashboard extends Component {
 							// Create a database reference object -- for listOfBoards
 							var refBoard = firebase.database().ref('listOfBoards/'+currentUid);  // Reference to the list of board of the shared board in question
 
+							//--------------------------------------------
 							refBoard.once("value", function(snapshot) {		// Creating a snapshot of the current state
 								var refBoardCurr = snapshot.val();
 								var currentUserIdList = refBoardCurr['userId'];
-
-								// This is a small little hack to prevent the state being pushed in indefinitely
-								if (previousLength === 0) {
-									previousLength = currentUserIdList.length;
-								}
-								else if (currentUserIdList.length > previousLength) {
-									return;
-								}
-
-								// Adding the sharing user to the list
+              //
+							// 	// This is a small little hack to prevent the state being pushed in indefinitely
+							// 	if (previousLength === 0) {
+							// 		previousLength = currentUserIdList.length;
+							// 	}
+							// 	else if (currentUserIdList.length > previousLength) {
+							// 		return;
+							// 	}
+              //
+							// 	// Adding the sharing user to the list
 								currentUserIdList.push(foundUserId);
+								console.log(currentUserIdList, foundUserId);
 
-								// Creating an updated version of the Board
-								const newUserIdList = {
-									boardName: refBoardCurr['boardName'],
-									masterUser: refBoardCurr['masterUser'],
-									userId: currentUserIdList
-								}
-
-								refBoard.set(newUserIdList); // Updates the Board
-								resolve("Shared Board works properly");
-								return;
+								refBoard = firebase.database().ref('listOfBoards/'+currentUid+'/userId');
+								refBoard.update(currentUserIdList);
+								console.log(currentUserIdList, foundUserId);
+              //
+							// 	// Creating an updated version of the Board
+							// 	const newUserIdList = {
+							// 		boardName: refBoardCurr['boardName'],
+							// 		masterUser: refBoardCurr['masterUser'],
+							// 		userId: currentUserIdList
+							// 	}
+              //
+							// 	refBoard.set(newUserIdList); // Updates the Board
+							// 	resolve("Shared Board works properly");
+							// 	return;
 							})
+							//-----------------------------------------
 
 						}
 					}
@@ -708,6 +715,7 @@ class Dashboard extends Component {
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId');
 		//console.log(boardNamesRef);
 
+		console.log(uid);
 		// Creating a promise with a resolve and reject states.
 		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		new Promise((resolve, reject) => {
@@ -731,7 +739,9 @@ class Dashboard extends Component {
 					// Sets the resolved state's message
 					// resolve("Deletion of UserUi: " + currObject[i] + " successful");
 				}
-
+				boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
+				console.log(uid);
+				boardNamesRef.remove();
 
 			}.bind(this)) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
@@ -739,8 +749,7 @@ class Dashboard extends Component {
 			console.log(successMessage); // prints out the resolve state's successMessage
 
 			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
-			boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
-			boardNamesRef.remove();
+
 		}).catch((err) => {
 			console.log(err);
 
@@ -761,7 +770,7 @@ class Dashboard extends Component {
         renameTileSuccess = 1;
       }
     });
-
+		console.log("from renameBoard: ", uid, newName);
 		//----This is the part where we update our changes into the database---
 		var renameRef = firebase.database().ref('listOfBoards/'+uid);
 		renameRef.update({boardName: newName});
