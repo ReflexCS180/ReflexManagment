@@ -401,7 +401,8 @@ class Dashboard extends Component {
 			boardObjects: [],
 			userID: null,
 			userName: null,
-			user: []
+			user: [],
+			uidList: []
 
 		};
 		// newBoards is an array of just the names of the boards (for convenience)
@@ -413,6 +414,9 @@ class Dashboard extends Component {
     // in order to retrieve json file with list of boards, then set state
 		//this.onNewBoardSubmit = this.onNewBoardSubmit.bind(this);
 	}
+	componentWillMount() {
+
+	}
 
 	componentDidMount() {
 		// on component load: changes tab name and updates state.boardObjects
@@ -422,20 +426,39 @@ class Dashboard extends Component {
 				this.setState({user: userAuth});
 				// fetches the object referencing the list of personalBoards of the current user
 				var getData = firebase.database().ref('listOfUsers/'+this.state.user.uid+'/personalBoards');
-
+				var updating=false;
 				// fetches a snapshot (kinda like a constant camera watching the database)
 				// It will set the current State to update the newBoards with all the contents that the user
 				// might have. From there it will push all the contents to this.state.newBoards so that
 				// updateBoards() will create all the board components on the dashboards accordingly
-				getData.on("value", function(snapshot) {
+				getData.on("value", function(snapshot) { //this will enable us to access & browse listOfUsers/{user's ID}/personalBoards
 					var changedPost = snapshot.val();
 					this.setState({newBoards: []}, function() {
 						for (var i in changedPost) {
-							this.state.newBoards.push({name: changedPost[i].boardName, uid: changedPost[i].uid});
+							var test = firebase.database().ref('listOfBoards/'+changedPost[i].uid);
+							test.on("value", function(snapshot) {//this will enable us to browse listOfBoards/{the item's ID}
+								console.log("test"); //apparently, this page will UPDATE itself if there's any changes in snapshot's path
+								if(snapshot.val()){ //so that it doesn't execute if we delete the board/item
+									for (var j =0; j<=this.state.newBoards.length;j++) { //browse through this.state.newBoards' item
+										console.log("aye ", this.state.newBoards[j]);
+										//Jeremy, this is where I want to implement so that: "if the board uid already exist, don't push the board"
+										// if(this.state.newBoards[j].uid== snapshot.val().uid) { //the only way to know is comparing newBoards' uid with the updated snapshot's uid
+										// 	this.state.newBoards[j].boardName=snapshot.val().boardName; //and I want to change the j newBoard's name to the updated name
+										// 	updating=true;
+										// }
+									}
+									if(!updating)
+									this.state.newBoards.push({name: snapshot.val().boardName, uid: snapshot.val().uid});
+									updating=false;
+								}
+								this.updateBoards();
+								console.log(this.state.newBoards);
+							}.bind(this));
+							//console.log(test);
 						}
 					});
-					this.updateBoards();
-				}.bind(this))
+					//this.updateBoards();
+				}.bind(this));
 			}
 		});
 	}
@@ -463,7 +486,8 @@ class Dashboard extends Component {
 		const boardList = {
 			boardName: boardName,
 			masterUser: this.state.user.uid,
-			userId: [this.state.user.uid]
+			userId: [this.state.user.uid],
+			uid: uid
 		}
 
 		// --------- THIS is where you update/push data into the database --------
