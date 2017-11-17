@@ -232,7 +232,18 @@ class Board extends Component {
   sendBoardToDatabase() {
     var boardRef = firebase.database().ref('listOfBoards/'+this.props.match.params.boardID+'/columns');
 
-    boardRef.set(this.state.columns);
+    var columns = this.state.columns;
+    columns.forEach((column, index) => {
+      if (!column.cards) {
+        column.cards = [];
+      }
+      column.cards.forEach((card, index2) => {
+        if (!card.cardComments) {
+          card.cardComments = [];
+        }
+      })
+    })
+    boardRef.set(columns);
 
     this.updateColumns();
 
