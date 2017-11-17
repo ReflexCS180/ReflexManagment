@@ -81,24 +81,8 @@ class Profile extends Component {
                     {/* TODO list of Boards*/}
                     <p>
                       <strong> {this.state.userEmail} </strong>
-                      <li>
-                        <a href="ToBoard1"> ToBoard1 </a>
-                      </li>
-                      <li>
-                        <a href="ToBoard2"> ToBoard2 </a>
-                      </li>
                     </p>
                     {/* TODO list of cards*/}
-                    <p>
-                      <strong> Cards: </strong>
-                      <li>
-                        <a href="ToCards1"> ToCards1 </a>
-                      </li>
-                      <li>
-                        <a href="ToCards2"> ToCards2 </a>
-                      </li>
-                    </p>
-
                   </div>
                 </div>
               </div>
