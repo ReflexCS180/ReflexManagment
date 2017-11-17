@@ -168,7 +168,7 @@ class Card extends Component {
         </Modal>
       </div>
     )
-  }
+  }//
 }
 
 
