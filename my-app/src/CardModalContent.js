@@ -1,5 +1,5 @@
 import React, { Component } from 'react';     // abstract component base
-import { Button, DropdownButton, MenuItem } from "react-bootstrap";     // imported for button use
+import { Button } from "react-bootstrap";     // imported for button use
 import './CardModalContent.css';              // imported for card modal content use
 
 class CardModalContent extends Component {

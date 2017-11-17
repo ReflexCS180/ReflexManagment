@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavBoard } from './Nav.js';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth } from './firebase.js';
 
 // use shortid.generate() to generate a unique ID for our boards
 var shortid = require('shortid');
@@ -70,12 +70,11 @@ class BoardTile extends Component {
 					return;
 				}
 
-				var found = false;
 				// Looping through all of the keys in currObject
 				for (var i in currObject) {
 					console.log("Outside of IF function: ", currObject);
 					// Once we find one, execute it
-					if (currObject[i]['userEmail'] == emailToShare) {
+					if (currObject[i]['userEmail'] === emailToShare) {
 						const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
 						var refUserFound = firebase.database().ref('listOfUsers/'+foundUserId+'/personalBoards/'+currentUid);  // Reference to the found user's information
 
@@ -121,7 +120,7 @@ class BoardTile extends Component {
 
 					}
 				}
-			}.bind(this))
+			})
 		}).then((successMessage) => {
 			console.log(successMessage);
 		}).catch((err) => {
@@ -199,7 +198,7 @@ class BoardTileTools extends Component {
 	share() {
 		// Grabbing the user's friend's email
 		var emailToShare = prompt("Please enter your friend's email: ");
-		if (emailToShare == null || emailToShare == "") {
+		if (emailToShare === null || emailToShare === "") {
 			return;
 		}
 
@@ -561,13 +560,13 @@ class Dashboard extends Component {
 				for (var i in currObject) {
 					var boardNamesRefUser = firebase.database().ref('listOfUsers/'+currObject[i]+'/personalBoards/'+uid);
 						//console.log("Debugging: "+ i + " =  "+ currObject[i] );
-					if(this.state.user.uid==currObject[i]) {
+					if (this.state.user.uid === currObject[i]) {
 						// Literally deletes the instance declared right above
 						boardNamesRefUser.remove();
 						// Sets the resolved state's message
 						//console.log("Debugging2: "+ i + " =  "+ currObject[i] );
 						resolve("Unlink of UserUi: " + currObject[i] + " successful");
-						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+"/userId"+"/"+i);
+						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId+/'+i);
 
 						// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 						boardNamesRef.remove();
@@ -642,7 +641,7 @@ class Dashboard extends Component {
 				}
 
 
-			}.bind(this)) // Make sure that it's referring to the correct this
+			}) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
 			console.log(successMessage); // prints out the resolve state's successMessage

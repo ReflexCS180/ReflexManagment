@@ -77,9 +77,6 @@ class Card extends Component {
 
  // add a new comment to the card
   addCardComment(newCardComment) {
-    // temp array of card comments
-    var tempComments = this.state.cardComments;
-
     // create a javascript Date object with current date/time
     var date = new Date();
     var time = date.getTime();

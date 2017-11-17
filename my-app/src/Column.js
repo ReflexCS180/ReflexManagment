@@ -114,7 +114,7 @@ class Column extends Component {
               column['cards'].forEach((card, indexInner) => {
                 if (card['uid'] === uid) {  // If we found the card to delete
                   var cardToDelete = firebase.database().ref('listOfBoards/'+boardUid+'/columns/'+index+"/cards/"+indexInner);
-                  console.log("PLEASE REMOVE THIS: " + 'listOfBoards/'+boardUid+'/columns/'+index+"/cards/"+indexInner)
+                  // console.log("PLEASE REMOVE THIS: " + 'listOfBoards/'+boardUid+'/columns/'+index+"/cards/"+indexInner)
                   cardToDelete.remove();
                 }
               })
@@ -122,7 +122,7 @@ class Column extends Component {
           })
 
 
-				}.bind(this))
+				})
 			}
 		});
 
