@@ -6,6 +6,7 @@ import { Board } from './Board.js'
 import { Login } from './Login.js'
 import { Register } from './Register.js'
 import { Profile } from './Profile.js'
+import { About } from './About.js'
 import './App.css';
 import './Landing.css';
 
@@ -22,7 +23,7 @@ class App extends Component {
 class Landing extends Component {
   componentDidMount() {
     // changes title of browser tab
-    document.title = "Huddle, by Reflex";
+    document.title = "Huddle by Reflex";
   }
 
 
@@ -75,7 +76,7 @@ class Landing extends Component {
                   <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Web Security</h4>
-                <p class="text-muted">We have a dedicated security who are there 24/7 for support. Our security features are always updated to keep up with ever changing technogogly.</p>
+                <p class="text-muted">We have a dedicated security who are there 24/7 for support. Our security features are always updated to keep up with ever changing technology.</p>
               </div>
             </div>
           </div>
@@ -96,6 +97,7 @@ const Main = () => (
       <Route exact path='/login' component={ Login } />
       <Route exact path='/register' component={ Register } />
       <Route path='/profile' component={ Profile } />
+      <Route exact path='/about' component={ About } />
     </Switch>
   </main>
 )
