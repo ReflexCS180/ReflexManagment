@@ -24,12 +24,6 @@ export default class Login extends Component {
   componendDidMount() {
     // changes title of browser tab
     document.title = "Huddle Login";
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({user});
-        this.props.history.push('/dashboard');//redirecting the user to the dashboard
-      }
-    });
   }
 
   // Checks if all Components are filled with something
@@ -102,6 +96,12 @@ export default class Login extends Component {
 
   //----------Checks if the user is previously logged in
   componentWillMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({user});
+        this.props.history.push('/dashboard');//redirecting the user to the dashboard
+      }
+    });
   }
 
   render() {
