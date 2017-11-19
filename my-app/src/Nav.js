@@ -96,7 +96,7 @@ const NavLanding = () => (
     <div class="navbar-collapse collapse dual-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <Link to="/" class="nav-link">About</Link>
+          <Link to="/about" class="nav-link">About</Link>
         </li>
         <li class="nav-item">
           <Link to="/" class="nav-link">Team</Link>

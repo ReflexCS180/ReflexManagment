@@ -95,10 +95,11 @@ export default class Login extends Component {
   }
 
   //----------Checks if the user is previously logged in
-  componentDidMount() {
+  componentWillMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({user});
+        this.props.history.push('/dashboard');//redirecting the user to the dashboard
       }
     });
   }
