@@ -16,7 +16,7 @@ class About extends Component {
       areFieldFormsOpen: false
     }
   }
-3000
+  
   componentDidMount(){
 
   }
