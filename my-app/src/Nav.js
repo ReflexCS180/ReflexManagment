@@ -105,7 +105,7 @@ const NavLanding = () => (
           <Link to="/" class="nav-link">Contact</Link>
         </li>
         <li class="nav-item">
-          <Link to="/login" class="nav-link">Login</Link>
+          { this.loginOrLogout() }
         </li>
       </ul>
     </div>

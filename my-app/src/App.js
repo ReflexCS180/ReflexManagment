@@ -6,6 +6,7 @@ import { Board } from './Board.js'
 import { Login } from './Login.js'
 import { Register } from './Register.js'
 import { Profile } from './Profile.js'
+import firebase, { auth } from './firebase.js';
 import './App.css';
 import './Landing.css';
 
@@ -23,6 +24,20 @@ class Landing extends Component {
   componentDidMount() {
     // changes title of browser tab
     document.title = "Huddle, by Reflex";
+
+    auth.onAuthStateChanged((userAuth) => {
+        if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
+        this.setState({isUserLoggedIn: true});
+
+      }
+    });
+  }
+
+  constructor(props) {
+    super(props);
+    this.state={
+      isUserLoggedIn: false,
+    }
   }
 
 
@@ -39,8 +54,18 @@ class Landing extends Component {
         <div class="intro-text">
           <div class="intro-lead-in">Management Tool for Software Engineers</div>
           <div class="intro-heading">Huddle</div>
-          <a class="btn btn-xl js-scroll-trigger mr-2" href="login">Login</a>
-          <a class="btn btn-xl js-scroll-trigger" href="register">Register</a>
+          {/* If user is logged in show go to dashboard else show login and register buttons if user is not logged in*/}
+          { this.state.isUserLoggedIn ?
+
+            <a class="btn btn-xl js-scroll-trigger mr-2" href="Dashboard">Go to Your Boards</a>
+            //<a class="btn btn-xl js-scroll-trigger" href="Logout">Register</a>
+
+            :
+            <div>
+            <a class="btn btn-xl js-scroll-trigger mr-2" href="login">Login</a>
+            <a class="btn btn-xl js-scroll-trigger" href="register">Register</a>
+            </div>
+          }
         </div>
       </div>
     </header>
