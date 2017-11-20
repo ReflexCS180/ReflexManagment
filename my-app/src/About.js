@@ -6,6 +6,7 @@ import JSImg from './img/about/JavaScript.png'
 import firebaseImg from './img/about/Firebase.png'
 import nginxImg from './img/about/NGINX.png'
 import digitImg from './img/about/DigitalOcean.png'
+import bootImg from './img/about/Bootstrap.png'
 import firebase, { auth } from './firebase.js';
 
 
@@ -16,7 +17,7 @@ class About extends Component {
       areFieldFormsOpen: false
     }
   }
-  
+
   componentDidMount(){
 
   }
@@ -37,16 +38,12 @@ class About extends Component {
               <div class="row text-left">
                 <div class="flex">
                   <div class="about">
-                  <div><img src={JSImg} alt={"JSImage"} height ="377" width="250"/><span align="center" style={{color: '#EDDB4F', fontWeight:'bold',fontSize:'25pt'}}> JavaScript </span></div>
-                  <div><img src={ReactImg} alt={"ReactJS"} height ="377" width="250"/><span align="center" style={{color: '#47CAF0', fontWeight:'bold',fontSize:'31pt'}}> React </span></div>
-                  <div><img src={firebaseImg} alt={"Firebase"} height ="377" width="250"/><span align="center" style={{color: '#F57F17', fontWeight:'bold',fontSize:'31pt'}}> Firebase </span></div>
-                  <div><img src={digitImg} alt={"droplet"} height ="377" width="250"/><span align="center" style={{color: '#007CFF', fontWeight:'bold',fontSize:'31pt'}}> Droplet </span></div>
-                  <div><img src={nginxImg} alt={"NGINX"} height ="377" width="250"/><span align="center" style={{color: '#009639', fontWeight:'bold',fontSize:'31pt'}}> NGINX </span></div>
-
-                    <p>
-                      <strong> {this.state.userEmail} </strong>
-                    </p>
-                    {/* TODO list of cards*/}
+                  <div><img src={JSImg} alt={"JSImage"} width="200"/><span align="center" style={{color: '#EDDB4F', fontWeight:'bold',fontSize:'25pt'}}> JavaScript </span></div>
+                  <div><img src={ReactImg} alt={"ReactJS"} width="200"/><span align="center" style={{color: '#47CAF0', fontWeight:'bold',fontSize:'25pt'}}> React </span></div>
+                  <div><img src={firebaseImg} alt={"Firebase"} width="200"/><span align="center" style={{color: '#F57F17', fontWeight:'bold',fontSize:'25pt'}}> Firebase </span></div>
+                  <div><img src={bootImg} alt={"Bootstrap"} width="200"/><span align="center" style={{color: '#733EBF', fontWeight:'bold',fontSize:'25pt'}}> Bootstrap </span></div>
+                  <div><img src={digitImg} alt={"droplet"} width="200"/><span align="center" style={{color: '#007CFF', fontWeight:'bold',fontSize:'25pt'}}> Droplet </span></div>
+                  <div><img src={nginxImg} alt={"NGINX"} width="200"/><span align="center" style={{color: '#009639', fontWeight:'bold',fontSize:'25pt'}}> NGINX </span></div>
                   </div>
                 </div>
               </div>
