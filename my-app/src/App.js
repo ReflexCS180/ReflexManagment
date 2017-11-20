@@ -57,7 +57,7 @@ class Landing extends Component {
           {/* If user is logged in show go to dashboard else show login and register buttons if user is not logged in*/}
           { this.state.isUserLoggedIn ?
 
-            <a class="btn btn-xl js-scroll-trigger mr-2" href="Dashboard">Go to Your Boards</a>
+            <a class="btn btn-xl js-scroll-trigger" href="dashboard">Go to Your Boards</a>
             //<a class="btn btn-xl js-scroll-trigger" href="Logout">Register</a>
 
             :
