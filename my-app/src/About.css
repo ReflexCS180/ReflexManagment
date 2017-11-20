@@ -4,41 +4,80 @@ body
 {
   font-family: 'Lato', 'sans-serif';
 }
-.about
+
+#sect
 {
-  min-height: 370px;
-  display: inline-block;
+  border-bottom: 2px solid;
+  display: relative;
+  padding-bottom: 20px;
 }
+
+.about-tile {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.about-tile img {
+  margin: auto;
+  width: 90%;
+  display: block;
+}
+
+/* Hiding span texts for the image tiles.
+   There is already text on the images, so the text here is redundant. */
+.about-tile span {
+  display: none;
+}
+
+#about-jumbotron {
+  background-color: #fffed1;
+}
+
+#about-jumbotron a {
+  color: #2c7cff;
+}
+
+
+
+/* Is all of this needed after here? I don't see where it is used. */
+
 figcaption.ratings
 {
   margin-top: 22px;
 }
+
 figcaption.ratings a
 {
   color: #f1c40f;
   font-size: 12px;
 }
+
 figcaption.ratings a:hover
 {
   color: #f39c12;
   text-decoration: none;
 }
+
 .divider
 {
   border-top: 1px solid rgba(0,0,0,0.1);
 }
+
 .emphasis
 {
   border-top: 4px solid transparent;
 }
+
 .emphasis:hover
 {
   border-top: 4px solid #1abc9c;
 }
+
 .emphasis h2
 {
   margin-bottom: 0;
 }
+
 span.tags
 {
   background: #1abc9c;
@@ -47,16 +86,13 @@ span.tags
   font-weight: bold;
   padding: 2px 4px;
 }
-#sect
-{
-  border-bottom: 2px solid;
-  display: relative;
-  padding-bottom: 20px;
-}
+
+
 .profile
 {
 
 }
+
 .profile p
 {
   font-size: 1.3em;
