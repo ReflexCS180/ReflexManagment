@@ -8,7 +8,6 @@ import firebaseImg from './img/about/Firebase.png'
 import nginxImg from './img/about/NGINX.png'
 import digitImg from './img/about/DigitalOcean.png'
 import bootImg from './img/about/Bootstrap.png'
-import firebase, { auth } from './firebase.js';
 
 
 class About extends Component {
@@ -19,8 +18,8 @@ class About extends Component {
     }
   }
 
-  componentDidMount(){
-
+  componentWillMount(){
+    document.title = "About Huddle";
   }
 
 
@@ -48,32 +47,26 @@ class About extends Component {
   		    <div class="row">
             <div class="col-6 col-md-2 col-sm-4 col-xs-4 about-tile">
               <img src={JSImg} alt={"JSImage"}/>
-              <span align="center" style={{color: '#EDDB4F', fontWeight:'bold',fontSize:'25pt'}}> JavaScript </span>
             </div>
 
             <div class="col-6 col-md-2 col-sm-4 col-xs-4 about-tile">
               <img src={ReactImg} alt={"ReactJS"} />
-              <span align="center" style={{color: '#47CAF0', fontWeight:'bold',fontSize:'25pt'}}> React </span>
             </div>
 
             <div class="col-6 col-md-2 col-sm-4 col-xs-4 about-tile">
               <img src={firebaseImg} alt={"Firebase"} />
-              <span align="center" style={{color: '#F57F17', fontWeight:'bold',fontSize:'25pt'}}> Firebase </span>
             </div>
 
             <div class="col-6 col-md-2 col-sm-4 col-xs-4 about-tile">
               <img src={bootImg} alt={"Bootstrap"} />
-              <span align="center" style={{color: '#733EBF', fontWeight:'bold',fontSize:'25pt'}}> Bootstrap </span>
             </div>
 
             <div class="col-6 col-md-2 col-sm-4 col-xs-4 about-tile">
               <img src={digitImg} alt={"Droplet"} />
-              <span align="center" style={{color: '#007CFF', fontWeight:'bold',fontSize:'25pt'}}> Droplet </span>
             </div>
 
             <div class="col-6 col-md-2 col-sm-4 col-xs-4 about-tile">
               <img src={nginxImg} alt={"NGINX"} />
-              <span align="center" style={{color: '#009639', fontWeight:'bold',fontSize:'25pt'}}> NGINX </span>
             </div>
           </div>
         </div>
