@@ -26,6 +26,7 @@ class Landing extends Component {
     // changes title of browser tab
     document.title = "Huddle by Reflex";
 
+
     auth.onAuthStateChanged((userAuth) => {
         if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
         this.setState({isUserLoggedIn: true});

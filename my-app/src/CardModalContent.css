@@ -69,7 +69,7 @@
 }
 
 /* Make standard font size smaller in card modal content */
-#CardModalContent-content p,button.btn,a {
+#CardModalContent-content p, #CardModalContent-content button.btn, #CardModalContent-content a {
   font-size: 14px;
 }
 

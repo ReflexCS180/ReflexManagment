@@ -1,63 +1,31 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
 
-body
-{
+body {
   font-family: 'Lato', 'sans-serif';
 }
-.about
-{
-  min-height: 370px;
-  display: inline-block;
-}
-figcaption.ratings
-{
-  margin-top: 22px;
-}
-figcaption.ratings a
-{
-  color: #f1c40f;
-  font-size: 12px;
-}
-figcaption.ratings a:hover
-{
-  color: #f39c12;
-  text-decoration: none;
-}
-.divider
-{
-  border-top: 1px solid rgba(0,0,0,0.1);
-}
-.emphasis
-{
-  border-top: 4px solid transparent;
-}
-.emphasis:hover
-{
-  border-top: 4px solid #1abc9c;
-}
-.emphasis h2
-{
-  margin-bottom: 0;
-}
-span.tags
-{
-  background: #1abc9c;
-  border-radius: 2px;
-  color: #f5f5f5;
-  font-weight: bold;
-  padding: 2px 4px;
-}
-#sect
-{
+
+#sect {
   border-bottom: 2px solid;
   display: relative;
   padding-bottom: 20px;
 }
-.profile
-{
 
+.about-tile {
+  text-align: center;
+  margin-bottom: 36px;
 }
-.profile p
-{
-  font-size: 1.3em;
+
+.about-tile img {
+  margin: auto;
+  width: 90%;
+  display: block;
+}
+
+#about-jumbotron {
+  background-color: #fffed1;
+  border: 1px solid #e5e4bc;
+}
+
+#about-jumbotron a {
+  color: #2c7cff;
 }
