@@ -8,7 +8,7 @@ import firebaseImg from './img/about/Firebase.png'
 import nginxImg from './img/about/NGINX.png'
 import digitImg from './img/about/DigitalOcean.png'
 import bootImg from './img/about/Bootstrap.png'
-
+import firebase, { auth } from './firebase.js';
 
 class About extends Component {
   constructor(props) {

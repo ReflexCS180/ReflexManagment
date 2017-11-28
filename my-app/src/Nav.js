@@ -80,36 +80,67 @@ class NavBoard extends Component {
   }
 }
 
-const NavLanding = () => (
-  <nav class="navbar navbar-expand-md navbar-dark" id="board-page-nav">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse dual-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <Link to='/' class="nav-link">Home</Link>
-        </li>
-      </ul>
-    </div>
-    <a class="navbar-brand d-flex mx-auto " href="">Huddle</a>
-    <div class="navbar-collapse collapse dual-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <Link to="/about" class="nav-link">About</Link>
-        </li>
-        <li class="nav-item">
-          <Link to="/" class="nav-link">Team</Link>
-        </li>
-        <li class="nav-item">
-          <Link to="/" class="nav-link">Contact</Link>
-        </li>
-        <li class="nav-item">
-          <Link to="/login" class="nav-link">Login</Link>
-        </li>
-      </ul>
-    </div>
-  </nav>
-)
+//created class for NavLanding instead of a simple const, so we have more options such as checking user's authentication
+class NavLanding extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false
+    }
+  }
+
+  componentDidMount () {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+        this.setState({isLoggedIn: true});
+      }
+    });
+  }
+
+  logoutUser() {
+    window.location.reload(); //will need to reload the page, if not, the user will think he/she's not logged out yet.
+    auth.signOut();
+  }
+
+  render() {
+    return(
+        <nav class="navbar navbar-expand-md navbar-dark" id="board-page-nav">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="navbar-collapse collapse dual-collapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <Link to='/' class="nav-link">Home</Link>
+              </li>
+            </ul>
+          </div>
+          <a class="navbar-brand d-flex mx-auto " href="">Huddle</a>
+          <div class="navbar-collapse collapse dual-collapse">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <Link to="/about" class="nav-link">About</Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/" class="nav-link">Team</Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/" class="nav-link">Contact</Link>
+              </li>
+              { this.state.isLoggedIn ?
+                <li class="nav-item">
+                  <Link to="/" onClick={this.logoutUser} class="nav-link">Logout</Link>
+                </li>
+                :
+                <li class="nav-item">
+                  <Link to="/login" class="nav-link">Login</Link>
+                </li>
+              }
+            </ul>
+          </div>
+        </nav>
+    )
+  }
+}
 
 export { NavBoard, NavLanding };
