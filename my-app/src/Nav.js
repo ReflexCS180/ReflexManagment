@@ -64,9 +64,6 @@ class NavBoard extends Component {
             <li class="nav-item">
               <Link to='/dashboard' class="nav-link">Dashboard</Link>
             </li>
-            <li class="nav-item">
-              <Link to='/board' class="nav-link">Boards</Link>
-            </li>
           </ul>
         </div>
         <a class="navbar-brand d-flex mx-auto" href="">Huddle</a>

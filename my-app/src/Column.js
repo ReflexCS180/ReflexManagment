@@ -87,7 +87,7 @@ class Column extends Component {
 
     // if deleteCardIndex was not overwritten, the uid was never found (error)
     if (deleteCardIndex === -1) {
-      console.log("Something went wrong when deleting card: ", uid);
+      //console.log("Something went wrong when deleting card: ", uid);
     }
 
     // delete that value in the array
@@ -95,7 +95,7 @@ class Column extends Component {
 
     // rewrite state with new array, then log that it was deleted
     this.setState({ cards: cardsTemp }, function() {
-      console.log("Deleted card: ", uid);
+      //console.log("Deleted card: ", uid);
     });
 
     const boardUid = this.props.boardUid;

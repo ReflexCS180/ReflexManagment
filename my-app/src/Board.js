@@ -109,13 +109,13 @@ class Board extends Component {
 		// look at this.state.newBoards, map the names to variable "boards"
 		// basically creates an array? of objects with one <BoardTile> for each name in newBoards
     var stateColumns = this.state.columns;
-    console.log("state columns: ", this.state.columns);
+    //console.log("state columns: ", this.state.columns);
 
     // var stateColumns = this.state.columns;
     // console.log("stateColumns length: ", stateColumns.length);
 
-    console.log("stateColumns: ", stateColumns);
-    console.log("stateColumns length: ", stateColumns.length);
+    //console.log("stateColumns: ", stateColumns);
+    //console.log("stateColumns length: ", stateColumns.length);
     var columns = stateColumns.map(function({columnName, cards}, index) {
       return(
           <Column
@@ -133,7 +133,6 @@ class Board extends Component {
         )
     }.bind(this));
 
-    console.log("columns: ", columns);
 
 		// new array to store each object in
 		var myColumns = [];
@@ -151,13 +150,13 @@ class Board extends Component {
   addCardToColumn(newCard, columnName) {
     // search through list of columns for 'columnName'
     // unshift newCard into that column
-    console.log("from Board.js: ", newCard);
+    //console.log("from Board.js: ", newCard);
 
     this.state.columns.forEach((column, index) => {
       if (column.columnName === columnName) {
-        console.log("before: ", column.cards);
+        //console.log("before: ", column.cards);
         column.cards.unshift(newCard);
-        console.log("after: ", column.cards);
+        //console.log("after: ", column.cards);
       }
     })
     //this.setState(this.state);
@@ -218,8 +217,8 @@ class Board extends Component {
     this.setState({
       showBoardMenu: true,
     });
-    console.log('showBoardMenu')
-    console.log(this.showBoardMenu)
+    //console.log('showBoardMenu')
+    //console.log(this.showBoardMenu)
   };
 
   closeMenu(e) {

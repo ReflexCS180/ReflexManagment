@@ -37,7 +37,7 @@ class Profile extends Component {
             })
           }
       else {
-        console.log("user is not logged in");
+        //console.log("user is not logged in");
       }
     });
   }

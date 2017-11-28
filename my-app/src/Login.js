@@ -64,7 +64,7 @@ export default class Login extends Component {
       //-------------If user has never login before aka register---------------
       var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
       // Pushing user to database
-      console.log(this.state.user.uid)
+      //console.log(this.state.user.uid)
       const userList = {
         user: this.state.user.uid,
         userEmail: this.state.user.email

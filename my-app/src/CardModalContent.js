@@ -26,8 +26,8 @@ class CardModalContent extends Component {
     this.openDueDateForm = this.openDueDateForm.bind(this);
     this.moveCard = this.moveCard.bind(this);
 
-    console.log(this.props.cardName);
-    console.log(this.props.columnName);
+    //console.log(this.props.cardName);
+    //console.log(this.props.columnName);
   }
 
   /**

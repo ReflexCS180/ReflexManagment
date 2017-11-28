@@ -49,8 +49,8 @@ class Card extends Component {
   closeModal() {
     this.setState({modalIsOpen: false}, function() {
        this.setState({modalIsOpen: false});
-      console.log(this.state.modalIsOpen);
-      console.log(this.state.cardName);
+      //console.log(this.state.modalIsOpen);
+      //console.log(this.state.cardName);
     });
   }
  //////////////////// End of Modal Functions
