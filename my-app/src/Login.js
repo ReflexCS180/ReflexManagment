@@ -70,7 +70,7 @@ export default class Login extends Component {
         userEmail: this.state.user.email
       }
 
-      databaseCentral.set(userList);
+      databaseCentral.update(userList);
       this.props.history.push('/dashboard');//redirecting the user to the dashboard
 
       //------------------------------

@@ -7,6 +7,7 @@ import { Login } from './Login.js'
 import { Register } from './Register.js'
 import { Profile } from './Profile.js'
 import firebase, { auth } from './firebase.js';
+import { About } from './About.js'
 import './App.css';
 import './Landing.css';
 
@@ -23,7 +24,7 @@ class App extends Component {
 class Landing extends Component {
   componentDidMount() {
     // changes title of browser tab
-    document.title = "Huddle, by Reflex";
+    document.title = "Huddle by Reflex";
 
     auth.onAuthStateChanged((userAuth) => {
         if (userAuth) { //note that we cannot simply assign "user: userAuth" because object cannot be passed
@@ -74,33 +75,33 @@ class Landing extends Component {
             <div class="row">
               <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Services</h2>
-                <h3 class="section-subheading text-muted">A Software Management built by Software Engineers for Software Engineers</h3>
+                <h3 class="section-subheading text-muted">Project management tool built by software engineers for software engineers.</h3>
               </div>
             </div>
             <div class="row text-center">
               <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                   <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                  <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                  <i class="fa fa-bolt fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 class="service-heading">Ship Products Faster!</h4>
-                <p class="text-muted">Huddle is noted as one of the best software management application. Companies from all over the world has paised our services for being clean and practical.</p>
+                <h4 class="service-heading">Ship Products Faster</h4>
+                <p class="text-muted">Huddle is a project management application for developers. Break your projects down into small tasks and watch your progress. Share and collaborate to develop even faster!</p>
               </div>
               <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                   <i class="fa fa-circle fa-stack-2x text-primary"></i>
                   <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 class="service-heading">Responsive Design</h4>
-                <p class="text-muted">Our team are all software engineers so we created minimalistic design to allows our user to quickly define, communicate, and resolve their issue. </p>
+                <h4 class="service-heading">Practical Design</h4>
+                <p class="text-muted">Our no frills design lends itself to higher productivity. Instead of messing around with a glitchy UI, focus on developing and keeping your project moving.</p>
               </div>
               <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                   <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                  <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
+                  <i class="fa fa-users fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 class="service-heading">Web Security</h4>
-                <p class="text-muted">We have a dedicated security who are there 24/7 for support. Our security features are always updated to keep up with ever changing technogogly.</p>
+                <h4 class="service-heading">Collaborate</h4>
+                <p class="text-muted">Share your boards with any registered users in seconds. All team members can contribute to the project by adding cards. Comments allow for contained project discussion.</p>
               </div>
             </div>
           </div>
@@ -121,6 +122,7 @@ const Main = () => (
       <Route exact path='/login' component={ Login } />
       <Route exact path='/register' component={ Register } />
       <Route path='/profile' component={ Profile } />
+      <Route exact path='/about' component={ About } />
     </Switch>
   </main>
 )
