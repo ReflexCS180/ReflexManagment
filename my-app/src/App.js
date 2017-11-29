@@ -8,6 +8,7 @@ import { Register } from './Register.js'
 import { Profile } from './Profile.js'
 import firebase, { auth } from './firebase.js';
 import { About } from './About.js'
+import { Team } from './Team.js'
 import './App.css';
 import './Landing.css';
 
@@ -124,6 +125,7 @@ const Main = () => (
       <Route exact path='/register' component={ Register } />
       <Route path='/profile' component={ Profile } />
       <Route exact path='/about' component={ About } />
+      <Route exact path='/team' component={ Team } />
     </Switch>
   </main>
 )

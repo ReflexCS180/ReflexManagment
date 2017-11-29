@@ -119,7 +119,7 @@ class NavLanding extends Component {
                 <Link to="/about" class="nav-link">About</Link>
               </li>
               <li class="nav-item">
-                <Link to="/" class="nav-link">Team</Link>
+                <Link to="/team" class="nav-link">Team</Link>
               </li>
               <li class="nav-item">
                 <Link to="/" class="nav-link">Contact</Link>
