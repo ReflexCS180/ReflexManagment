@@ -72,7 +72,7 @@ class Team extends Component {
 
           </div>
           <hr class="my-6" />
-          <div id="team-jumbotron" class="team-jumbotron">
+          <div id="team-jumbotron" class="team-jumbotron" align="center">
             <p>Built by Team Reflex.
               <Link to="/about"> Learn about Huddle.</Link>
             </p>
