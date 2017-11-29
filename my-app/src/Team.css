@@ -9,17 +9,6 @@ body {
   padding-bottom: 20px;
 }
 
-.team-tile {
-  text-align: center;
-  margin-bottom: 36px;
-}
-
-.team-tile img {
-  margin: auto;
-  width: 90%;
-  display: block;
-}
-
 #team-jumbotron a {
   color: #2c7cff;
 }

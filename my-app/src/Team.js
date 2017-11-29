@@ -31,15 +31,19 @@ class Team extends Component {
       <div>
         <NavBoard />
         <div class="container mt-4 col-lg-10">
-          <div class="mt-3">
+          <div class="mt-3" align="center">
             <h1 class="display-4">Team Reflex</h1>
+            <h3 class="mt-2 mb-4" id="sect" style={{display: 'inline-block'}} >
+              {/* TODO make the user name display dynamic */}
+              <i class="fa fa-users" aria-hidden="true"></i>
+              &nbsp;Meet our team members&nbsp;
+              <i class="fa fa-users" aria-hidden="true"></i>
+            </h3>
           </div>
-          <h3 class="mt-2 mb-4" id="sect" style={{display: 'inline-block'}} >
-            {/* TODO make the user name display dynamic */}
-            <i class="fa fa-users" aria-hidden="true"></i>
-            &nbsp;Meet our team members:
-          </h3>
   		    <div class="row">
+
+            <div class="col-0 col-lg-1">
+            </div>
 
             <div class="col-sm-6 col-md-4 col-lg-2 team-member">
               <img class={"rounded-circle"} src={one} alt={"Jeremy"} />
