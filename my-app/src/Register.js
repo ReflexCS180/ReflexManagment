@@ -49,14 +49,14 @@ export default class Register extends Component {
     event.preventDefault();
     auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then((user) => {
-      console.log("Register console log:");
+      //console.log("Register console log:");
       this.setState({user:user, error: false}); //set the "user" state after successfully log in. No errors.
       user.updateProfile({'displayName': document.getElementById("name").value});
       // console.log(user);
 
       var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
       // Pushing user to database
-      console.log(this.state.user.uid)
+      //console.log(this.state.user.uid)
       const userList = {
         user: this.state.user.uid,
         userEmail: this.state.user.email
@@ -81,7 +81,7 @@ export default class Register extends Component {
       //-------------If user has never login before aka register---------------
       var databaseCentral = firebase.database().ref('listOfUsers/'+this.state.user.uid)
       // Pushing user to database
-      console.log(this.state.user.uid)
+      //console.log(this.state.user.uid)
       const userList = {
         user: this.state.user.uid,
         userEmail: this.state.user.email
@@ -170,7 +170,7 @@ export default class Register extends Component {
           bsSize="large"
           className="GoogleLogin"
           onClick={this.googleLogin}
-         >Register/Login with Google account</Button>
+         >Login with Google account</Button>
 
           <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>

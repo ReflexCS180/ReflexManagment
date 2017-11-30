@@ -157,7 +157,7 @@ class BoardTileTools extends Component {
 	unlink() {
 		// call onUnlink function of the parent BoardTile when delete button is clicked
 		this.props.onUnlink();
-		console.log("I want to unlink");
+		//console.log("I want to unlink");
 	}
 
 	delete() {
@@ -213,7 +213,7 @@ class RenameForm extends Component {
     }
     else {
       this.setState({ invalidInput: true });
-      console.log("Invalid rename: ", this.state.renameInput);
+      //console.log("Invalid rename: ", this.state.renameInput);
     }
     // this.props.onSubmit(this.state.renameInput);
   }
@@ -272,7 +272,7 @@ class ShareForm extends Component {
     }
     else {
       this.setState({ invalidInput: true });
-      console.log("Empty email: ", this.state.emailToShare);
+      //console.log("Empty email: ", this.state.emailToShare);
     }
     // this.props.onSubmit(this.state.renameInput);
   }
@@ -359,7 +359,7 @@ class NewBoardForm extends Component {
 		}
 		else {
 			// the name is not valid, turns the warning text red so they notice it more
-			console.log("This name is not valid: ", this.state.boardName, "\nPlease remove special characters.")
+			//console.log("This name is not valid: ", this.state.boardName, "\nPlease remove special characters.")
 			this.warningText.style.color = "red";
 		}
 	}
@@ -553,7 +553,7 @@ class Dashboard extends Component {
 					var found = false;
 					// Looping through all of the keys in currObject
 					for (var i in currObject) {
-						console.log("Outside of IF function, currObject\[",i,"\]", currObject[i]);
+						//console.log("Outside of IF function, currObject\[",i,"\]", currObject[i]);
 						// Once we find one, execute it
 						if (currObject[i]['userEmail'] == emailToShare) {
 							const foundUserId = currObject[i]['user'];	// Keeps track of the found user's id
@@ -587,11 +587,11 @@ class Dashboard extends Component {
               //
 							// 	// Adding the sharing user to the list
 								currentUserIdList.push(foundUserId);
-								console.log(currentUserIdList, foundUserId);
+								//console.log(currentUserIdList, foundUserId);
 
 								refBoard = firebase.database().ref('listOfBoards/'+currentUid+'/userId');
 								refBoard.update(currentUserIdList);
-								console.log(currentUserIdList, foundUserId);
+								//console.log(currentUserIdList, foundUserId);
               //
 							// 	// Creating an updated version of the Board
 							// 	const newUserIdList = {
@@ -610,10 +610,10 @@ class Dashboard extends Component {
 					}
 				}.bind(this))
 			}).then((successMessage) => {
-				console.log(successMessage);
+				//console.log(successMessage);
 			}).catch((err) => {
-				console.log(err);
-				console.log("FUCK That's not supposed to happen");
+				//console.log(err);
+				//console.log("FUCK That's not supposed to happen");
 			})
 
 
@@ -632,8 +632,8 @@ class Dashboard extends Component {
       }
     });
     if (deleteTileIndex === -1) {
-      console.log("Something went wrong with the ID's in deleteBoard");
-      console.log("uid not found: ", uid);
+      //console.log("Something went wrong with the ID's in deleteBoard");
+      //console.log("uid not found: ", uid);
     }
 
 		// removes the corresponding element from the array
@@ -669,7 +669,7 @@ class Dashboard extends Component {
 						// Sets the resolved state's message
 						//console.log("Debugging2: "+ i + " =  "+ currObject[i] );
 						resolve("Unlink of UserUi: " + currObject[i] + " successful");
-						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId+/'+i);
+						boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId/'+i);
 
 						// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 						boardNamesRef.remove();
@@ -679,14 +679,14 @@ class Dashboard extends Component {
 			}.bind(this)) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
-			console.log(successMessage); // prints out the resolve state's successMessage
+			//console.log(successMessage); // prints out the resolve state's successMessage
 
 			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 			boardNamesRef.remove();
 		}).catch((err) => {
-			console.log(err);
+			//console.log(err);
 
-			console.log("FUCK That's not supposed to happen");
+			//console.log("FUCK That's not supposed to happen");
 		})
 
 		// updates state.boardObjects based on the newBoards array
@@ -705,8 +705,8 @@ class Dashboard extends Component {
       }
     });
     if (deleteTileIndex === -1) {
-      console.log("Something went wrong with the ID's in deleteBoard");
-      console.log("uid not found: ", uid);
+      //console.log("Something went wrong with the ID's in deleteBoard");
+      //console.log("uid not found: ", uid);
     }
 
 		// removes the corresponding element from the array
@@ -719,7 +719,7 @@ class Dashboard extends Component {
 		var boardNamesRef = firebase.database().ref('listOfBoards/'+uid+'/userId');
 		//console.log(boardNamesRef);
 
-		console.log(uid);
+		//console.log(uid);
 		// Creating a promise with a resolve and reject states.
 		// Please refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 		new Promise((resolve, reject) => {
@@ -744,20 +744,20 @@ class Dashboard extends Component {
 					// resolve("Deletion of UserUi: " + currObject[i] + " successful");
 				}
 				boardNamesRef = firebase.database().ref('listOfBoards/'+uid);
-				console.log(uid);
+				//console.log(uid);
 				boardNamesRef.remove();
 
 			}) // Make sure that it's referring to the correct this
 		}).then((successMessage) => {
 			// executing the resolve state only when the current promise is completed.
-			console.log(successMessage); // prints out the resolve state's successMessage
+			//console.log(successMessage); // prints out the resolve state's successMessage
 
 			// Literally deletes the boardNamesRef instance from the db upon the Promises completing
 
 		}).catch((err) => {
-			console.log(err);
+			//console.log(err);
 
-			console.log("FUCK That's not supposed to happen");
+			//console.log("FUCK That's not supposed to happen");
 		})
 
 		// updates state.boardObjects based on the newBoards array
@@ -774,14 +774,14 @@ class Dashboard extends Component {
         renameTileSuccess = 1;
       }
     });
-		console.log("from renameBoard: ", uid, newName);
+		//console.log("from renameBoard: ", uid, newName);
 		//----This is the part where we update our changes into the database---
 		var renameRef = firebase.database().ref('listOfBoards/'+uid);
 		renameRef.update({boardName: newName});
 		//---------------------------------------------------------------------
 
     if (!renameTileSuccess) {
-      console.log("Something went wrong, rename failed. ", uid);
+      //console.log("Something went wrong, rename failed. ", uid);
     }
     this.updateBoards();
 
