@@ -32,3 +32,7 @@ nav a.navbar-brand {
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
   font-weight: bold;
 }
+
+#logo {
+  height: 30px;
+}

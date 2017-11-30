@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from './firebase.js';
+import Huddle from './img/logos/huddle_logo.png';
 
 class NavBoard extends Component {
   constructor(props) {
@@ -16,6 +17,12 @@ class NavBoard extends Component {
       return (
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            <Link to="/about" class="nav-link">About</Link>
+          </li>
+          <li class="nav-item">
+            <Link to="/team" class="nav-link">Team</Link>
+          </li>
+          <li class="nav-item">
             <Link to="/login" class="nav-link">Login</Link>
           </li>
         </ul>
@@ -25,10 +32,16 @@ class NavBoard extends Component {
       return (
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <Link to="/" onClick={this.logoutUser} class="nav-link">Logout</Link>
+            <Link to="/about" class="nav-link">About</Link>
+          </li>
+          <li class="nav-item">
+            <Link to="/team" class="nav-link">Team</Link>
           </li>
           <li class="nav-item">
             <Link to="/profile" class="nav-link">Profile</Link>
+          </li>
+          <li class="nav-item">
+            <Link to="/" onClick={this.logoutUser} class="nav-link">Logout</Link>
           </li>
         </ul>
       )
@@ -66,7 +79,9 @@ class NavBoard extends Component {
             </li>
           </ul>
         </div>
-        <a class="navbar-brand d-flex mx-auto" href="">Huddle</a>
+        <Link class="navbar-brand d-flex mx-auto " to="/">
+          <img id="logo" src={Huddle} alt={"Huddle"} />
+        </Link>
         <div class="navbar-collapse collapse dual-collapse">
           {/* returns a list of links based on whether the user is logged in or out
               refer to loginOrLogout function */}
@@ -112,7 +127,10 @@ class NavLanding extends Component {
               </li>
             </ul>
           </div>
-          <a class="navbar-brand d-flex mx-auto " href="">Huddle</a>
+
+          <Link class="navbar-brand d-flex mx-auto " to="/">
+            <img id="logo" src={Huddle} alt={"Huddle"} />
+          </Link>
           <div class="navbar-collapse collapse dual-collapse">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
@@ -120,9 +138,6 @@ class NavLanding extends Component {
               </li>
               <li class="nav-item">
                 <Link to="/team" class="nav-link">Team</Link>
-              </li>
-              <li class="nav-item">
-                <Link to="/" class="nav-link">Contact</Link>
               </li>
               { this.state.isLoggedIn ?
                 <li class="nav-item">

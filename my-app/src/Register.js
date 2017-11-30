@@ -170,7 +170,7 @@ export default class Register extends Component {
           bsSize="large"
           className="GoogleLogin"
           onClick={this.googleLogin}
-         >Register/Login with Google account</Button>
+         >Login with Google account</Button>
 
           <Link to='/login' id="LoginFooter">Login here!</Link>
         </form>

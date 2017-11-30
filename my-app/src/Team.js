@@ -10,7 +10,9 @@ import bootImg from './img/about/Bootstrap.png'
 import one from './img/team/1.jpg'
 import Adrian from './img/team/Adrian.jpg'
 import Rick from './img/team/Rick.jpg'
-import Patrick from './img/team/Patrick.jpg'
+import Patrick from './img/team/Patrick2.jpg'
+import Jeremy from './img/team/Jeremy.jpg'
+import Gabriel from './img/team/Gabriel.jpg'
 import firebase, { auth } from './firebase.js';
 
 class Team extends Component {
@@ -30,13 +32,13 @@ class Team extends Component {
     return(
       <div>
         <NavBoard />
-        <div class="container mt-4 col-lg-10">
+        <div class="container mt-4 col-lg-12">
           <div class="mt-3" align="center">
             <h1 class="display-4">Team Reflex</h1>
             <h3 class="mt-2 mb-4" id="sect" style={{display: 'inline-block'}} >
               {/* TODO make the user name display dynamic */}
               <i class="fa fa-users" aria-hidden="true"></i>
-              &nbsp;Meet our team members&nbsp;
+              &nbsp;Meet our members&nbsp;
               <i class="fa fa-users" aria-hidden="true"></i>
             </h3>
           </div>
@@ -46,7 +48,7 @@ class Team extends Component {
             </div>
 
             <div class="col-sm-6 col-md-4 col-lg-2 team-member">
-              <img class={"rounded-circle"} src={one} alt={"Jeremy"} />
+              <img class={"rounded-circle"} src={Jeremy} alt={"Jeremy"} />
               <h4>Jeremy ONeill</h4>
             </div>
 
@@ -66,12 +68,12 @@ class Team extends Component {
             </div>
 
             <div class="col-sm-6 col-md-4 col-lg-2 team-member">
-              <img class={"rounded-circle"} src={one} alt={"Gabriel"} />
+              <img class={"rounded-circle"} src={Gabriel} alt={"Gabriel"} />
               <h4>Gabriel Cortez</h4>
             </div>
 
           </div>
-          <hr class="my-6" />
+          <hr class="col-10" />
           <div id="team-jumbotron" class="team-jumbotron" align="center">
             <p>Built by Team Reflex.
               <Link to="/about"> Learn about Huddle.</Link>
