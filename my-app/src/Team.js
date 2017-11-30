@@ -38,7 +38,7 @@ class Team extends Component {
             <h3 class="mt-2 mb-4" id="sect" style={{display: 'inline-block'}} >
               {/* TODO make the user name display dynamic */}
               <i class="fa fa-users" aria-hidden="true"></i>
-              &nbsp;Meet our members&nbsp;
+              &nbsp;Meet our team&nbsp;
               <i class="fa fa-users" aria-hidden="true"></i>
             </h3>
           </div>
